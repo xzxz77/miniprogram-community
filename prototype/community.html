@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans">
+
+    <!-- Status Bar Spacer -->
+    <div class="h-12 bg-white w-full shrink-0"></div>
+
+    <!-- Header -->
+    <header class="bg-white px-4 pb-2 pt-1 sticky top-0 z-10 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+            <h1 class="text-xl font-bold text-gray-800">邻里圈</h1>
+            <button class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-bold">
+                <i class="fa-solid fa-bullhorn mr-1 text-orange-500"></i>小区公告
+            </button>
+        </div>
+        
+        <!-- Topic Tabs -->
+        <div class="flex space-x-6 text-sm mt-3 overflow-x-auto no-scrollbar">
+            <div class="font-bold text-lg text-gray-800 relative">
+                全部
+                <div class="absolute -bottom-2 left-0 right-0 h-1 bg-orange-500 rounded-full"></div>
+            </div>
+            <div class="text-gray-500 whitespace-nowrap">互助问答</div>
+            <div class="text-gray-500 whitespace-nowrap">新鲜事</div>
+            <div class="text-gray-500 whitespace-nowrap">避坑指南</div>
+            <div class="text-gray-500 whitespace-nowrap">宠物联盟</div>
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar pb-20 p-4">
+        
+        <!-- Post 1 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&h=100" class="w-9 h-9 rounded-full mr-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-800">花店老板娘</div>
+                        <div class="text-[10px] text-gray-400">10分钟前 · 2栋</div>
+                    </div>
+                </div>
+                <button class="text-gray-400"><i class="fa-solid fa-ellipsis"></i></button>
+            </div>
+            <p class="text-gray-700 text-sm mb-3 leading-relaxed">
+                <span class="text-blue-500 font-bold mr-1">#新鲜事#</span>
+                这周末小区南门新开了一家面包店，味道很不错，刚出炉的牛角包绝绝子！邻居们报暗号“幸福花园”还能打8折哦~ 🍞
+            </p>
+            <div class="grid grid-cols-3 gap-2 mb-3">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=300&q=80" class="rounded-lg aspect-square object-cover">
+                <img src="https://images.unsplash.com/photo-1608613768856-12a8037b5883?auto=format&fit=crop&w=300&q=80" class="rounded-lg aspect-square object-cover">
+                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80" class="rounded-lg aspect-square object-cover">
+            </div>
+            <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-50 pt-2">
+                <button class="flex items-center space-x-1 hover:text-orange-500"><i class="fa-regular fa-thumbs-up"></i> <span>24</span></button>
+                <button class="flex items-center space-x-1 hover:text-blue-500"><i class="fa-regular fa-comment"></i> <span>8</span></button>
+                <button class="flex items-center space-x-1 hover:text-gray-700"><i class="fa-solid fa-share"></i> <span>分享</span></button>
+            </div>
+        </div>
+
+        <!-- Post 2 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100" class="w-9 h-9 rounded-full mr-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-800">装修老王</div>
+                        <div class="text-[10px] text-gray-400">1小时前 · 5栋</div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-700 text-sm mb-3 leading-relaxed">
+                <span class="text-orange-500 font-bold mr-1">#避坑指南#</span>
+                大家装修注意了，最近有几家推销净水器的其实是三无产品，别被忽悠了。正规的都有防伪码查询的。
+            </p>
+            <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-50 pt-2">
+                <button class="flex items-center space-x-1 hover:text-orange-500"><i class="fa-regular fa-thumbs-up"></i> <span>56</span></button>
+                <button class="flex items-center space-x-1 hover:text-blue-500"><i class="fa-regular fa-comment"></i> <span>12</span></button>
+                <button class="flex items-center space-x-1 hover:text-gray-700"><i class="fa-solid fa-share"></i></button>
+            </div>
+        </div>
+
+        <!-- Post 3 -->
+        <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
+             <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&h=100" class="w-9 h-9 rounded-full mr-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-800">Sarah</div>
+                        <div class="text-[10px] text-gray-400">2小时前 · 1栋</div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-700 text-sm mb-3 leading-relaxed">
+                <span class="text-green-500 font-bold mr-1">#互助问答#</span>
+                求助：谁家有冲击钻可以借用半小时吗？想给家里挂幅画，可以请喝奶茶！🥤
+            </p>
+             <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-50 pt-2">
+                <button class="flex items-center space-x-1 hover:text-orange-500"><i class="fa-regular fa-thumbs-up"></i> <span>3</span></button>
+                <button class="flex items-center space-x-1 hover:text-blue-500"><i class="fa-regular fa-comment"></i> <span>2</span></button>
+                <button class="flex items-center space-x-1 hover:text-gray-700"><i class="fa-solid fa-share"></i></button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Tab Bar -->
+    <nav class="bg-white border-t border-gray-200 h-20 flex items-start justify-around pt-3 shrink-0 absolute bottom-0 w-full">
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-house text-xl mb-1"></i>
+            <span class="text-[10px]">首页</span>
+        </div>
+        <div class="flex flex-col items-center text-orange-500">
+            <i class="fa-solid fa-users text-xl mb-1"></i>
+            <span class="text-[10px]">社区</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white text-xl -mt-5 shadow-lg shadow-orange-200">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            <span class="text-[10px] mt-1">发布</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-regular fa-comment-dots text-xl mb-1"></i>
+            <span class="text-[10px]">消息</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-regular fa-user text-xl mb-1"></i>
+            <span class="text-[10px]">我的</span>
+        </div>
+    </nav>
+
+</body>
+</html>

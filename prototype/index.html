@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区严选 - 高保真原型预览</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f3f4f6; padding: 40px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .device-wrapper {
+            position: relative;
+            width: 393px; /* iPhone 15 Pro width */
+            height: 852px; /* iPhone 15 Pro height */
+            background: #000;
+            border-radius: 50px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 12px;
+            border: 8px solid #333;
+            box-sizing: content-box;
+            margin: 20px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .dynamic-island {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 35px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 50;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .label {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #374151;
+            font-size: 1.1rem;
+        }
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">社区小程序高保真原型</h1>
+        <p class="text-gray-600">基于 iPhone 15 Pro 尺寸模拟 (393x852)</p>
+    </div>
+
+    <div class="grid-container">
+        <!-- Home Page -->
+        <div>
+            <div class="device-wrapper">
+                <div class="dynamic-island"></div>
+                <div class="screen">
+                    <iframe src="home.html"></iframe>
+                </div>
+            </div>
+            <div class="label">首页 (Home)</div>
+        </div>
+
+        <!-- Community Page -->
+        <div>
+            <div class="device-wrapper">
+                <div class="dynamic-island"></div>
+                <div class="screen">
+                    <iframe src="community.html"></iframe>
+                </div>
+            </div>
+            <div class="label">社区 (Community)</div>
+        </div>
+
+        <!-- Detail Page -->
+        <div>
+            <div class="device-wrapper">
+                <div class="dynamic-island"></div>
+                <div class="screen">
+                    <iframe src="detail.html"></iframe>
+                </div>
+            </div>
+            <div class="label">商品详情 (Detail)</div>
+        </div>
+
+        <!-- Publish Page -->
+        <div>
+            <div class="device-wrapper">
+                <div class="dynamic-island"></div>
+                <div class="screen">
+                    <iframe src="publish.html"></iframe>
+                </div>
+            </div>
+            <div class="label">发布 (Publish)</div>
+        </div>
+
+        <!-- Messages Page -->
+        <div>
+            <div class="device-wrapper">
+                <div class="dynamic-island"></div>
+                <div class="screen">
+                    <iframe src="messages.html"></iframe>
+                </div>
+            </div>
+            <div class="label">消息 (Messages)</div>
+        </div>
+
+        <!-- Profile Page -->
+        <div>
+            <div class="device-wrapper">
+                <div class="dynamic-island"></div>
+                <div class="screen">
+                    <iframe src="profile.html"></iframe>
+                </div>
+            </div>
+            <div class="label">我的 (Profile)</div>
+        </div>
+    </div>
+</body>
+</html>

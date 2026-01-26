@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans">
+
+    <!-- Status Bar Spacer -->
+    <div class="h-12 bg-transparent absolute top-0 w-full z-20"></div>
+
+    <!-- Back Button (Floating) -->
+    <a href="home.html" class="absolute top-14 left-4 z-20 bg-white/70 backdrop-blur rounded-full w-8 h-8 flex items-center justify-center text-gray-800 shadow-sm">
+        <i class="fa-solid fa-chevron-left text-sm"></i>
+    </a>
+    <button class="absolute top-14 right-4 z-20 bg-white/70 backdrop-blur rounded-full w-8 h-8 flex items-center justify-center text-gray-800 shadow-sm">
+        <i class="fa-solid fa-share text-sm"></i>
+    </button>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar pb-24">
+        
+        <!-- Image Gallery -->
+        <div class="w-full h-96 bg-gray-200 relative">
+            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+            <div class="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-2 py-1 rounded-full">1/5</div>
+        </div>
+
+        <!-- Price & Title -->
+        <div class="bg-white p-4 mb-3">
+            <div class="flex items-baseline mb-2">
+                <span class="text-red-500 font-bold text-2xl mr-1"><span class="text-sm">¥</span>1800</span>
+                <span class="text-gray-400 text-xs line-through">原价¥3200</span>
+                <span class="ml-auto bg-orange-100 text-orange-600 text-[10px] px-2 py-0.5 rounded font-bold">自提</span>
+            </div>
+            <h1 class="font-bold text-lg text-gray-900 leading-snug mb-2">九成新 Apple Watch Series 7，几乎没用过，箱说全</h1>
+            <div class="flex items-center text-xs text-gray-400">
+                <span class="mr-4"><i class="fa-solid fa-location-dot mr-1"></i>幸福花园小区 · 2栋</span>
+                <span><i class="fa-regular fa-clock mr-1"></i>发布于 2小时前</span>
+            </div>
+        </div>
+
+        <!-- Seller Info -->
+        <div class="bg-white p-4 mb-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" class="w-12 h-12 rounded-full border border-gray-100 mr-3">
+                <div>
+                    <div class="font-bold text-gray-800 text-sm">李大爷</div>
+                    <div class="flex items-center mt-0.5">
+                        <span class="bg-blue-50 text-blue-600 text-[10px] px-1.5 py-0.5 rounded mr-1">已认证</span>
+                        <span class="text-[10px] text-gray-500">信用极好</span>
+                    </div>
+                </div>
+            </div>
+            <button class="border border-gray-300 text-gray-600 px-3 py-1 rounded-full text-xs font-bold">查看主页</button>
+        </div>
+
+        <!-- Description -->
+        <div class="bg-white p-4 mb-3">
+            <h2 class="font-bold text-sm mb-2 text-gray-900">宝贝详情</h2>
+            <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                去年买的，带过几次就一直放着吃灰了。电池健康度100%，屏幕无划痕，原装表带，充电器都在。支持当面验货。
+                <br><br>
+                仅限同小区或附近自提，不邮寄，怕快递磕碰说不清。
+            </p>
+            <div class="h-px bg-gray-100 w-full mb-3"></div>
+            <div class="flex text-xs text-gray-500 space-x-4">
+                <span>品牌: Apple</span>
+                <span>成色: 99新</span>
+            </div>
+        </div>
+
+        <!-- Security Tip -->
+        <div class="mx-4 mb-4 bg-gray-100 rounded-lg p-3 flex items-start">
+            <i class="fa-solid fa-shield-halved text-green-500 mt-0.5 mr-2"></i>
+            <div>
+                <p class="text-xs font-bold text-gray-700">社区安全提醒</p>
+                <p class="text-[10px] text-gray-500">建议在小区公共区域（如物业大厅、安保亭）进行当面交易。如需邮寄，请使用平台担保交易。</p>
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="bg-white p-4">
+            <h2 class="font-bold text-sm mb-3 text-gray-900">留言 (2)</h2>
+            <div class="flex mb-4">
+                <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=100&h=100" class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">张工 <span class="ml-2">1小时前</span></div>
+                    <div class="text-sm text-gray-800">可以小刀吗？1600如果不介意的话我现在就去拿。</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Action Bar -->
+    <div class="bg-white border-t border-gray-200 px-4 py-2 fixed bottom-0 w-full flex items-center justify-between pb-6">
+        <div class="flex items-center space-x-5 mr-4">
+            <div class="flex flex-col items-center text-gray-500">
+                <i class="fa-regular fa-star text-lg"></i>
+                <span class="text-[10px]">收藏</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-500">
+                <i class="fa-solid fa-share-nodes text-lg"></i>
+                <span class="text-[10px]">分享</span>
+            </div>
+        </div>
+        <div class="flex-1 flex space-x-2">
+            <button class="flex-1 bg-yellow-400 text-white font-bold py-2 rounded-full text-sm">聊一聊</button>
+            <button class="flex-1 bg-red-500 text-white font-bold py-2 rounded-full text-sm">我想要</button>
+        </div>
+    </div>
+
+</body>
+</html>

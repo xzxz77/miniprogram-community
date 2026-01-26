@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans">
+
+    <!-- Status Bar Spacer -->
+    <div class="h-12 bg-white w-full shrink-0"></div>
+
+    <!-- Header -->
+    <header class="bg-white px-4 pb-2 pt-1 sticky top-0 z-10 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center text-gray-800">
+                <i class="fa-solid fa-location-dot text-orange-500 mr-2"></i>
+                <span class="font-bold text-lg">幸福花园小区</span>
+                <i class="fa-solid fa-chevron-down text-xs ml-2 text-gray-400"></i>
+            </div>
+            <div class="relative">
+                <i class="fa-regular fa-bell text-xl text-gray-700"></i>
+                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
+            </div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <input type="text" placeholder="搜索闲置好物..." class="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar pb-20">
+        <!-- Categories -->
+        <div class="grid grid-cols-5 gap-4 p-4 bg-white mb-2">
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 mb-1"><i class="fa-solid fa-couch"></i></div>
+                <span class="text-xs text-gray-600">家具</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mb-1"><i class="fa-solid fa-mobile-screen"></i></div>
+                <span class="text-xs text-gray-600">数码</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-500 mb-1"><i class="fa-solid fa-shirt"></i></div>
+                <span class="text-xs text-gray-600">衣物</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 mb-1"><i class="fa-solid fa-book"></i></div>
+                <span class="text-xs text-gray-600">图书</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 mb-1"><i class="fa-solid fa-grid-2"></i></div>
+                <span class="text-xs text-gray-600">全部分类</span>
+            </div>
+        </div>
+
+        <!-- Banner / LBS Promo -->
+        <div class="px-4 mb-4">
+            <div class="bg-gradient-to-r from-orange-400 to-red-500 rounded-xl p-4 text-white flex justify-between items-center shadow-md">
+                <div>
+                    <h3 class="font-bold text-lg">邻里集市</h3>
+                    <p class="text-xs opacity-90">查看周边 3km 的好物</p>
+                </div>
+                <button class="bg-white text-orange-500 text-xs font-bold px-3 py-1.5 rounded-full">立即查看</button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex px-4 border-b border-gray-200 bg-white sticky top-0">
+            <div class="mr-6 py-3 border-b-2 border-orange-500 font-bold text-gray-800">最新发布</div>
+            <div class="mr-6 py-3 border-b-2 border-transparent text-gray-500">距离最近</div>
+            <div class="mr-6 py-3 border-b-2 border-transparent text-gray-500">信用极好</div>
+        </div>
+
+        <!-- Waterfall Flow -->
+        <div class="p-4 grid grid-cols-2 gap-4">
+            <!-- Item 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm break-inside-avoid">
+                <div class="h-40 bg-gray-200 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
+                    <span class="absolute bottom-2 left-2 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded">自提</span>
+                </div>
+                <div class="p-3">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">九成新 Apple Watch Series 7，几乎没用过</h4>
+                    <div class="flex items-end justify-between mb-2">
+                        <span class="text-red-500 font-bold text-lg"><span class="text-xs">¥</span>1800</span>
+                        <span class="text-gray-400 text-xs">原价¥3200</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100" class="w-5 h-5 rounded-full mr-1">
+                            <span class="text-[10px] text-gray-500">李大爷</span>
+                        </div>
+                        <span class="text-[10px] text-blue-500 bg-blue-50 px-1 rounded">信用极好</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm break-inside-avoid">
+                <div class="h-48 bg-gray-200 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
+                    <span class="absolute bottom-2 left-2 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded">可邮寄</span>
+                </div>
+                <div class="p-3">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">儿童滑板车，闲置出，孩子长大了</h4>
+                    <div class="flex items-end justify-between mb-2">
+                        <span class="text-red-500 font-bold text-lg"><span class="text-xs">¥</span>50</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100" class="w-5 h-5 rounded-full mr-1">
+                            <span class="text-[10px] text-gray-500">HappyMom</span>
+                        </div>
+                        <span class="text-[10px] text-gray-400">10分钟前</span>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Item 3 -->
+             <div class="bg-white rounded-xl overflow-hidden shadow-sm break-inside-avoid">
+                <div class="h-32 bg-gray-200 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
+                    <span class="absolute bottom-2 left-2 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded">自提</span>
+                </div>
+                <div class="p-3">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">宜家置物架，搬家带不走</h4>
+                    <div class="flex items-end justify-between mb-2">
+                        <span class="text-red-500 font-bold text-lg"><span class="text-xs">¥</span>30</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=100&h=100" class="w-5 h-5 rounded-full mr-1">
+                            <span class="text-[10px] text-gray-500">张工</span>
+                        </div>
+                        <span class="text-[10px] text-gray-400">300m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm break-inside-avoid">
+                <div class="h-40 bg-gray-200 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1564466136-154737d6ec8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="p-3">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">全新未拆封拍立得相机，公司年会奖品</h4>
+                    <div class="flex items-end justify-between mb-2">
+                        <span class="text-red-500 font-bold text-lg"><span class="text-xs">¥</span>350</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=100&h=100" class="w-5 h-5 rounded-full mr-1">
+                            <span class="text-[10px] text-gray-500">小王</span>
+                        </div>
+                        <span class="text-[10px] text-gray-400">1天前</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center text-gray-400 text-xs py-4">没有更多数据了</div>
+    </main>
+
+    <!-- Tab Bar -->
+    <nav class="bg-white border-t border-gray-200 h-20 flex items-start justify-around pt-3 shrink-0 absolute bottom-0 w-full">
+        <div class="flex flex-col items-center text-orange-500">
+            <i class="fa-solid fa-house text-xl mb-1"></i>
+            <span class="text-[10px]">首页</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-users text-xl mb-1"></i>
+            <span class="text-[10px]">社区</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white text-xl -mt-5 shadow-lg shadow-orange-200">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            <span class="text-[10px] mt-1">发布</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-regular fa-comment-dots text-xl mb-1"></i>
+            <span class="text-[10px]">消息</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-regular fa-user text-xl mb-1"></i>
+            <span class="text-[10px]">我的</span>
+        </div>
+    </nav>
+
+</body>
+</html>

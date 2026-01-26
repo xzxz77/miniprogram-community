@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans">
+
+    <!-- Status Bar Spacer -->
+    <div class="h-12 bg-white w-full shrink-0"></div>
+
+    <!-- Header -->
+    <header class="bg-white px-4 py-3 flex justify-between items-center sticky top-0 z-10">
+        <span class="text-gray-600">取消</span>
+        <h1 class="font-bold text-lg">发布闲置</h1>
+        <button class="bg-orange-500 text-white px-4 py-1.5 rounded-full text-sm font-bold">发布</button>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar">
+        
+        <!-- Image Uploader -->
+        <div class="bg-white p-4 mb-3">
+            <div class="grid grid-cols-4 gap-2">
+                <div class="aspect-square bg-gray-100 rounded-lg flex flex-col items-center justify-center text-gray-400 border border-dashed border-gray-300">
+                    <i class="fa-solid fa-camera text-2xl mb-1"></i>
+                    <span class="text-xs">添加图片</span>
+                </div>
+                <!-- Simulated Uploaded Image -->
+                <div class="aspect-square relative rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                    <button class="absolute top-1 right-1 bg-black/50 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">长按图片可调整顺序，首张图片将作为封面</p>
+        </div>
+
+        <!-- Inputs -->
+        <div class="bg-white px-4 mb-3">
+            <div class="border-b border-gray-100 py-3">
+                <input type="text" placeholder="标题 品牌型号都是买家喜欢搜索的" class="w-full text-lg font-bold placeholder-gray-400 focus:outline-none">
+            </div>
+            <div class="py-3 h-32">
+                <textarea placeholder="描述一下宝贝的品牌型号、转手原因、新旧程度和入手渠道..." class="w-full h-full resize-none text-sm placeholder-gray-400 focus:outline-none"></textarea>
+            </div>
+        </div>
+
+        <!-- Options -->
+        <div class="bg-white mb-3">
+            <div class="flex justify-between items-center px-4 py-4 border-b border-gray-50 active:bg-gray-50">
+                <div class="flex items-center text-gray-700">
+                    <i class="fa-solid fa-location-dot w-6 text-gray-400"></i>
+                    <span class="text-sm">发货地</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-800 font-bold mr-2">幸福花园小区</span>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                </div>
+            </div>
+            <div class="flex justify-between items-center px-4 py-4 border-b border-gray-50 active:bg-gray-50">
+                <div class="flex items-center text-gray-700">
+                    <i class="fa-solid fa-tag w-6 text-gray-400"></i>
+                    <span class="text-sm">价格</span>
+                </div>
+                <div class="flex items-center text-red-500 font-bold">
+                    <span class="text-sm mr-1">¥</span>
+                    <input type="number" placeholder="0.00" class="w-20 text-right focus:outline-none text-lg" value="1800">
+                </div>
+            </div>
+            <div class="flex justify-between items-center px-4 py-4 border-b border-gray-50 active:bg-gray-50">
+                <div class="flex items-center text-gray-700">
+                    <i class="fa-solid fa-list w-6 text-gray-400"></i>
+                    <span class="text-sm">分类</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2">数码产品</span>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                </div>
+            </div>
+             <div class="flex justify-between items-center px-4 py-4 active:bg-gray-50">
+                <div class="flex items-center text-gray-700">
+                    <i class="fa-solid fa-truck w-6 text-gray-400"></i>
+                    <span class="text-sm">交易方式</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2">自提/邮寄</span>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="px-4 py-2 flex items-center text-gray-400 text-xs">
+            <i class="fa-regular fa-square-check mr-2 text-orange-500 text-sm"></i>
+            同意《社区闲置交易规范》
+        </div>
+
+    </main>
+
+</body>
+</html>

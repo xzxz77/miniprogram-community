@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans">
+
+    <!-- Status Bar Spacer -->
+    <div class="h-12 bg-white w-full shrink-0"></div>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar pb-20">
+        
+        <!-- User Header -->
+        <div class="bg-white p-6 pb-8">
+            <div class="flex items-center mb-6">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" class="w-16 h-16 rounded-full border-2 border-white shadow-md">
+                    <div class="absolute -bottom-1 -right-1 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-full border border-white">
+                        <i class="fa-solid fa-check-circle mr-0.5"></i>已认证
+                    </div>
+                </div>
+                <div class="ml-4 flex-1">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                        李大爷
+                        <i class="fa-solid fa-pen-to-square text-gray-400 text-sm ml-2"></i>
+                    </h2>
+                    <p class="text-xs text-gray-500 mt-1">幸福花园小区 3栋 201室</p>
+                    <div class="flex mt-2 space-x-2">
+                        <span class="bg-orange-50 text-orange-600 text-[10px] px-2 py-0.5 rounded-full border border-orange-100 font-bold">信用极好 780分</span>
+                        <span class="bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 rounded-full">注册 380 天</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="flex justify-around text-center">
+                <div>
+                    <div class="font-bold text-lg text-gray-800">12</div>
+                    <div class="text-xs text-gray-500">收藏</div>
+                </div>
+                <div>
+                    <div class="font-bold text-lg text-gray-800">5</div>
+                    <div class="text-xs text-gray-500">关注</div>
+                </div>
+                <div>
+                    <div class="font-bold text-lg text-gray-800">108</div>
+                    <div class="text-xs text-gray-500">粉丝</div>
+                </div>
+                <div>
+                    <div class="font-bold text-lg text-gray-800">32</div>
+                    <div class="text-xs text-gray-500">在售</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Orders -->
+        <div class="m-4 bg-white rounded-xl p-4 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-gray-800">我的交易</h3>
+                <span class="text-xs text-gray-400">查看全部 <i class="fa-solid fa-chevron-right ml-1"></i></span>
+            </div>
+            <div class="flex justify-between">
+                <div class="flex flex-col items-center relative">
+                    <i class="fa-regular fa-credit-card text-2xl text-gray-600 mb-2"></i>
+                    <span class="text-xs text-gray-600">待付款</span>
+                    <span class="absolute -top-1 right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">1</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-box-open text-2xl text-gray-600 mb-2"></i>
+                    <span class="text-xs text-gray-600">待发货</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-truck text-2xl text-gray-600 mb-2"></i>
+                    <span class="text-xs text-gray-600">待收货</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fa-regular fa-comment-dots text-2xl text-gray-600 mb-2"></i>
+                    <span class="text-xs text-gray-600">待评价</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-hand-holding-dollar text-2xl text-gray-600 mb-2"></i>
+                    <span class="text-xs text-gray-600">退款/售后</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu List -->
+        <div class="m-4 bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between p-4 border-b border-gray-50 active:bg-gray-50">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-3">
+                        <i class="fa-solid fa-scroll"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">我发布的帖子</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 border-b border-gray-50 active:bg-gray-50">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-green-100 text-green-500 flex items-center justify-center mr-3">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">收货地址管理</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 border-b border-gray-50 active:bg-gray-50">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-3">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">社区小判官</span>
+                </div>
+                <span class="text-xs text-gray-400 mr-2">参与 3 次调解</span>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+            </div>
+             <div class="flex items-center justify-between p-4 active:bg-gray-50">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mr-3">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">设置</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+            </div>
+        </div>
+
+        <div class="px-4 pb-4">
+             <div class="bg-orange-50 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                     <h4 class="text-sm font-bold text-orange-700">邀请邻居加入</h4>
+                     <p class="text-xs text-orange-500">每邀请一位邻居认证，信用分+5</p>
+                </div>
+                <button class="bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full">去邀请</button>
+             </div>
+        </div>
+
+    </main>
+
+    <!-- Tab Bar -->
+    <nav class="bg-white border-t border-gray-200 h-20 flex items-start justify-around pt-3 shrink-0 absolute bottom-0 w-full">
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-house text-xl mb-1"></i>
+            <span class="text-[10px]">首页</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-solid fa-users text-xl mb-1"></i>
+            <span class="text-[10px]">社区</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white text-xl -mt-5 shadow-lg shadow-orange-200">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            <span class="text-[10px] mt-1">发布</span>
+        </div>
+        <div class="flex flex-col items-center text-gray-400">
+            <i class="fa-regular fa-comment-dots text-xl mb-1"></i>
+            <span class="text-[10px]">消息</span>
+        </div>
+        <div class="flex flex-col items-center text-orange-500">
+            <i class="fa-regular fa-user text-xl mb-1"></i>
+            <span class="text-[10px]">我的</span>
+        </div>
+    </nav>
+
+</body>
+</html>
