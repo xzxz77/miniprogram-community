@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闲置家具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col font-sans">
+
+    <!-- Status Bar Spacer -->
+    <div class="h-12 bg-white w-full shrink-0"></div>
+
+    <!-- Header -->
+    <header class="bg-white sticky top-0 z-20 border-b border-gray-100">
+        <div class="px-4 py-3 flex items-center justify-between">
+            <a href="home.html" class="w-8 h-8 flex items-center justify-center -ml-2 text-gray-800">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+            <h1 class="font-bold text-lg text-gray-800">闲置家具</h1>
+            <div class="w-8 flex justify-end">
+                <i class="fa-solid fa-magnifying-glass text-gray-800"></i>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex justify-between items-center px-4 py-3 text-sm text-gray-600">
+            <div class="font-bold text-orange-500">综合</div>
+            <div class="flex items-center">价格 <i class="fa-solid fa-sort ml-1 text-gray-300 text-xs"></i></div>
+            <div class="flex items-center">距离 <i class="fa-solid fa-sort ml-1 text-gray-300 text-xs"></i></div>
+            <div class="flex items-center">
+                筛选 <i class="fa-solid fa-filter ml-1 text-gray-400 text-xs"></i>
+            </div>
+        </div>
+
+        <!-- Quick Tags -->
+        <div class="flex px-4 pb-3 space-x-2 overflow-x-auto no-scrollbar">
+            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs whitespace-nowrap">沙发</span>
+            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs whitespace-nowrap">床/床垫</span>
+            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs whitespace-nowrap">柜子</span>
+            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs whitespace-nowrap">桌椅</span>
+            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs whitespace-nowrap">宜家</span>
+        </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <main class="flex-1 overflow-y-auto no-scrollbar p-3">
+        
+        <!-- Item 1 (Horizontal Layout) -->
+        <div class="bg-white rounded-xl p-3 mb-3 flex shadow-sm active:bg-gray-50">
+            <div class="w-32 h-32 bg-gray-200 rounded-lg shrink-0 overflow-hidden relative mr-3">
+                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 left-0 bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-tr-lg">自提</span>
+            </div>
+            <div class="flex flex-col justify-between flex-1 py-1">
+                <div>
+                    <h3 class="font-bold text-gray-800 text-sm mb-1 leading-snug line-clamp-2">全实木双人床，带床垫，99新，因为搬家急出</h3>
+                    <div class="flex items-center text-xs text-gray-400 mb-2">
+                        <span class="bg-gray-100 px-1.5 rounded mr-2">宜家</span>
+                        <span>2小时前发布</span>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between">
+                    <div>
+                        <div class="text-red-500 font-bold text-lg leading-none mb-1"><span class="text-xs">¥</span>500</div>
+                        <div class="text-[10px] text-gray-400">距离 200m · 2栋</div>
+                    </div>
+                    <button class="bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-xs font-bold">我想要</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="bg-white rounded-xl p-3 mb-3 flex shadow-sm active:bg-gray-50">
+            <div class="w-32 h-32 bg-gray-200 rounded-lg shrink-0 overflow-hidden relative mr-3">
+                <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+            </div>
+            <div class="flex flex-col justify-between flex-1 py-1">
+                <div>
+                    <h3 class="font-bold text-gray-800 text-sm mb-1 leading-snug line-clamp-2">北欧风布艺沙发，三人座，非常舒服</h3>
+                    <div class="flex items-center text-xs text-gray-400 mb-2">
+                        <span class="bg-gray-100 px-1.5 rounded mr-2">芝华仕</span>
+                        <span>昨天发布</span>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between">
+                    <div>
+                        <div class="text-red-500 font-bold text-lg leading-none mb-1"><span class="text-xs">¥</span>800</div>
+                        <div class="text-[10px] text-gray-400">距离 500m · 5栋</div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=50&h=50" class="w-5 h-5 rounded-full border border-white -mr-2 z-10">
+                        <span class="text-[10px] text-gray-500 ml-3">信用极好</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="bg-white rounded-xl p-3 mb-3 flex shadow-sm active:bg-gray-50">
+            <div class="w-32 h-32 bg-gray-200 rounded-lg shrink-0 overflow-hidden relative mr-3">
+                <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                 <span class="absolute bottom-0 left-0 bg-green-500 text-white text-[10px] px-1.5 py-0.5 rounded-tr-lg">送货上门</span>
+            </div>
+            <div class="flex flex-col justify-between flex-1 py-1">
+                <div>
+                    <h3 class="font-bold text-gray-800 text-sm mb-1 leading-snug line-clamp-2">实木书柜，复古风格，保护的很好</h3>
+                    <div class="flex items-center text-xs text-gray-400 mb-2">
+                        <span class="bg-gray-100 px-1.5 rounded mr-2">其它品牌</span>
+                        <span>3天前发布</span>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between">
+                    <div>
+                        <div class="text-red-500 font-bold text-lg leading-none mb-1"><span class="text-xs">¥</span>200</div>
+                        <div class="text-[10px] text-gray-400">距离 1.2km</div>
+                    </div>
+                    <button class="bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-xs font-bold">我想要</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-gray-300 text-xs py-4">- 到底了 -</div>
+
+    </main>
+
+</body>
+</html>
