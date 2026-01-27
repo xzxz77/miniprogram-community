@@ -1,0 +1,48 @@
+<!-- pages/profile/subpages/order-list/index.wxml -->
+<view class="container">
+  <!-- Tabs -->
+  <view class="tabs bg-white sticky top-0 z-10">
+    <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="{{0}}">全部</view>
+    <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="{{1}}">待付款</view>
+    <view class="tab-item {{currentTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="{{2}}">待发货</view>
+    <view class="tab-item {{currentTab === 3 ? 'active' : ''}}" bindtap="switchTab" data-index="{{3}}">待收货</view>
+    <view class="tab-item {{currentTab === 4 ? 'active' : ''}}" bindtap="switchTab" data-index="{{4}}">售后</view>
+  </view>
+
+  <!-- Order List -->
+  <view class="order-list p-4">
+    <block wx:for="{{orderList}}" wx:key="id">
+      <view class="order-card bg-white rounded-xl p-4 shadow-sm mb-4">
+        <!-- Header -->
+        <view class="card-header flex justify-between items-center mb-3 pb-2 border-b border-gray-50">
+          <view class="seller-info flex items-center">
+            <image class="seller-avatar" src="{{item.sellerAvatar}}" mode="aspectFill"></image>
+            <text class="seller-name">{{item.sellerName}}</text>
+            <text class="iconfont icon-arrow-right text-gray-300 text-xs ml-1"></text>
+          </view>
+          <text class="status-text text-orange-500">{{item.statusText}}</text>
+        </view>
+
+        <!-- Content -->
+        <view class="card-content flex mb-3">
+          <image class="product-img bg-gray-100" src="{{item.productImage}}" mode="aspectFill"></image>
+          <view class="product-info flex-1 flex flex-col justify-between ml-3">
+            <text class="product-title line-clamp-2">{{item.productTitle}}</text>
+            <view class="price-row flex justify-end items-baseline">
+              <text class="price-label text-gray-500 mr-1">需付款</text>
+              <text class="price-val">¥{{item.price}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- Actions -->
+        <view class="card-actions flex justify-end space-x-2 pt-1">
+          <button class="action-btn outline" wx:if="{{item.status === 1}}">取消订单</button>
+          <button class="action-btn primary" wx:if="{{item.status === 1}}">立即付款</button>
+          <button class="action-btn outline" wx:if="{{item.status === 3}}">查看物流</button>
+          <button class="action-btn primary" wx:if="{{item.status === 3}}">确认收货</button>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

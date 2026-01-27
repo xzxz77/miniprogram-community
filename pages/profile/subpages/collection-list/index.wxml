@@ -1,0 +1,22 @@
+<!-- pages/profile/subpages/collection-list/index.wxml -->
+<view class="container p-4">
+  <view class="grid-container">
+    <block wx:for="{{itemList}}" wx:key="id">
+      <view class="item-card bg-white rounded-xl shadow-sm overflow-hidden">
+        <view class="img-container relative bg-gray-200">
+          <image class="item-img" src="{{item.image}}" mode="aspectFill"></image>
+          <view wx:if="{{item.tag}}" class="status-tag">{{item.tag}}</view>
+        </view>
+        <view class="p-3">
+          <view class="item-title line-clamp-2">{{item.title}}</view>
+          <view class="flex justify-between items-end mt-2">
+            <view class="price">
+              <text class="currency">¥</text>{{item.price}}
+            </view>
+            <view class="distance">{{item.distance}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

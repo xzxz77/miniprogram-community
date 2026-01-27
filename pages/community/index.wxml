@@ -1,0 +1,53 @@
+<!-- pages/community/index.wxml -->
+<view class="container bg-gray-50">
+  <view class="header bg-white p-4 sticky top-0 z-10 border-b border-gray-100">
+    <view class="flex justify-between items-center mb-2">
+      <view class="text-xl font-bold text-gray-800">邻里圈</view>
+      <view class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-bold flex items-center">
+        <text class="iconfont icon-bullhorn mr-1 text-orange-500"></text>小区公告
+      </view>
+    </view>
+    <scroll-view scroll-x class="whitespace-nowrap mt-3">
+      <view class="flex space-x-6">
+        <view class="tab-item active relative font-bold text-lg text-gray-800 mr-6">
+          全部
+          <view class="active-line"></view>
+        </view>
+        <view class="tab-item text-gray-500 mr-6">互助问答</view>
+        <view class="tab-item text-gray-500 mr-6">新鲜事</view>
+        <view class="tab-item text-gray-500 mr-6">避坑指南</view>
+        <view class="tab-item text-gray-500">宠物联盟</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="p-4">
+    <!-- Post 1 -->
+    <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
+      <view class="flex justify-between items-center mb-3">
+        <view class="flex items-center">
+          <image class="avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&h=100"></image>
+          <view class="ml-2">
+            <view class="text-sm font-bold text-gray-800">花店老板娘</view>
+            <view class="text-xs text-gray-400">10分钟前 · 2栋</view>
+          </view>
+        </view>
+        <text class="iconfont icon-more text-gray-400"></text>
+      </view>
+      <view class="text-gray-700 text-sm mb-3">
+        <text class="text-blue-500 font-bold mr-1">#新鲜事#</text>
+        这周末小区南门新开了一家面包店，味道很不错，刚出炉的牛角包绝绝子！
+      </view>
+      <view class="grid-3 gap-2 mb-3">
+        <image class="post-img" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=300&q=80" mode="aspectFill"></image>
+        <image class="post-img" src="https://images.unsplash.com/photo-1608613768856-12a8037b5883?auto=format&fit=crop&w=300&q=80" mode="aspectFill"></image>
+        <image class="post-img" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80" mode="aspectFill"></image>
+      </view>
+      <view class="flex justify-between text-gray-500 text-sm pt-2 border-t border-gray-50">
+        <view class="flex items-center"><text class="iconfont icon-thumb-up mr-1"></text>24</view>
+        <view class="flex items-center"><text class="iconfont icon-comment mr-1"></text>8</view>
+        <view class="flex items-center"><text class="iconfont icon-share mr-1"></text>分享</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+/* pages/community/index.wxss */
+.whitespace-nowrap { white-space: nowrap; }
+.active-line {
+  position: absolute;
+  bottom: -8rpx;
+  left: 0;
+  right: 0;
+  height: 4rpx;
+  background-color: #f97316;
+  border-radius: 4rpx;
+}
+
+.p-4 { padding: 32rpx; }
+.mr-6 { margin-right: 48rpx; }
+
+.avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8rpx;
+}
+
+.post-img {
+  width: 100%;
+  height: 220rpx;
+  border-radius: 16rpx;
+}
+
+.ml-2 { margin-left: 16rpx; }
+.mb-3 { margin-bottom: 24rpx; }
+.mb-4 { margin-bottom: 32rpx; }
+.mr-1 { margin-right: 8rpx; }
+.mt-3 { margin-top: 24rpx; }
+.pt-2 { padding-top: 16rpx; }
+.border-t { border-top: 1rpx solid #f9fafb; }

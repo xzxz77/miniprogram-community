@@ -1,0 +1,30 @@
+<!-- pages/profile/subpages/my-posts/index.wxml -->
+<view class="container p-4">
+  <block wx:for="{{postList}}" wx:key="id">
+    <view class="post-card bg-white rounded-xl p-4 shadow-sm mb-4">
+      <view class="date text-gray-400 text-xs mb-2">{{item.date}} 发布</view>
+      <view class="content text-gray-700 text-sm mb-3 leading-relaxed">
+        <text class="tag text-blue-500 font-bold mr-1">#{{item.topic}}#</text>
+        {{item.content}}
+      </view>
+      <view class="footer flex justify-between items-center pt-2 border-t border-gray-50">
+        <view class="stats flex space-x-4 text-gray-400 text-xs">
+          <view class="stat-item mr-4">
+            <text class="iconfont icon-eye mr-1"></text>{{item.views}}
+          </view>
+          <view class="stat-item">
+            <text class="iconfont icon-comment mr-1"></text>{{item.comments}}
+          </view>
+        </view>
+        <view class="actions flex space-x-3">
+          <view class="action-btn text-gray-400 text-xs mr-3">
+            <text class="iconfont icon-edit mr-1"></text>编辑
+          </view>
+          <view class="action-btn text-gray-400 text-xs">
+            <text class="iconfont icon-delete mr-1"></text>删除
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

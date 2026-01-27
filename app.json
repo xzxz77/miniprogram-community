@@ -1,15 +1,66 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/home/index",
+    "pages/community/index",
+    "pages/publish/index",
+    "pages/messages/index",
+    "pages/profile/index",
+    "pages/goods-detail/index",
+    "pages/home/subpages/category-detail/index",
+    "pages/home/subpages/neighborhood-market/index",
+    "pages/messages/subpages/chat-detail/index",
+    "pages/profile/subpages/follow-list/index",
+    "pages/profile/subpages/collection-list/index",
+    "pages/profile/subpages/order-list/index",
+    "pages/profile/subpages/my-posts/index",
+    "pages/profile/subpages/address-list/index",
+    "pages/profile/subpages/judge-center/index",
+    "pages/profile/subpages/settings/index"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarBackgroundColor": "#ffffff"
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "社区闲置",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#9ca3af",
+    "selectedColor": "#f97316",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/community/index",
+        "text": "社区",
+        "iconPath": "assets/icons/community.png",
+        "selectedIconPath": "assets/icons/community-active.png"
+      },
+      {
+        "pagePath": "pages/publish/index",
+        "text": "发布",
+        "iconPath": "assets/icons/plus.png",
+        "selectedIconPath": "assets/icons/plus.png"
+      },
+      {
+        "pagePath": "pages/messages/index",
+        "text": "消息",
+        "iconPath": "assets/icons/message.png",
+        "selectedIconPath": "assets/icons/message-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
   },
   "style": "v2",
-  "componentFramework": "glass-easel",
-  "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "sitemapLocation": "sitemap.json"
 }

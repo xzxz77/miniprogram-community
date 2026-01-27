@@ -1,0 +1,44 @@
+/* pages/messages/index.wxss */
+.h-100 { height: 100vh; }
+.px-4 { padding-left: 32rpx; padding-right: 32rpx; }
+.py-3 { padding-top: 24rpx; padding-bottom: 24rpx; }
+.py-4 { padding-top: 32rpx; padding-bottom: 32rpx; }
+.mt-1 { margin-top: 8rpx; }
+.mr-3 { margin-right: 24rpx; }
+.pb-4 { padding-bottom: 32rpx; }
+.mb-1 { margin-bottom: 8rpx; }
+
+.border-b { border-bottom-width: 1rpx; }
+.border-gray-50 { border-color: #f9fafb; }
+.border-gray-100 { border-color: #f3f4f6; }
+
+.icon-circle {
+  width: 96rpx; height: 96rpx;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 8rpx;
+}
+
+.dot {
+  position: absolute; top: 0; right: 0;
+  width: 24rpx; height: 24rpx;
+  border-radius: 50%;
+  border: 2rpx solid white;
+}
+
+.bg-red-500 { background-color: #ef4444; }
+
+.avatar { width: 96rpx; height: 96rpx; border-radius: 50%; }
+.badge-num {
+  position: absolute; top: -8rpx; right: -8rpx;
+  background-color: #ef4444; color: white;
+  font-size: 20rpx; padding: 2rpx 10rpx;
+  border-radius: 9999px; border: 2rpx solid white;
+}
+
+.truncate {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.w-48 { width: 384rpx; }
+
+.thumb { width: 64rpx; height: 64rpx; border-radius: 8rpx; margin-left: 16rpx; }

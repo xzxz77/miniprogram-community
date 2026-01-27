@@ -1,0 +1,138 @@
+<!-- pages/profile/index.wxml -->
+<view class="container">
+  <!-- Status Bar Spacer (For Custom Nav) -->
+  <view style="height: {{statusBarHeight}}px; background: #fff;"></view>
+
+  <!-- User Header -->
+  <view class="user-header bg-white">
+    <view class="user-info flex items-center mb-6">
+      <view class="avatar-container relative">
+        <image class="avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" mode="aspectFill"></image>
+        <view class="verified-badge">
+          <text class="iconfont icon-check-circle"></text> 已认证
+        </view>
+      </view>
+      <view class="info-content ml-4 flex-1">
+        <view class="name-row flex items-center">
+          <text class="name">李大爷</text>
+          <text class="edit-icon iconfont icon-edit"></text>
+        </view>
+        <view class="location-row mt-1">
+          <text class="location">幸福花园小区 3栋 201室</text>
+        </view>
+        <view class="tags-row flex mt-2">
+          <view class="tag credit-tag">信用极好 780分</view>
+          <view class="tag time-tag">注册 380 天</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Stats -->
+    <view class="stats-row flex justify-around text-center">
+      <navigator url="/pages/profile/subpages/collection-list/index?type=collection" class="stat-item">
+        <view class="stat-num">12</view>
+        <view class="stat-label">收藏</view>
+      </navigator>
+      <navigator url="/pages/profile/subpages/follow-list/index?type=follow" class="stat-item">
+        <view class="stat-num">5</view>
+        <view class="stat-label">关注</view>
+      </navigator>
+      <navigator url="/pages/profile/subpages/follow-list/index?type=fans" class="stat-item">
+        <view class="stat-num">108</view>
+        <view class="stat-label">粉丝</view>
+      </navigator>
+      <navigator url="/pages/profile/subpages/collection-list/index?type=selling" class="stat-item">
+        <view class="stat-num">32</view>
+        <view class="stat-label">在售</view>
+      </navigator>
+    </view>
+  </view>
+
+  <!-- My Orders -->
+  <view class="card-box mt-4 bg-white">
+    <view class="card-header flex justify-between items-center mb-4">
+      <text class="card-title">我的交易</text>
+      <navigator url="/pages/profile/subpages/order-list/index?status=0" class="more-link">
+        查看全部 <text class="iconfont icon-arrow-right"></text>
+      </navigator>
+    </view>
+    <view class="order-icons flex justify-between">
+      <navigator url="/pages/profile/subpages/order-list/index?status=1" class="icon-item relative">
+        <image class="icon-img" src="/assets/icons/pay.png" mode="aspectFit"></image> <!-- Placeholder for icon -->
+        <text class="icon-text">待付款</text>
+        <view class="badge">1</view>
+      </navigator>
+      <navigator url="/pages/profile/subpages/order-list/index?status=2" class="icon-item">
+        <image class="icon-img" src="/assets/icons/ship.png" mode="aspectFit"></image>
+        <text class="icon-text">待发货</text>
+      </navigator>
+      <navigator url="/pages/profile/subpages/order-list/index?status=3" class="icon-item">
+        <image class="icon-img" src="/assets/icons/deliver.png" mode="aspectFit"></image>
+        <text class="icon-text">待收货</text>
+      </navigator>
+      <navigator url="/pages/profile/subpages/order-list/index?status=4" class="icon-item">
+        <image class="icon-img" src="/assets/icons/comment.png" mode="aspectFit"></image>
+        <text class="icon-text">待评价</text>
+      </navigator>
+      <navigator url="/pages/profile/subpages/order-list/index?status=5" class="icon-item">
+        <image class="icon-img" src="/assets/icons/refund.png" mode="aspectFit"></image>
+        <text class="icon-text">退款/售后</text>
+      </navigator>
+    </view>
+  </view>
+
+  <!-- Menu List -->
+  <view class="card-box mt-4 bg-white menu-list">
+    <navigator url="/pages/profile/subpages/my-posts/index" class="menu-item flex items-center justify-between">
+      <view class="flex items-center">
+        <view class="menu-icon bg-blue-100 text-blue-500">
+          <text class="iconfont icon-post"></text>
+        </view>
+        <text class="menu-text">我发布的帖子</text>
+      </view>
+      <text class="iconfont icon-arrow-right text-gray-300"></text>
+    </navigator>
+    <navigator url="/pages/profile/subpages/address-list/index" class="menu-item flex items-center justify-between">
+      <view class="flex items-center">
+        <view class="menu-icon bg-green-100 text-green-500">
+          <text class="iconfont icon-location"></text>
+        </view>
+        <text class="menu-text">收货地址管理</text>
+      </view>
+      <text class="iconfont icon-arrow-right text-gray-300"></text>
+    </navigator>
+    <navigator url="/pages/profile/subpages/judge-center/index" class="menu-item flex items-center justify-between">
+      <view class="flex items-center">
+        <view class="menu-icon bg-purple-100 text-purple-500">
+          <text class="iconfont icon-scale"></text>
+        </view>
+        <text class="menu-text">社区小判官</text>
+      </view>
+      <view class="flex items-center">
+        <text class="menu-extra">参与 3 次调解</text>
+        <text class="iconfont icon-arrow-right text-gray-300"></text>
+      </view>
+    </navigator>
+    <navigator url="/pages/profile/subpages/settings/index" class="menu-item flex items-center justify-between border-none">
+      <view class="flex items-center">
+        <view class="menu-icon bg-gray-100 text-gray-500">
+          <text class="iconfont icon-settings"></text>
+        </view>
+        <text class="menu-text">设置</text>
+      </view>
+      <text class="iconfont icon-arrow-right text-gray-300"></text>
+    </navigator>
+  </view>
+
+  <!-- Invite Banner -->
+  <view class="px-4 pb-4 mt-4">
+    <view class="invite-banner bg-orange-50 rounded-xl p-4 flex items-center justify-between">
+      <view>
+        <view class="text-sm font-bold text-orange-700">邀请邻居加入</view>
+        <view class="text-xs text-orange-500 mt-1">每邀请一位邻居认证，信用分+5</view>
+      </view>
+      <button class="invite-btn bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full">去邀请</button>
+    </view>
+  </view>
+
+</view>

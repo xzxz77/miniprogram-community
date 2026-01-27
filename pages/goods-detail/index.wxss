@@ -1,0 +1,32 @@
+/* pages/goods-detail/index.wxss */
+.pb-24 { padding-bottom: 192rpx; }
+.bg-white-70 { background-color: rgba(255,255,255,0.7); backdrop-filter: blur(4px); }
+.w-8 { width: 64rpx; }
+.h-8 { height: 64rpx; }
+.mr-1 { margin-right: 8rpx; }
+.ml-3 { margin-left: 24rpx; }
+.mt-1 { margin-top: 8rpx; }
+.mb-2 { margin-bottom: 16rpx; }
+.mb-3 { margin-bottom: 24rpx; }
+.mr-4 { margin-right: 32rpx; }
+.mr-5 { margin-right: 40rpx; }
+
+.line-through { text-decoration: line-through; }
+.ml-auto { margin-left: auto; }
+
+.leading-snug { line-height: 1.375; }
+.avatar { width: 96rpx; height: 96rpx; border-radius: 50%; }
+
+.outline-btn {
+  background: transparent;
+  border: 1rpx solid #d1d5db;
+  color: #4b5563;
+  padding: 8rpx 24rpx;
+  border-radius: 9999px;
+  line-height: 1.5;
+}
+
+.h-px { height: 1rpx; }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+.space-x-2 button + button { margin-left: 16rpx; }

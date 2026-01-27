@@ -1,0 +1,138 @@
+<!-- pages/home/index.wxml -->
+<view class="container bg-gray-50">
+  <!-- Status Bar Spacer -->
+  <view style="height: {{statusBarHeight}}px; background: #fff;"></view>
+
+  <!-- Header -->
+  <view class="header bg-white sticky-top">
+    <view class="flex justify-between items-center mb-2 px-4">
+      <view class="flex items-center text-gray-800">
+        <text class="iconfont icon-location text-orange-500 mr-2"></text>
+        <text class="font-bold text-lg">幸福花园小区</text>
+        <text class="iconfont icon-arrow-down text-xs ml-2 text-gray-400"></text>
+      </view>
+      <view class="relative">
+        <text class="iconfont icon-bell text-xl text-gray-800"></text>
+        <view class="badge">3</view>
+      </view>
+    </view>
+    
+    <!-- Search Bar -->
+    <view class="px-4 pb-2">
+      <view class="search-bar bg-gray-100 rounded-full flex items-center px-4 py-2">
+        <text class="iconfont icon-search text-gray-400 mr-2"></text>
+        <input class="flex-1 text-sm" placeholder="搜索闲置好物..." placeholder-class="text-gray-400" />
+      </view>
+    </view>
+  </view>
+
+  <!-- Scroll View -->
+  <scroll-view scroll-y class="main-scroll" style="height: calc(100vh - {{statusBarHeight + 88}}px);">
+    
+    <!-- Categories -->
+    <view class="grid-cols-5 p-4 bg-white mb-2">
+      <navigator url="/pages/home/subpages/category-detail/index?type=furniture" class="flex-col items-center">
+        <view class="cat-icon bg-orange-100 text-orange-500"><text class="iconfont icon-couch"></text></view>
+        <text class="text-xs text-gray-500 mt-1">家具</text>
+      </navigator>
+      <view class="flex-col items-center">
+        <view class="cat-icon bg-blue-100 text-blue-500"><text class="iconfont icon-mobile"></text></view>
+        <text class="text-xs text-gray-500 mt-1">数码</text>
+      </view>
+      <view class="flex-col items-center">
+        <view class="cat-icon bg-green-100 text-green-500"><text class="iconfont icon-shirt"></text></view>
+        <text class="text-xs text-gray-500 mt-1">衣物</text>
+      </view>
+      <view class="flex-col items-center">
+        <view class="cat-icon bg-purple-100 text-purple-500"><text class="iconfont icon-book"></text></view>
+        <text class="text-xs text-gray-500 mt-1">图书</text>
+      </view>
+      <view class="flex-col items-center">
+        <view class="cat-icon bg-gray-100 text-gray-500"><text class="iconfont icon-grid"></text></view>
+        <text class="text-xs text-gray-500 mt-1">全部</text>
+      </view>
+    </view>
+
+    <!-- Banner -->
+    <view class="px-4 mb-4">
+      <navigator url="/pages/home/subpages/neighborhood-market/index" class="banner bg-gradient p-4 text-white flex justify-between items-center shadow-sm">
+        <view>
+          <view class="font-bold text-lg">邻里集市</view>
+          <view class="text-xs opacity-90">查看周边 3km 的好物</view>
+        </view>
+        <button class="banner-btn bg-white text-orange-500 text-xs font-bold px-3 py-1 rounded-full">立即查看</button>
+      </navigator>
+    </view>
+
+    <!-- Tabs -->
+    <view class="tabs flex px-4 bg-white sticky-tabs">
+      <view class="tab-item active">最新发布</view>
+      <view class="tab-item">距离最近</view>
+      <view class="tab-item">信用极好</view>
+    </view>
+
+    <!-- Waterfall List -->
+    <view class="masonry p-4">
+      <view class="column">
+        <navigator url="/pages/goods-detail/index?id=1" class="card bg-white rounded-xl mb-4 overflow-hidden">
+          <image class="card-img" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
+          <view class="p-2">
+            <view class="title line-clamp-2">九成新 Apple Watch Series 7</view>
+            <view class="flex justify-between items-end mt-1">
+              <text class="price text-red-500 font-bold">¥1800</text>
+              <text class="text-xs text-gray-400">原价¥3200</text>
+            </view>
+            <view class="flex items-center mt-2">
+              <image class="avatar-sm" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=50&h=50"></image>
+              <text class="text-xs text-gray-500 ml-1">李大爷</text>
+            </view>
+          </view>
+        </navigator>
+        <view class="card bg-white rounded-xl mb-4 overflow-hidden">
+          <image class="card-img" src="https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
+          <view class="p-2">
+            <view class="title line-clamp-2">宜家置物架</view>
+            <view class="flex justify-between items-end mt-1">
+              <text class="price text-red-500 font-bold">¥30</text>
+            </view>
+            <view class="flex items-center mt-2">
+              <image class="avatar-sm" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=50&h=50"></image>
+              <text class="text-xs text-gray-500 ml-1">张工</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="column">
+        <view class="card bg-white rounded-xl mb-4 overflow-hidden">
+          <image class="card-img" src="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
+          <view class="p-2">
+            <view class="title line-clamp-2">儿童滑板车，闲置出</view>
+            <view class="flex justify-between items-end mt-1">
+              <text class="price text-red-500 font-bold">¥50</text>
+            </view>
+            <view class="flex items-center mt-2">
+              <image class="avatar-sm" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=50&h=50"></image>
+              <text class="text-xs text-gray-500 ml-1">HappyMom</text>
+            </view>
+          </view>
+        </view>
+         <view class="card bg-white rounded-xl mb-4 overflow-hidden">
+          <image class="card-img" src="https://images.unsplash.com/photo-1564466136-154737d6ec8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
+          <view class="p-2">
+            <view class="title line-clamp-2">全新未拆封拍立得相机</view>
+            <view class="flex justify-between items-end mt-1">
+              <text class="price text-red-500 font-bold">¥350</text>
+            </view>
+            <view class="flex items-center mt-2">
+              <image class="avatar-sm" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=50&h=50"></image>
+              <text class="text-xs text-gray-500 ml-1">小王</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="text-center text-gray-400 text-xs py-4">- 到底了 -</view>
+  </scroll-view>
+</view>

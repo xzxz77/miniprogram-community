@@ -1,0 +1,17 @@
+<!-- pages/profile/subpages/follow-list/index.wxml -->
+<view class="container">
+  <block wx:for="{{userList}}" wx:key="id">
+    <view class="user-item">
+      <view class="user-info">
+        <image class="avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+        <view class="info-text">
+          <view class="name">{{item.name}}</view>
+          <view class="desc">{{item.location}} · {{item.credit}}</view>
+        </view>
+      </view>
+      <button class="action-btn {{item.followed ? 'followed' : ''}}" bindtap="toggleFollow" data-id="{{item.id}}">
+        {{item.followed ? '已关注' : '关注'}}
+      </button>
+    </view>
+  </block>
+</view>

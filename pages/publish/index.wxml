@@ -1,0 +1,72 @@
+<!-- pages/publish/index.wxml -->
+<view class="container bg-gray-50 flex-col h-100">
+  <view class="header bg-white px-4 py-3 flex justify-between items-center sticky top-0 z-10">
+    <text class="text-gray-600">取消</text>
+    <text class="font-bold text-lg">发布闲置</text>
+    <button class="publish-btn bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold">发布</button>
+  </view>
+
+  <view class="flex-1 overflow-y-auto">
+    <!-- Image Upload -->
+    <view class="bg-white p-4 mb-3">
+      <view class="grid-4 gap-2">
+        <view class="upload-btn aspect-square bg-gray-100 rounded-lg flex-col items-center justify-center text-gray-400 border-dashed">
+          <text class="iconfont icon-camera text-2xl mb-1"></text>
+          <text class="text-xs">添加图片</text>
+        </view>
+        <!-- Mock Uploaded Image -->
+        <view class="aspect-square relative rounded-lg overflow-hidden">
+          <image class="img-full" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" mode="aspectFill"></image>
+          <view class="close-btn absolute top-1 right-1 bg-black-50 text-white rounded-full flex items-center justify-center">
+            <text class="iconfont icon-close text-xs"></text>
+          </view>
+        </view>
+      </view>
+      <view class="text-xs text-gray-400 mt-2">首张图片将作为封面</view>
+    </view>
+
+    <!-- Inputs -->
+    <view class="bg-white px-4 mb-3">
+      <view class="border-b border-gray-100 py-3">
+        <input class="w-full text-lg font-bold placeholder-gray-400" placeholder="标题 品牌型号都是买家喜欢搜索的" />
+      </view>
+      <view class="py-3 h-32">
+        <textarea class="w-full h-full text-sm placeholder-gray-400" placeholder="描述一下宝贝的品牌型号、转手原因..." maxlength="-1"></textarea>
+      </view>
+    </view>
+
+    <!-- Options -->
+    <view class="bg-white mb-3">
+      <view class="cell flex justify-between items-center px-4 py-4 border-b border-gray-50">
+        <view class="flex items-center text-gray-700">
+          <text class="iconfont icon-location w-6 text-gray-400"></text>
+          <text class="text-sm">发货地</text>
+        </view>
+        <view class="flex items-center">
+          <text class="text-sm text-gray-800 font-bold mr-2">幸福花园小区</text>
+          <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+        </view>
+      </view>
+      <view class="cell flex justify-between items-center px-4 py-4 border-b border-gray-50">
+        <view class="flex items-center text-gray-700">
+          <text class="iconfont icon-tag w-6 text-gray-400"></text>
+          <text class="text-sm">价格</text>
+        </view>
+        <view class="flex items-center text-red-500 font-bold">
+          <text class="text-sm mr-1">¥</text>
+          <input type="digit" placeholder="0.00" class="text-right text-lg w-20" />
+        </view>
+      </view>
+       <view class="cell flex justify-between items-center px-4 py-4">
+        <view class="flex items-center text-gray-700">
+          <text class="iconfont icon-truck w-6 text-gray-400"></text>
+          <text class="text-sm">交易方式</text>
+        </view>
+        <view class="flex items-center">
+          <text class="text-sm text-gray-500 mr-2">自提/邮寄</text>
+          <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

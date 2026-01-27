@@ -1,0 +1,34 @@
+<!-- pages/profile/subpages/judge-center/index.wxml -->
+<view class="container p-4">
+  <view class="info-banner bg-blue-50 text-blue-700 p-3 rounded-lg text-xs mb-4 flex items-start">
+    <text class="iconfont icon-info mr-1 mt-1"></text>
+    <text>通过参与纠纷调解投票，维护社区公平，每成功参与一次可获得+2信用分。</text>
+  </view>
+
+  <view class="case-card bg-white rounded-xl shadow-sm overflow-hidden">
+    <view class="card-header bg-gray-800 text-white px-4 py-2 text-sm flex justify-between items-center">
+      <text>案件 #20231008</text>
+      <view class="status-badge bg-white-20 px-2 py-0.5 rounded text-xs">投票进行中</view>
+    </view>
+    <view class="p-4">
+      <view class="case-title font-bold text-gray-800 mb-3">商品描述不符争议</view>
+      <view class="claims flex space-x-4 mb-4">
+        <view class="claim-box flex-1 bg-gray-50 p-3 rounded-lg">
+          <view class="claim-label text-xs text-gray-500 mb-1">买家主张</view>
+          <view class="claim-text text-sm text-gray-800">收到的衣服有明显污渍，卖家未提前说明，申请退货。</view>
+          <view class="evidence-img mt-2 bg-gray-200 rounded"></view>
+        </view>
+        <view class="claim-box flex-1 bg-gray-50 p-3 rounded-lg">
+          <view class="claim-label text-xs text-gray-500 mb-1">卖家主张</view>
+          <view class="claim-text text-sm text-gray-800">发货前是干净的，且已说明是二手物品，不退不换。</view>
+          <view class="evidence-img mt-2 bg-gray-200 rounded"></view>
+        </view>
+      </view>
+      <view class="vote-actions flex space-x-3">
+        <button class="vote-btn flex-1 py-2 border border-blue-500 text-blue-500 rounded-lg font-bold text-sm hover-bg-blue-50">支持买家</button>
+        <button class="vote-btn flex-1 py-2 border border-blue-500 text-blue-500 rounded-lg font-bold text-sm hover-bg-blue-50">支持卖家</button>
+      </view>
+      <view class="vote-count text-center text-xs text-gray-400 mt-3">已有 15 位邻居参与投票</view>
+    </view>
+  </view>
+</view>

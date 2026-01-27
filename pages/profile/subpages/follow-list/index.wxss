@@ -1,0 +1,56 @@
+/* pages/profile/subpages/follow-list/index.wxss */
+page {
+  background-color: #ffffff;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f9fafb;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+  background-color: #f3f4f6;
+}
+
+.name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.desc {
+  font-size: 24rpx;
+  color: #9ca3af;
+  margin-top: 4rpx;
+}
+
+.action-btn {
+  font-size: 24rpx;
+  padding: 12rpx 24rpx;
+  border-radius: 9999px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.action-btn.followed {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.action-btn:not(.followed) {
+  background-color: #f97316;
+  color: white;
+}

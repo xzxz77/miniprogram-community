@@ -1,0 +1,24 @@
+<!-- pages/profile/subpages/address-list/index.wxml -->
+<view class="container">
+  <view class="address-list p-4 flex-1">
+    <block wx:for="{{addressList}}" wx:key="id">
+      <view class="address-card bg-white rounded-xl p-4 shadow-sm mb-3 flex justify-between items-center">
+        <view class="info">
+          <view class="user-row flex items-center mb-1">
+            <text class="name font-bold text-lg mr-2">{{item.name}}</text>
+            <text class="phone text-gray-500 text-sm">{{item.phone}}</text>
+            <view wx:if="{{item.isDefault}}" class="default-tag bg-orange-100 text-orange-600 ml-2">默认</view>
+          </view>
+          <view class="address-text text-sm text-gray-600">{{item.address}}</view>
+        </view>
+        <view class="edit-btn text-gray-400 p-2">
+          <text class="iconfont icon-edit"></text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="footer p-4 bg-white border-t border-gray-100">
+    <button class="add-btn w-full bg-orange-500 text-white font-bold rounded-full">+ 新建地址</button>
+  </view>
+</view>
