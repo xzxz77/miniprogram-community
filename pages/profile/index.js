@@ -121,33 +121,24 @@ Page({
       bio: tempUserInfo.bio,
     };
 
-    // Check if user exists
-    db.collection('users').get().then(res => {
-      if (res.data.length > 0) {
-        // Update
-        const id = res.data[0]._id;
-        db.collection('users').doc(id).update({
-          data: userData
-        }).then(() => {
-          this.finishSave(userData);
-        });
+    // 使用云函数更新用户信息
+    wx.cloud.callFunction({
+      name: 'user_updata',
+      data: {
+        data: userData
+      }
+    }).then(res => {
+      if (res.result.success) {
+        this.finishSave(userData);
       } else {
-        // Create
-        db.collection('users').add({
-          data: {
-            ...userData,
-            days: 1,
-            verified: false,
-            createTime: db.serverDate()
-          }
-        }).then(() => {
-          this.finishSave(userData);
-        });
+        wx.hideLoading();
+        wx.showToast({ title: res.result.msg || '保存失败', icon: 'none' });
+        console.error('云函数调用失败', res.result);
       }
     }).catch(err => {
       wx.hideLoading();
-      console.error(err);
-      wx.showToast({ title: '保存失败', icon: 'none' });
+      console.error('云函数调用异常', err);
+      wx.showToast({ title: '网络异常', icon: 'none' });
     });
   },
 
