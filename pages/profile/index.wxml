@@ -4,47 +4,76 @@
   <view style="height: {{statusBarHeight}}px; background: #fff;"></view>
 
   <!-- User Header -->
-  <view class="user-header bg-white">
+  <view class="user-header bg-white" bindtap="onEditProfile">
     <view class="user-info flex items-center mb-6">
       <view class="avatar-container relative">
-        <image class="avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" mode="aspectFill"></image>
-        <view class="verified-badge">
+        <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <view class="verified-badge" wx:if="{{userInfo.verified}}">
           <text class="iconfont icon-check-circle"></text> 已认证
         </view>
       </view>
       <view class="info-content ml-4 flex-1">
         <view class="name-row flex items-center">
-          <text class="name">李大爷</text>
+          <text class="name">{{userInfo.nickName || '点击登录/注册'}}</text>
           <text class="edit-icon iconfont icon-edit"></text>
         </view>
         <view class="location-row mt-1">
-          <text class="location">幸福花园小区 3栋 201室</text>
+          <text class="location">{{userInfo.bio || '点击设置个性签名'}}</text>
         </view>
         <view class="tags-row flex mt-2">
-          <view class="tag credit-tag">信用极好 780分</view>
-          <view class="tag time-tag">注册 380 天</view>
+          <view class="tag time-tag">注册 {{userInfo.days || 1}} 天</view>
         </view>
       </view>
     </view>
 
     <!-- Stats -->
     <view class="stats-row flex justify-around text-center">
-      <navigator url="/pages/profile/subpages/collection-list/index?type=collection" class="stat-item">
-        <view class="stat-num">12</view>
+      <navigator url="/pages/profile/subpages/collection-list/index?type=collection" class="stat-item" catchtap="noop">
+        <view class="stat-num">{{stats.collection}}</view>
         <view class="stat-label">收藏</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/follow-list/index?type=follow" class="stat-item">
-        <view class="stat-num">5</view>
+      <navigator url="/pages/profile/subpages/follow-list/index?type=follow" class="stat-item" catchtap="noop">
+        <view class="stat-num">{{stats.follow}}</view>
         <view class="stat-label">关注</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/follow-list/index?type=fans" class="stat-item">
-        <view class="stat-num">108</view>
+      <navigator url="/pages/profile/subpages/follow-list/index?type=fans" class="stat-item" catchtap="noop">
+        <view class="stat-num">{{stats.fans}}</view>
         <view class="stat-label">粉丝</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/collection-list/index?type=selling" class="stat-item">
-        <view class="stat-num">32</view>
+      <navigator url="/pages/profile/subpages/collection-list/index?type=selling" class="stat-item" catchtap="noop">
+        <view class="stat-num">{{stats.selling}}</view>
         <view class="stat-label">在售</view>
       </navigator>
+    </view>
+  </view>
+
+  <!-- Edit Profile Modal -->
+  <view class="modal-mask" wx:if="{{showEditModal}}" catchtap="closeEditModal">
+    <view class="modal-content" catchtap="noop">
+      <view class="modal-header">编辑个人信息</view>
+      
+      <view class="form-item avatar-section">
+        <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+          <image class="avatar-preview" src="{{tempUserInfo.avatarUrl || userInfo.avatarUrl}}"></image>
+          <view class="camera-icon">📷</view>
+        </button>
+        <text class="tip">点击修改头像</text>
+      </view>
+
+      <view class="form-item">
+        <text class="label">昵称</text>
+        <input type="nickname" class="input" placeholder="请输入昵称" value="{{tempUserInfo.nickName}}" bindblur="onNicknameChange" bindinput="onNicknameInput"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label">签名</text>
+        <input class="input" placeholder="请输入个性签名" value="{{tempUserInfo.bio}}" bindinput="onBioChange"/>
+      </view>
+
+      <view class="modal-footer">
+        <button class="btn cancel" bindtap="closeEditModal">取消</button>
+        <button class="btn save" bindtap="saveProfile">保存</button>
+      </view>
     </view>
   </view>
 
