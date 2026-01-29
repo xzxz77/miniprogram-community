@@ -13,10 +13,10 @@ Page({
       verified: false
     },
     stats: {
-      collection: 12,
-      follow: 5,
-      fans: 108,
-      selling: 32
+      collection: 0,
+      follow: 0,
+      fans: 0,
+      selling: 0
     },
     showEditModal: false,
     tempUserInfo: {}

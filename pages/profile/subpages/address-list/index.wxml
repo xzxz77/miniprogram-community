@@ -2,7 +2,7 @@
 <view class="container">
   <view class="address-list p-4 flex-1">
     <block wx:for="{{addressList}}" wx:key="id">
-      <view class="address-card bg-white rounded-xl p-4 shadow-sm mb-3 flex justify-between items-center">
+      <view class="address-card bg-white rounded-xl p-4 shadow-sm mb-3 flex justify-between items-center" bindtap="onEditAddress" data-index="{{index}}">
         <view class="info">
           <view class="user-row flex items-center mb-1">
             <text class="name font-bold text-lg mr-2">{{item.name}}</text>
@@ -16,9 +16,46 @@
         </view>
       </view>
     </block>
+    <view wx:if="{{addressList.length === 0}}" class="text-center text-gray-400 mt-6 text-sm">暂无收货地址</view>
   </view>
 
   <view class="footer p-4 bg-white border-t border-gray-100">
-    <button class="add-btn w-full bg-orange-500 text-white font-bold rounded-full">+ 新建地址</button>
+    <button class="add-btn w-full bg-orange-500 text-white font-bold rounded-full" bindtap="onAddAddress">+ 新建地址</button>
+  </view>
+
+  <!-- Edit/Add Address Modal -->
+  <view class="modal-mask" wx:if="{{showModal}}" catchtap="closeModal">
+    <view class="modal-content" catchtap="noop">
+      <view class="modal-header">{{isEdit ? '编辑地址' : '新建地址'}}</view>
+      
+      <view class="form-item">
+        <text class="label">联系人</text>
+        <input class="input" placeholder="名字" value="{{tempAddress.name}}" bindinput="onInput" data-field="name"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label">手机号</text>
+        <input class="input" type="number" placeholder="11位手机号" value="{{tempAddress.phone}}" bindinput="onInput" data-field="phone" maxlength="11"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label">详细地址</text>
+        <input class="input" placeholder="街道门牌信息" value="{{tempAddress.address}}" bindinput="onInput" data-field="address"/>
+      </view>
+
+      <view class="form-item flex justify-between items-center">
+        <text class="label mb-0">设为默认地址</text>
+        <switch color="#f97316" checked="{{tempAddress.isDefault}}" bindchange="onSwitchChange"/>
+      </view>
+
+      <view class="modal-footer">
+        <button class="btn cancel" bindtap="closeModal">取消</button>
+        <button class="btn save" bindtap="saveAddress">保存</button>
+      </view>
+      
+      <view class="mt-3" wx:if="{{isEdit}}">
+         <button class="btn delete text-red-500 bg-white" bindtap="deleteAddress">删除收货地址</button>
+      </view>
+    </view>
   </view>
 </view>
