@@ -5,8 +5,8 @@
 
   <!-- Header (Fixed) -->
   <view class="header-container" style="top: {{statusBarHeight}}px;">
-    <view class="flex justify-between items-center px-4 py-2">
-      <view class="flex items-center location-tag">
+    <view class="flex justify-between items-center px-4 pt-2 pb-1 mt-2">
+      <view class="flex items-center location-tag ">
         <text class="iconfont icon-location text-orange-600 mr-1 text-lg"></text>
         <text class="font-bold text-lg text-gray-900">幸福花园小区</text>
         <text class="iconfont icon-arrow-down text-xs ml-1 text-gray-400 font-bold"></text>
@@ -18,8 +18,8 @@
     </view>
     
     <!-- Search Bar -->
-    <view class="px-4 pb-3">
-      <view class="search-bar">
+    <view class="px-4 pb-2 pt-2" style="height: 124rpx; display: block; box-sizing: border-box">
+      <view class="search-bar" style="position: relative; left: -3rpx; top: 17rpx">
         <text class="iconfont icon-search text-gray-400 mr-2 text-lg"></text>
         <input class="flex-1 text-sm text-gray-800" placeholder="搜索闲置好物..." placeholder-class="text-gray-400" />
         <view class="search-btn">搜索</view>
@@ -34,23 +34,23 @@
     <view class="category-panel mx-4 mt-3 bg-white rounded-2xl p-4 shadow-sm">
       <view class="grid-cols-5">
         <navigator url="/pages/home/subpages/category-detail/index?type=furniture" class="cat-item">
-          <view class="cat-icon bg-orange-50"><text class="iconfont icon-couch text-orange-500"></text></view>
+          <view class="cat-icon bg-orange-50"><image src="/assets/icons/furniture.png" class="cat-img"></image></view>
           <text class="cat-name">家具</text>
         </navigator>
         <view class="cat-item">
-          <view class="cat-icon bg-blue-50"><text class="iconfont icon-mobile text-blue-500"></text></view>
+          <view class="cat-icon bg-blue-50"><image src="/assets/icons/digital.png" class="cat-img"></image></view>
           <text class="cat-name">数码</text>
         </view>
         <view class="cat-item">
-          <view class="cat-icon bg-green-50"><text class="iconfont icon-shirt text-green-500"></text></view>
+          <view class="cat-icon bg-green-50"><image src="/assets/icons/clothes.png" class="cat-img"></image></view>
           <text class="cat-name">衣物</text>
         </view>
         <view class="cat-item">
-          <view class="cat-icon bg-purple-50"><text class="iconfont icon-book text-purple-500"></text></view>
+          <view class="cat-icon bg-purple-50"><image src="/assets/icons/book.png" class="cat-img"></image></view>
           <text class="cat-name">图书</text>
         </view>
         <view class="cat-item">
-          <view class="cat-icon bg-gray-50"><text class="iconfont icon-grid text-gray-500"></text></view>
+          <view class="cat-icon bg-gray-50"><image src="/assets/icons/all.png" class="cat-img"></image></view>
           <text class="cat-name">全部分类</text>
         </view>
       </view>

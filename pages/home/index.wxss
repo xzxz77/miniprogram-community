@@ -98,27 +98,20 @@ page {
   transform: scale(0.95);
 }
 
-.cat-icon .iconfont {
-  font-size: 48rpx;
+.cat-img {
+  width: 64rpx;
+  height: 64rpx;
+  /* Ensure images fit well */
+  object-fit: contain; 
 }
 
-.cat-name {
-  font-size: 24rpx;
-  color: #555;
-  font-weight: 500;
-}
-
-/* Colors */
 .bg-orange-50 { background-color: #fff3e0; }
-.text-orange-500 { color: #ff6b00; }
 .bg-blue-50 { background-color: #e3f2fd; }
-.text-blue-500 { color: #2196f3; }
 .bg-green-50 { background-color: #e8f5e9; }
-.text-green-500 { color: #4caf50; }
 .bg-purple-50 { background-color: #f3e5f5; }
-.text-purple-500 { color: #9c27b0; }
 .bg-gray-50 { background-color: #f5f5f5; }
-.text-gray-500 { color: #757575; }
+
+/* Removed .text-xxx classes as they were for iconfont */
 
 /* Banner Card */
 .banner-card {
