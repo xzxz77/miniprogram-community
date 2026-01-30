@@ -4,43 +4,45 @@
   <view style="height: {{statusBarHeight}}px; background: #fff;"></view>
 
   <!-- User Header -->
-  <view class="user-header bg-white" bindtap="onEditProfile">
+  <view class="user-header bg-white">
     <view class="user-info flex items-center mb-6">
-      <view class="avatar-container relative">
+      <view class="avatar-container relative" bindtap="onEditProfile">
         <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
         <view class="verified-badge" wx:if="{{userInfo.verified}}">
           <text class="iconfont icon-check-circle"></text> 已认证
         </view>
       </view>
-      <view class="info-content ml-4 flex-1">
-        <view class="name-row flex items-center">
-          <text class="name">{{userInfo.nickName || '点击登录/注册'}}</text>
-          <text class="edit-icon iconfont icon-edit"></text>
-        </view>
-        <view class="location-row mt-1">
-          <text class="location">{{userInfo.bio || '点击设置个性签名'}}</text>
-        </view>
-        <view class="tags-row flex mt-2">
-          <view class="tag time-tag">注册 {{userInfo.days || 1}} 天</view>
+      <view class="flex-1 ml-4" bindtap="onEditProfile">
+        <view class="info-content">
+          <view class="name-row flex items-center">
+            <text class="name">{{userInfo.nickName || '点击登录/注册'}}</text>
+            <text class="edit-icon iconfont icon-edit"></text>
+          </view>
+          <view class="location-row mt-1">
+            <text class="location">{{userInfo.bio || '点击设置个性签名'}}</text>
+          </view>
+          <view class="tags-row flex mt-2">
+            <view class="tag time-tag">注册 {{userInfo.days || 1}} 天</view>
+          </view>
         </view>
       </view>
     </view>
 
     <!-- Stats -->
     <view class="stats-row flex justify-around text-center">
-      <navigator url="/pages/profile/subpages/collection-list/index?type=collection" class="stat-item" catchtap="noop">
+      <navigator url="/pages/profile/subpages/collection-list/index?type=collection" class="stat-item flex-1" catchtap="noop" hover-class="none">
         <view class="stat-num">{{stats.collection}}</view>
         <view class="stat-label">收藏</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/follow-list/index?type=follow" class="stat-item" catchtap="noop">
+      <navigator url="/pages/profile/subpages/follow-list/index?type=follow" class="stat-item flex-1" catchtap="noop" hover-class="none">
         <view class="stat-num">{{stats.follow}}</view>
         <view class="stat-label">关注</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/follow-list/index?type=fans" class="stat-item" catchtap="noop">
+      <navigator url="/pages/profile/subpages/follow-list/index?type=fans" class="stat-item flex-1" catchtap="noop" hover-class="none">
         <view class="stat-num">{{stats.fans}}</view>
         <view class="stat-label">粉丝</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/collection-list/index?type=selling" class="stat-item" catchtap="noop">
+      <navigator url="/pages/profile/subpages/collection-list/index?type=selling" class="stat-item flex-1" catchtap="noop" hover-class="none">
         <view class="stat-num">{{stats.selling}}</view>
         <view class="stat-label">在售</view>
       </navigator>
@@ -81,29 +83,29 @@
   <view class="card-box mt-4 bg-white">
     <view class="card-header flex justify-between items-center mb-4">
       <text class="card-title">我的交易</text>
-      <navigator url="/pages/profile/subpages/order-list/index?status=0" class="more-link">
+      <navigator url="/pages/profile/subpages/order-list/index?status=0" class="more-link" hover-class="none">
         查看全部 <text class="iconfont icon-arrow-right"></text>
       </navigator>
     </view>
     <view class="order-icons flex justify-between">
-      <navigator url="/pages/profile/subpages/order-list/index?status=1" class="icon-item relative">
+      <navigator url="/pages/profile/subpages/order-list/index?status=1" class="icon-item relative" hover-class="none">
         <image class="icon-img" src="/assets/icons/pay.png" mode="aspectFit"></image> <!-- Placeholder for icon -->
         <text class="icon-text">待付款</text>
         <view class="badge">1</view>
       </navigator>
-      <navigator url="/pages/profile/subpages/order-list/index?status=2" class="icon-item">
+      <navigator url="/pages/profile/subpages/order-list/index?status=2" class="icon-item" hover-class="none">
         <image class="icon-img" src="/assets/icons/ship.png" mode="aspectFit"></image>
         <text class="icon-text">待发货</text>
       </navigator>
-      <navigator url="/pages/profile/subpages/order-list/index?status=3" class="icon-item">
+      <navigator url="/pages/profile/subpages/order-list/index?status=3" class="icon-item" hover-class="none">
         <image class="icon-img" src="/assets/icons/deliver.png" mode="aspectFit"></image>
         <text class="icon-text">待收货</text>
       </navigator>
-      <navigator url="/pages/profile/subpages/order-list/index?status=4" class="icon-item">
+      <navigator url="/pages/profile/subpages/order-list/index?status=4" class="icon-item" hover-class="none">
         <image class="icon-img" src="/assets/icons/comment.png" mode="aspectFit"></image>
         <text class="icon-text">待评价</text>
       </navigator>
-      <navigator url="/pages/profile/subpages/order-list/index?status=5" class="icon-item">
+      <navigator url="/pages/profile/subpages/order-list/index?status=5" class="icon-item" hover-class="none">
         <image class="icon-img" src="/assets/icons/refund.png" mode="aspectFit"></image>
         <text class="icon-text">退款/售后</text>
       </navigator>

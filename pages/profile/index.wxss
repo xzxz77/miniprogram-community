@@ -40,10 +40,21 @@ page {
   padding: 32rpx 24rpx 40rpx;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
 .avatar-container {
   width: 128rpx;
   height: 128rpx;
   position: relative;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .avatar {
@@ -105,10 +116,18 @@ page {
 }
 
 /* Stats */
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1; /* Make items flexible */
+  padding: 12rpx 1; /* Increase touch area */
 }
 
 .stat-num {
@@ -290,7 +309,7 @@ page {
 }
 
 .avatar-preview {
-  width: 50%;
+  width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover; /* Ensure image covers the area without distortion */
