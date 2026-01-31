@@ -87,89 +87,51 @@
     <view class="masonry px-3 pb-6">
       <!-- Left Column -->
       <view class="column">
-        <navigator url="/pages/goods-detail/index?id=1" class="goods-card">
+        <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{leftList}}" wx:key="_id">
           <view class="img-wrapper">
-            <image class="goods-img" src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
-            <view class="tag-label">自提</view>
+            <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
+            <view class="tag-label" wx:if="{{item.deliveryMethod !== '邮寄'}}">自提</view>
+            <view class="tag-label blue" wx:else>可邮寄</view>
           </view>
           <view class="goods-info">
-            <view class="goods-title">九成新 Apple Watch Series 7，几乎没用过</view>
+            <view class="goods-title">{{item.title}}</view>
             <view class="flex justify-between items-baseline mt-2">
               <view class="price-group">
                 <text class="currency">¥</text>
-                <text class="amount">1800</text>
+                <text class="amount">{{item.price}}</text>
               </view>
-              <text class="original-price">¥3200</text>
             </view>
             <view class="seller-row mt-3">
-              <image class="seller-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=50&h=50"></image>
-              <text class="seller-name">李大爷</text>
-              <view class="credit-badge">信用极好</view>
+              <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
+              <text class="seller-name">{{item.sellerName}}</text>
             </view>
           </view>
         </navigator>
-
-        <view class="goods-card">
-          <view class="img-wrapper">
-            <image class="goods-img" src="https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
-          </view>
-          <view class="goods-info">
-            <view class="goods-title">宜家置物架</view>
-            <view class="flex justify-between items-baseline mt-2">
-              <view class="price-group">
-                <text class="currency">¥</text>
-                <text class="amount">30</text>
-              </view>
-            </view>
-            <view class="seller-row mt-3">
-              <image class="seller-avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=50&h=50"></image>
-              <text class="seller-name">张工</text>
-            </view>
-          </view>
-        </view>
       </view>
       
       <!-- Right Column -->
       <view class="column">
-        <view class="goods-card">
-          <view class="img-wrapper">
-            <image class="goods-img" src="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
-            <view class="tag-label blue">可邮寄</view>
+        <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{rightList}}" wx:key="_id">
+           <view class="img-wrapper">
+            <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
+            <view class="tag-label" wx:if="{{item.deliveryMethod !== '邮寄'}}">自提</view>
+            <view class="tag-label blue" wx:else>可邮寄</view>
           </view>
           <view class="goods-info">
-            <view class="goods-title">儿童滑板车，闲置出，孩子长大了</view>
+            <view class="goods-title">{{item.title}}</view>
             <view class="flex justify-between items-baseline mt-2">
               <view class="price-group">
                 <text class="currency">¥</text>
-                <text class="amount">50</text>
+                <text class="amount">{{item.price}}</text>
               </view>
             </view>
             <view class="seller-row mt-3">
-              <image class="seller-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=50&h=50"></image>
-              <text class="seller-name">HappyMom</text>
-              <text class="time-ago">10分钟前</text>
+              <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
+              <text class="seller-name">{{item.sellerName}}</text>
+              <text class="time-ago">{{item.timeAgo}}</text>
             </view>
           </view>
-        </view>
-
-         <view class="goods-card">
-          <view class="img-wrapper">
-            <image class="goods-img" src="https://images.unsplash.com/photo-1564466136-154737d6ec8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" mode="widthFix"></image>
-          </view>
-          <view class="goods-info">
-            <view class="goods-title">全新未拆封拍立得相机</view>
-            <view class="flex justify-between items-baseline mt-2">
-              <view class="price-group">
-                <text class="currency">¥</text>
-                <text class="amount">350</text>
-              </view>
-            </view>
-            <view class="seller-row mt-3">
-              <image class="seller-avatar" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=50&h=50"></image>
-              <text class="seller-name">小王</text>
-            </view>
-          </view>
-        </view>
+        </navigator>
       </view>
     </view>
     

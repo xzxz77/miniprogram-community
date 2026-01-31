@@ -1,32 +1,178 @@
 /* pages/goods-detail/index.wxss */
-.pb-24 { padding-bottom: 192rpx; }
-.bg-white-70 { background-color: rgba(255,255,255,0.7); backdrop-filter: blur(4px); }
-.w-8 { width: 64rpx; }
-.h-8 { height: 64rpx; }
-.mr-1 { margin-right: 8rpx; }
-.ml-3 { margin-left: 24rpx; }
-.mt-1 { margin-top: 8rpx; }
-.mb-2 { margin-bottom: 16rpx; }
-.mb-3 { margin-bottom: 24rpx; }
-.mr-4 { margin-right: 32rpx; }
-.mr-5 { margin-right: 40rpx; }
-
-.line-through { text-decoration: line-through; }
-.ml-auto { margin-left: auto; }
-
-.leading-snug { line-height: 1.375; }
-.avatar { width: 96rpx; height: 96rpx; border-radius: 50%; }
-
-.outline-btn {
-  background: transparent;
-  border: 1rpx solid #d1d5db;
-  color: #4b5563;
-  padding: 8rpx 24rpx;
-  border-radius: 9999px;
-  line-height: 1.5;
+page {
+  background-color: #f7f8fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
 }
 
-.h-px { height: 1rpx; }
-.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+.container {
+  min-height: 100vh;
+}
 
-.space-x-2 button + button { margin-left: 16rpx; }
+/* Utilities */
+.bg-gray-50 { background-color: #f9fafb; }
+.bg-white { background-color: #ffffff; }
+.bg-white-70 { background-color: rgba(255,255,255,0.9); backdrop-filter: blur(4px); border: 1rpx solid rgba(0,0,0,0.05); }
+.bg-black-50 { background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+.bg-black-20 { background-color: rgba(0,0,0,0.25); backdrop-filter: blur(2px); } /* New for back button */
+.bg-orange-100 { background-color: #e6f7ff; }
+.bg-blue-50 { background-color: #e6f7ff; }
+.bg-yellow-400 { background-color: #facc15; }
+.bg-orange-500 { background-color: #ff6b00; }
+.bg-transparent { background-color: transparent; }
+
+.text-white { color: #ffffff; }
+.text-gray-900 { color: #111827; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-700 { color: #374151; }
+.text-gray-600 { color: #4b5563; }
+.text-gray-500 { color: #6b7280; }
+.text-gray-400 { color: #9ca3af; }
+.text-red-500 { color: #ef4444; }
+.text-orange-600 { color: #ea580c; }
+.text-blue-600 { color: #2563eb; }
+.text-yellow-400 { color: #facc15; }
+
+.font-bold { font-weight: 700; }
+.font-din { font-family: 'DIN Alternate', 'Roboto', sans-serif; }
+.text-xs { font-size: 24rpx; }
+.text-sm { font-size: 28rpx; }
+.text-base { font-size: 32rpx; }
+.text-lg { font-size: 36rpx; }
+.text-xl { font-size: 40rpx; }
+.text-2xl { font-size: 48rpx; }
+.text-3xl { font-size: 56rpx; }
+
+.leading-snug { line-height: 1.4; }
+.leading-relaxed { line-height: 1.6; }
+.leading-normal { line-height: 1; }
+
+.rounded { border-radius: 8rpx; }
+.rounded-lg { border-radius: 16rpx; }
+.rounded-xl { border-radius: 24rpx; }
+.rounded-b-xl { border-bottom-left-radius: 24rpx; border-bottom-right-radius: 24rpx; }
+.rounded-full { border-radius: 9999px; }
+
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+.shadow-lg { box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05); }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.w-8 { width: 64rpx; }
+.h-8 { height: 64rpx; }
+.w-10 { width: 80rpx; }
+.h-10 { height: 80rpx; }
+.h-px { height: 1rpx; }
+.h-screen { height: 100vh; }
+
+.p-0 { padding: 0; }
+.m-0 { margin: 0; }
+.p-3 { padding: 24rpx; }
+.p-4 { padding: 32rpx; }
+.px-1 { padding-left: 8rpx; padding-right: 8rpx; }
+.px-2 { padding-left: 16rpx; padding-right: 16rpx; }
+.px-3 { padding-left: 24rpx; padding-right: 24rpx; }
+.px-4 { padding-left: 32rpx; padding-right: 32rpx; }
+.py-1 { padding-top: 8rpx; padding-bottom: 8rpx; }
+.py-2 { padding-top: 16rpx; padding-bottom: 16rpx; }
+.pb-24 { padding-bottom: 180rpx; }
+.pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 20rpx); }
+
+.mx-3 { margin-left: 24rpx; margin-right: 24rpx; }
+.my-auto { margin-top: auto; margin-bottom: auto; }
+.mt-1 { margin-top: 8rpx; }
+.mt-2 { margin-top: 16rpx; }
+.mb-1 { margin-bottom: 8rpx; }
+.mb-2 { margin-bottom: 16rpx; }
+.mb-3 { margin-bottom: 24rpx; }
+.mb-4 { margin-bottom: 32rpx; }
+.mr-1 { margin-right: 8rpx; }
+.mr-4 { margin-right: 32rpx; }
+.mr-5 { margin-right: 40rpx; }
+.mr-6 { margin-right: 48rpx; }
+.ml-1 { margin-left: 8rpx; }
+.ml-2 { margin-left: 16rpx; }
+.ml-3 { margin-left: 24rpx; }
+.ml-auto { margin-left: auto; }
+.-mt-4 { margin-top: -32rpx; }
+
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.items-baseline { align-items: baseline; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+.space-x-2 > view + view, .space-x-2 > button + button { margin-left: 16rpx; }
+.space-x-3 > view + view, .space-x-3 > button + button { margin-left: 24rpx; }
+.space-x-4 > text + text { margin-left: 32rpx; }
+
+.fixed { position: fixed; }
+.absolute { position: absolute; }
+.relative { position: relative; }
+.top-0 { top: 0; }
+.bottom-0 { bottom: 0; }
+.bottom-4 { bottom: 32rpx; }
+.right-4 { right: 32rpx; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+
+.whitespace-pre-wrap { white-space: pre-wrap; }
+.line-through { text-decoration: line-through; }
+
+/* Custom Components */
+.nav-btn {
+  transition: all 0.2s;
+}
+
+.nav-btn:active {
+  transform: scale(0.9);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.action-btn {
+  transition: opacity 0.2s;
+}
+
+.action-btn:active {
+  opacity: 0.7;
+}
+
+.action-pill-btn {
+  padding: 0 40rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 9999px;
+  font-size: 28rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 180rpx; /* Control width */
+}
+
+.action-pill-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+button::after {
+  border: none;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid #f3f3f3;
+  border-top: 6rpx solid #ff6b00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

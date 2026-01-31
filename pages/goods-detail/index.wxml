@@ -1,81 +1,117 @@
 <!-- pages/goods-detail/index.wxml -->
-<view class="container bg-gray-50 pb-24">
+<view class="container bg-gray-50 pb-24" wx:if="{{!isLoading}}">
   <!-- Navbar -->
-  <view class="nav-bar fixed top-0 w-full z-20 flex items-center justify-between px-4" style="padding-top: {{statusBarHeight}}px; height: 44px;">
-    <view class="nav-btn bg-white-70 rounded-full w-8 h-8 flex items-center justify-center" bindtap="goBack">
-      <text class="iconfont icon-left text-sm"></text>
-    </view>
-    <view class="nav-btn bg-white-70 rounded-full w-8 h-8 flex items-center justify-center">
-      <text class="iconfont icon-share text-sm"></text>
+  <view class="nav-bar fixed top-0 w-full z-20 flex items-center px-4" style="padding-top: {{statusBarHeight}}px; height: 44px;">
+    <!-- Back Button only, removed Share button -->
+    <view class="nav-btn bg-black-20 rounded-full w-8 h-8 flex items-center justify-center text-white" bindtap="goBack">
+      <text class="iconfont icon-left text-lg"></text>
     </view>
   </view>
 
   <!-- Swiper -->
-  <swiper class="swiper" indicator-dots="{{true}}" autoplay="{{false}}" style="height: 750rpx;">
-    <swiper-item>
-      <image src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" mode="aspectFill" class="w-full h-full"></image>
-    </swiper-item>
-  </swiper>
+  <view class="relative">
+    <swiper class="swiper" indicator-dots="{{false}}" autoplay="{{false}}" bindchange="onSwiperChange" style="height: 750rpx;">
+      <swiper-item wx:for="{{good.images}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill" class="w-full h-full" bindtap="previewImage" data-url="{{item}}"></image>
+      </swiper-item>
+    </swiper>
+    <!-- Image Indicator -->
+    <view class="absolute bottom-4 right-4 bg-black-50 text-white text-xs px-3 py-1 rounded-full">
+      {{currentImage + 1}}/{{good.images.length}}
+    </view>
+  </view>
 
   <!-- Info -->
-  <view class="bg-white p-4 mb-3">
-    <view class="flex items-baseline mb-2">
-      <text class="text-red-500 font-bold text-2xl mr-1">¥1800</text>
-      <text class="text-gray-400 text-xs line-through">原价¥3200</text>
-      <view class="ml-auto bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded font-bold">自提</view>
+  <view class="bg-white p-4 mb-3 rounded-b-xl shadow-sm -mt-4 relative z-10">
+    <view class="flex items-baseline mb-2 justify-between">
+      <view class="flex items-baseline">
+        <text class="text-red-500 font-bold text-3xl mr-1 font-din">¥{{good.price}}</text>
+        <view class="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded font-bold ml-2">{{good.deliveryMethod}}</view>
+      </view>
+      <view class="flex text-gray-400 text-xs items-center">
+         <text class="iconfont icon-eye mr-1"></text>
+         <text>{{good.views || 0}}浏览</text>
+      </view>
     </view>
-    <view class="font-bold text-lg text-gray-900 leading-snug mb-2">九成新 Apple Watch Series 7，几乎没用过，箱说全</view>
-    <view class="flex items-center text-xs text-gray-400">
-      <view class="mr-4 flex items-center"><text class="iconfont icon-location mr-1"></text>幸福花园小区 · 2栋</view>
-      <view class="flex items-center"><text class="iconfont icon-clock mr-1"></text>发布于 2小时前</view>
+    
+    <view class="font-bold text-lg text-gray-900 leading-snug mb-3">{{good.title}}</view>
+    
+    <view class="flex items-center text-xs text-gray-400 justify-between">
+      <view class="flex items-center">
+        <text class="iconfont icon-location mr-1"></text>
+        <text>{{good.location}}</text>
+      </view>
+      <view class="flex items-center">
+        <text class="iconfont icon-clock mr-1"></text>
+        <text>发布于 {{good.publishTime}}</text>
+      </view>
     </view>
   </view>
 
   <!-- Seller -->
-  <view class="bg-white p-4 mb-3 flex items-center justify-between">
+  <view class="bg-white p-4 mb-3 flex items-center justify-between mx-3 rounded-xl shadow-sm">
     <view class="flex items-center">
-      <image src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" class="avatar"></image>
+      <image src="{{seller.avatarUrl}}" class="avatar w-10 h-10 rounded-full bg-gray-100"></image>
       <view class="ml-3">
-        <view class="font-bold text-gray-800 text-sm">李大爷</view>
+        <view class="font-bold text-gray-800 text-sm">{{seller.nickName}}</view>
         <view class="flex items-center mt-1">
-          <view class="bg-blue-50 text-blue-600 text-xs px-1 rounded mr-1">已认证</view>
-          <view class="text-xs text-gray-500">信用极好</view>
+          <view wx:if="{{seller.isVerified}}" class="bg-blue-50 text-blue-600 text-xs px-1 rounded mr-1 flex items-center">
+             <text class="iconfont icon-check-circle text-xs mr-1"></text>已认证
+          </view>
+          <view class="text-xs text-gray-500">{{seller.credit}}</view>
         </view>
       </view>
     </view>
-    <button class="outline-btn text-xs">查看主页</button>
+    <view class="flex items-center text-gray-400">
+      <text class="text-xs mr-1">查看主页</text>
+      <text class="iconfont icon-arrow-right text-xs"></text>
+    </view>
   </view>
 
   <!-- Content -->
-  <view class="bg-white p-4 mb-3">
-    <view class="font-bold text-sm mb-2 text-gray-900">宝贝详情</view>
-    <view class="text-sm text-gray-700 leading-relaxed mb-4">
-      去年买的，带过几次就一直放着吃灰了。电池健康度100%，屏幕无划痕，原装表带，充电器都在。支持当面验货。
-      <text decode="{{true}}">\n\n</text>
-      仅限同小区或附近自提，不邮寄，怕快递磕碰说不清。
+  <view class="bg-white p-4 mb-3 mx-3 rounded-xl shadow-sm">
+    <view class="font-bold text-sm mb-3 text-gray-900">宝贝详情</view>
+    <view class="text-base text-gray-800 leading-relaxed mb-4 whitespace-pre-wrap">{{good.description}}</view>
+    
+    <view class="h-px bg-gray-50 w-full mb-3"></view>
+    
+    <view class="flex text-xs text-gray-500 space-x-4 bg-gray-50 p-3 rounded-lg">
+      <text class="mr-4">分类: {{good.category}}</text>
+      <text>交易方式: {{good.deliveryMethod}}</text>
     </view>
-    <view class="h-px bg-gray-100 w-full mb-3"></view>
-    <view class="flex text-xs text-gray-500 space-x-4">
-      <text class="mr-4">品牌: Apple</text>
-      <text>成色: 99新</text>
-    </view>
+  </view>
+  
+  <!-- Safety Tip -->
+  <view class="p-4 text-center">
+     <text class="text-xs text-gray-400">如遇诈骗等违规行为，请点击右上角举报</text>
   </view>
 
   <!-- Bottom Bar -->
-  <view class="fixed bottom-0 w-full bg-white border-t border-gray-200 px-4 py-2 pb-safe flex items-center justify-between z-20">
+  <view class="fixed bottom-0 w-full bg-white border-t border-gray-100 px-4 py-2 pb-safe flex items-center justify-between z-20 shadow-lg">
+    <!-- Left Actions: Collect & Share -->
     <view class="flex items-center mr-4">
-      <view class="flex-col items-center text-gray-500 mr-5">
-        <text class="iconfont icon-star text-lg"></text>
-        <text class="text-xs">收藏</text>
+      <view class="action-btn flex-col items-center justify-center mr-6" bindtap="toggleFavorite">
+        <text class="iconfont {{isFavorited ? 'icon-star-fill text-yellow-400' : 'icon-star text-gray-800'}} text-2xl mb-1"></text>
+        <text class="text-xs text-gray-500">收藏</text>
       </view>
-      <view class="flex-col items-center text-gray-500">
-        <text class="iconfont icon-share text-lg"></text>
-        <text class="text-xs">分享</text>
-      </view>
+      <button class="action-btn flex-col items-center justify-center bg-transparent p-0 m-0 leading-normal" open-type="share" style="width: auto;">
+        <text class="iconfont icon-share text-gray-800 text-2xl mb-1"></text>
+        <text class="text-xs text-gray-500">分享</text>
+      </button>
     </view>
-    <view class="flex-1 flex space-x-2">
-      <button class="flex-1 bg-yellow-400 text-white font-bold py-2 rounded-full text-sm">聊一聊</button>
-      <button class="flex-1 bg-red-500 text-white font-bold py-2 rounded-full text-sm">我想要</button>
+    
+    <!-- Right Actions: Buttons -->
+    <view class="flex-1 flex justify-end items-center space-x-3">
+      <button class="action-pill-btn bg-yellow-400 text-gray-900" bindtap="onContactSeller">
+        <text class="iconfont icon-message mr-1 text-sm"></text>聊一聊
+      </button>
+      <button class="action-pill-btn bg-orange-500 text-white" bindtap="onBuyNow">
+        我想要
+      </button>
     </view>
   </view>
+</view>
+
+<view wx:else class="flex items-center justify-center h-screen bg-white">
+  <view class="loading-spinner"></view>
 </view>
