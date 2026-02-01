@@ -20,10 +20,19 @@ Page({
     this.setData({ isLoading: true });
     try {
       // 1. 获取用户信息
-      // 注意：若 users 集合权限未开放读取，需使用云函数 get_user_public_info
-      const userRes = await db.collection('users').where({ _openid: userId }).get();
-      
-      let userInfo = userRes.data[0];
+      let userInfo = null;
+      try {
+        const { result } = await wx.cloud.callFunction({
+          name: 'get_user_info',
+          data: { openid: userId }
+        });
+        if (result.success) {
+          userInfo = result.data;
+        }
+      } catch (e) {
+        console.error('获取用户信息失败', e);
+      }
+
       if (!userInfo) {
          userInfo = {
             nickName: '社区用户',
@@ -33,6 +42,7 @@ Page({
       }
 
       // 2. 获取该用户的在售商品
+      // goods 集合通常权限是可读的，如果不行也需要云函数，但通常“所有用户可读”是商品表的标配
       const goodsRes = await db.collection('goods').where({
         _openid: userId,
         status: 'active'

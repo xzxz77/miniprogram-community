@@ -54,18 +54,22 @@ Page({
       // 获取卖家信息
       let seller = null;
       try {
-        const userRes = await db.collection('users').where({ _openid: good._openid }).get();
-        if (userRes.data.length > 0) {
-          seller = userRes.data[0];
-          // 补充默认字段
-          seller.credit = seller.credit || '信用极好';
-          seller.isVerified = seller.verified || false;
+        // 使用云函数获取卖家信息（绕过数据库权限限制）
+        const { result } = await wx.cloud.callFunction({
+          name: 'get_user_info',
+          data: { openid: good._openid }
+        });
+
+        if (result.success) {
+          seller = result.data;
+        } else {
+          console.warn('获取卖家信息未成功:', result.msg);
         }
       } catch (e) {
-        console.error('获取卖家信息失败', e);
+        console.error('调用 get_user_info 失败', e);
       }
 
-      // 如果没查到（比如权限问题），使用默认信息
+      // 如果没查到，使用默认信息
       if (!seller) {
         seller = {
           nickName: '社区邻居',
