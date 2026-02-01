@@ -10,19 +10,39 @@ Page({
     scrollIntoView: '',
     keyboardHeight: 0,
     targetUserId: '',
+    targetUserInfo: null, // 对方信息
     myOpenId: '',
+    myUserInfo: null,     // 自己信息
     chatId: '',
-    isInit: false
+    isInit: false,
+    statusBarHeight: 20,
+    navHeight: 44,        // 导航栏内容高度
+    totalNavHeight: 64    // 状态栏 + 导航栏
   },
 
   onLoad(options) {
+    // 1. 计算导航栏高度
+    const sysInfo = wx.getSystemInfoSync();
+    const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+    const navHeight = (menuButtonInfo.top - sysInfo.statusBarHeight) * 2 + menuButtonInfo.height;
+    const totalNavHeight = sysInfo.statusBarHeight + navHeight;
+
+    this.setData({
+      statusBarHeight: sysInfo.statusBarHeight,
+      navHeight,
+      totalNavHeight
+    });
+
     if (!options.id) {
       wx.showToast({ title: '无效的用户ID', icon: 'none' });
       return;
     }
     
     this.setData({ targetUserId: options.id });
+
+    // 2. 获取用户信息
     this.initUser();
+    this.loadTargetUserInfo(options.id);
   },
 
   onUnload() {
@@ -31,80 +51,82 @@ Page({
     }
   },
 
+  goBack() {
+    wx.navigateBack();
+  },
+
+  async loadTargetUserInfo(targetId) {
+    // 获取对方头像昵称
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'get_user_info',
+        data: { openid: targetId }
+      });
+      if (result.success) {
+        this.setData({ targetUserInfo: result.data });
+      }
+    } catch (e) {
+      console.error('获取对方信息失败', e);
+    }
+  },
+
   async initUser() {
-    wx.showLoading({ title: '连接中...' });
+    // 获取自己信息
+    if (app.globalData.userInfo) {
+      this.setData({ myUserInfo: app.globalData.userInfo });
+    }
+
     try {
       // 1. 获取自己的 OpenID
-      // 尝试调用标准 login 云函数
       let openid = '';
-      try {
+      if (app.globalData.openid) {
+        openid = app.globalData.openid;
+      } else {
         const { result } = await wx.cloud.callFunction({ name: 'login' });
         openid = result.openid;
-      } catch (e) {
-        console.warn('login 云函数调用失败，尝试使用 quickstartFunctions', e);
-        // 尝试 fallback (针对某些模板)
-        try {
-          const { result } = await wx.cloud.callFunction({ 
-            name: 'quickstartFunctions', 
-            data: { type: 'getOpenId' } 
-          });
-          openid = result.openid;
-        } catch (e2) {
-          throw new Error('无法获取OpenID，请检查云函数是否部署');
-        }
+        app.globalData.openid = openid; // 缓存
       }
-
-      if (!openid) throw new Error('OpenID 获取为空');
 
       this.setData({ myOpenId: openid });
 
-      // 2. 构造 ChatID (A_B, 字典序，保证两个用户生成的 ID 一致)
+      // 2. 构造 ChatID
       const ids = [this.data.myOpenId, this.data.targetUserId].sort();
       const chatId = ids.join('_');
       this.setData({ chatId, isInit: true });
       
-      console.log('Chat Init Success:', { myOpenId: openid, targetUserId: this.data.targetUserId, chatId });
-
       // 3. 开启监听
       this.startWatch();
-      wx.hideLoading();
 
     } catch (err) {
-      wx.hideLoading();
       console.error('初始化失败', err);
-      wx.showModal({
-        title: '初始化失败',
-        content: '请确保已部署 login 云函数，并在云开发控制台上传并部署。错误详情: ' + err.message,
-        showCancel: false
-      });
+      // Fallback: 尝试直接监听（如果 openid 获取失败但 database 权限允许）
     }
   },
 
   startWatch() {
     if (this.watcher) this.watcher.close();
 
-    // ★★★ 重要：如果收不到消息，请检查云数据库 'messages' 集合的权限设置 ★★★
-    // 建议设置为：所有用户可读，仅创建者可写 (或自定义安全规则)
     this.watcher = db.collection('messages')
       .where({ chatId: this.data.chatId })
       .orderBy('timestamp', 'asc')
       .watch({
         onChange: snapshot => {
-          console.log('收到新消息:', snapshot.docs);
-          
-          if (snapshot.type === 'init') {
-              // 初始化加载
-          }
-
           const messages = snapshot.docs.map((doc, index) => {
             const isMy = doc._openid === this.data.myOpenId;
+            
+            // 决定显示什么头像
+            let avatar = '';
+            if (isMy) {
+              avatar = this.data.myUserInfo?.avatarUrl || 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0';
+            } else {
+              avatar = this.data.targetUserInfo?.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150';
+            }
+
             return {
               id: doc._id,
               ...doc,
               isMy,
-              avatar: isMy 
-                ? 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0' 
-                : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150', 
+              avatar,
               showTime: index === 0 || (snapshot.docs[index-1] && (doc.timestamp - snapshot.docs[index-1].timestamp > 300000)),
               timeDisplay: this.formatTime(doc.timestamp)
             };
@@ -117,14 +139,6 @@ Page({
         },
         onError: err => {
           console.error('Watch error', err);
-          // 权限错误常见代码
-          if (err.errCode === -502001 || err.errMsg.includes('permission denied')) {
-             wx.showModal({
-               title: '权限错误',
-               content: '无法读取消息。请在云开发控制台 -> 数据库 -> messages -> 权限设置中，选择【所有用户可读，仅创建者可写】',
-               showCancel: false
-             });
-          }
         }
       });
   },
@@ -165,10 +179,7 @@ Page({
 
   // Actions
   async sendMessage() {
-    if (!this.data.isInit) {
-        wx.showToast({ title: '正在初始化...', icon: 'none' });
-        return;
-    }
+    if (!this.data.isInit) return;
     
     const content = this.data.inputValue.trim();
     if (!content) return;
@@ -183,13 +194,11 @@ Page({
           type: 'text',
           timestamp: db.serverDate(),
           receiverId: this.data.targetUserId,
-          senderId: this.data.myOpenId // 冗余存一个 senderId，方便查
+          senderId: this.data.myOpenId
         }
       });
-      // 发送成功后，watch 会自动更新界面，无需手动 push
     } catch (err) {
-      console.error('发送失败', err);
-      wx.showToast({ title: '发送失败: ' + err.errMsg, icon: 'none' });
+      wx.showToast({ title: '发送失败', icon: 'none' });
     }
   },
 
@@ -217,7 +226,6 @@ Page({
             }
           });
         } catch(err) {
-          console.error(err);
           wx.showToast({ title: '图片发送失败', icon: 'none' });
         } finally {
           wx.hideLoading();

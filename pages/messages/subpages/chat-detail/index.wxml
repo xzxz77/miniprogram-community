@@ -1,6 +1,15 @@
 <!-- pages/messages/subpages/chat-detail/index.wxml -->
 <view class="container">
+  <!-- Custom Navigation Bar -->
+  <view class="nav-bar fixed top-0 w-full z-20 flex items-center px-4 bg-gray-100" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
+    <view class="nav-btn rounded-full w-8 h-8 flex items-center justify-center -ml-2" bindtap="goBack">
+      <text class="iconfont icon-left text-lg text-black"></text>
+    </view>
+    <view class="nav-title text-base font-bold ml-2">{{targetUserInfo.nickName || '聊天'}}</view>
+  </view>
+
   <!-- Message List -->
+  <!-- paddingTop = totalNavHeight -->
   <scroll-view 
     class="message-list" 
     scroll-y 
@@ -8,6 +17,7 @@
     scroll-with-animation
     enable-flex
     bindtap="onTapContent"
+    style="padding-top: {{totalNavHeight}}px;"
   >
     <view class="padding-top"></view>
 

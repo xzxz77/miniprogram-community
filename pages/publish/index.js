@@ -108,8 +108,8 @@ Page({
     }
 
     // Max limit 10000
-    if (parseFloat(value) > 10000) {
-      value = "10000";
+    if (parseFloat(value) > 9999.99) {
+      value = "9999.99";
     }
 
     this.setData({ price: value })
