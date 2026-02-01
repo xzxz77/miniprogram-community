@@ -1,2 +1,71 @@
-<!--pages/messages/subpages/chat-detail/index.wxml-->
-<text>pages/messages/subpages/chat-detail/index.wxml</text>
+<!-- pages/messages/subpages/chat-detail/index.wxml -->
+<view class="container">
+  <!-- Message List -->
+  <scroll-view 
+    class="message-list" 
+    scroll-y 
+    scroll-into-view="{{scrollIntoView}}" 
+    scroll-with-animation
+    enable-flex
+    bindtap="onTapContent"
+  >
+    <view class="padding-top"></view>
+
+    <block wx:for="{{messages}}" wx:key="id">
+      <!-- Time Stamp -->
+      <view class="time-stamp" wx:if="{{item.showTime}}">{{item.timeDisplay}}</view>
+
+      <!-- Message Item -->
+      <view class="message-item {{item.isMy ? 'my-message' : 'other-message'}}" id="msg-{{item.id}}">
+        <!-- Avatar -->
+        <image class="avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+
+        <!-- Content Bubble -->
+        <view class="content-wrapper">
+          <!-- Text Message -->
+          <view class="bubble {{item.type === 'text' ? (item.isMy ? 'bubble-my' : 'bubble-other') : 'bubble-image'}}" wx:if="{{item.type === 'text'}}">
+            <text user-select>{{item.content}}</text>
+          </view>
+
+          <!-- Image Message -->
+          <image 
+            wx:if="{{item.type === 'image'}}" 
+            src="{{item.content}}" 
+            mode="widthFix" 
+            class="msg-img" 
+            bindtap="previewImage" 
+            data-src="{{item.content}}"
+          ></image>
+        </view>
+      </view>
+    </block>
+
+    <view id="scroll-bottom" class="padding-bottom"></view>
+  </scroll-view>
+
+  <!-- Input Toolbar -->
+  <view class="input-toolbar pb-safe" style="bottom: {{keyboardHeight}}px">
+    <view class="toolbar-content">
+      <!-- Input Field -->
+      <input 
+        class="input-field" 
+        value="{{inputValue}}" 
+        bindinput="onInput" 
+        bindfocus="onFocus" 
+        bindblur="onBlur"
+        bindconfirm="sendMessage"
+        confirm-type="send"
+        adjust-position="{{false}}" 
+        cursor-spacing="20"
+      />
+
+      <!-- Action Button -->
+      <view class="action-btn-wrapper ml-2">
+        <view class="icon-btn" bindtap="chooseImage" wx:if="{{!inputValue}}">
+          <text class="iconfont icon-plus"></text>
+        </view>
+        <view class="send-btn" bindtap="sendMessage" wx:else>发送</view>
+      </view>
+    </view>
+  </view>
+</view>

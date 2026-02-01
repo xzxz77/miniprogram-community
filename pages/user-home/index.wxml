@@ -1,0 +1,31 @@
+<!-- pages/user-home/index.wxml -->
+<view class="container bg-gray-50" style="min-height: 100vh;">
+  <!-- Header Info -->
+  <view class="bg-white p-6 mb-4 flex flex-col items-center">
+    <image src="{{userInfo.avatarUrl}}" class="w-20 h-20 rounded-full mb-3 bg-gray-100" mode="aspectFill"></image>
+    <view class="text-lg font-bold text-gray-900 mb-1">{{userInfo.nickName}}</view>
+    <view class="text-sm text-gray-500 mb-4">{{userInfo.bio || '暂无签名'}}</view>
+    <button class="bg-yellow-400 text-white font-bold text-sm px-6 py-2 rounded-full" bindtap="onContact">私信</button>
+  </view>
+
+  <!-- Goods List -->
+  <view class="px-4 pb-6">
+    <view class="text-base font-bold text-gray-800 mb-3">在售宝贝 ({{goodsList.length}})</view>
+    
+    <view class="grid-2-cols">
+      <block wx:for="{{goodsList}}" wx:key="_id">
+        <navigator url="/pages/goods-detail/index?id={{item._id}}" class="bg-white rounded-lg overflow-hidden shadow-sm mb-3 break-inside">
+           <image src="{{item.images[0]}}" mode="aspectFill" class="w-full h-40 bg-gray-100 block"></image>
+           <view class="p-2">
+             <view class="text-sm text-gray-900 text-truncate mb-1">{{item.title}}</view>
+             <view class="text-red-500 font-bold text-sm">¥{{item.price}}</view>
+           </view>
+        </navigator>
+      </block>
+    </view>
+    
+    <view wx:if="{{goodsList.length === 0}}" class="text-center text-gray-400 py-10 text-sm">
+      暂无在售商品
+    </view>
+  </view>
+</view>

@@ -51,14 +51,29 @@ Page({
         }
       });
 
-      // 模拟获取卖家信息
-      // 实际应: await db.collection('users').where({_openid: good._openid}).get()
-      const seller = {
-        nickName: '社区邻居',
-        avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0',
-        credit: '信用极好',
-        isVerified: true
-      };
+      // 获取卖家信息
+      let seller = null;
+      try {
+        const userRes = await db.collection('users').where({ _openid: good._openid }).get();
+        if (userRes.data.length > 0) {
+          seller = userRes.data[0];
+          // 补充默认字段
+          seller.credit = seller.credit || '信用极好';
+          seller.isVerified = seller.verified || false;
+        }
+      } catch (e) {
+        console.error('获取卖家信息失败', e);
+      }
+
+      // 如果没查到（比如权限问题），使用默认信息
+      if (!seller) {
+        seller = {
+          nickName: '社区邻居',
+          avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0',
+          credit: '信用极好',
+          isVerified: false
+        };
+      }
 
       this.setData({
         good: good,
@@ -105,9 +120,17 @@ Page({
   },
 
   onContactSeller() {
-    // 跳转到聊天页面
-    wx.showToast({ title: '开发中...', icon: 'none' });
-    // wx.navigateTo({ url: `/pages/messages/chat/index?id=${this.data.good._openid}` });
+    if (!this.data.good || !this.data.good._openid) return;
+    wx.navigateTo({ 
+      url: `/pages/messages/subpages/chat-detail/index?id=${this.data.good._openid}` 
+    });
+  },
+  
+  onViewSeller() {
+    if (!this.data.good || !this.data.good._openid) return;
+    wx.navigateTo({
+      url: `/pages/user-home/index?id=${this.data.good._openid}`
+    });
   },
   
   onBuyNow() {

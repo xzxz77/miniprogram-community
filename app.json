@@ -15,7 +15,8 @@
     "pages/profile/subpages/my-posts/index",
     "pages/profile/subpages/address-list/index",
     "pages/profile/subpages/judge-center/index",
-    "pages/profile/subpages/settings/index"
+    "pages/profile/subpages/settings/index",
+    "pages/user-home/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
