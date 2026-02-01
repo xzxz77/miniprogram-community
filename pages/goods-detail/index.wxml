@@ -87,27 +87,25 @@
   </view>
 
   <!-- Bottom Bar -->
-  <view class="fixed bottom-0 w-full bg-white border-t border-gray-100 px-4 py-2 pb-safe flex items-center justify-between z-20 shadow-lg">
-    <!-- Left Actions: Collect & Share -->
-    <view class="flex items-center mr-4">
-      <view class="action-btn flex-col items-center justify-center mr-6" bindtap="toggleFavorite">
-        <text class="iconfont {{isFavorited ? 'icon-star-fill text-yellow-400' : 'icon-star text-gray-800'}} text-2xl mb-1"></text>
-        <text class="text-xs text-gray-500">收藏</text>
+  <view class="bottom-bar-wrapper">
+    <view class="bottom-bar pb-safe">
+      <!-- Left: Icons -->
+      <view class="action-icons">
+        <view class="icon-item" bindtap="toggleFavorite">
+          <image src="/assets/icons/{{isFavorited ? 'heart.png' : 'heart-active.png'}}" class="icon-img" mode="aspectFit"></image>
+          <text class="icon-text">收藏</text>
+        </view>
       </view>
-      <button class="action-btn flex-col items-center justify-center bg-transparent p-0 m-0 leading-normal" open-type="share" style="width: auto;">
-        <text class="iconfont icon-share text-gray-800 text-2xl mb-1"></text>
-        <text class="text-xs text-gray-500">分享</text>
-      </button>
-    </view>
-    
-    <!-- Right Actions: Buttons -->
-    <view class="flex-1 flex justify-end items-center space-x-3">
-      <button class="action-pill-btn bg-yellow-400 text-gray-900" bindtap="onContactSeller">
-        <text class="iconfont icon-message mr-1 text-sm"></text>聊一聊
-      </button>
-      <button class="action-pill-btn bg-orange-500 text-white" bindtap="onBuyNow">
-        我想要
-      </button>
+
+      <!-- Right: Action Buttons -->
+      <view class="action-buttons">
+        <view class="trade-btn chat-btn" bindtap="onContactSeller">
+          <text>聊一聊</text>
+        </view>
+        <view class="trade-btn buy-btn" bindtap="onBuyNow">
+          <text>我想要</text>
+        </view>
+      </view>
     </view>
   </view>
 </view>
