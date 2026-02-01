@@ -3,13 +3,13 @@
   <block wx:for="{{userList}}" wx:key="id">
     <view class="user-item">
       <view class="user-info">
-        <image class="avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+        <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
         <view class="info-text">
-          <view class="name">{{item.name}}</view>
-          <view class="desc">{{item.location}} · {{item.credit}}</view>
+          <view class="name">{{item.nickName}}</view>
+          <view class="desc">{{item.bio || '暂无简介'}}</view>
         </view>
       </view>
-      <button class="action-btn {{item.followed ? 'followed' : ''}}" bindtap="toggleFollow" data-id="{{item.id}}">
+      <button class="action-btn {{item.followed ? 'followed' : ''}}" bindtap="toggleFollow" data-id="{{item.id}}" data-index="{{index}}">
         {{item.followed ? '已关注' : '关注'}}
       </button>
     </view>

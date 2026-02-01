@@ -4,55 +4,87 @@ const db = wx.cloud.database()
 
 Page({
   data: {
-    statusBarHeight: 20, // Default fallback
+    statusBarHeight: 20, 
     userInfo: {
       nickName: '点击登录/注册',
-      avatarUrl: '', // Default placeholder or empty
+      avatarUrl: '', 
       bio: '点击设置个性签名',
       days: 1,
       verified: false
     },
+    isLogged: false, 
     stats: {
       collection: 0,
       follow: 0,
       fans: 0,
-      selling: 0
+      selling: 0 // Will be updated
     },
     showEditModal: false,
     tempUserInfo: {}
   },
 
   onLoad: function () {
-    // Get system info for custom nav bar
-    const sysInfo = wx.getSystemInfoSync();
+    const sysInfo = wx.getWindowInfo();
     this.setData({
       statusBarHeight: sysInfo.statusBarHeight
     });
 
-    this.loadUserProfile();
+    // Check global login status
+    if (app.globalData.isLogged && app.globalData.userInfo) {
+      this.setUserInfo(app.globalData.userInfo);
+    } else {
+      app.userLoginReadyCallback = (userInfo) => {
+        if (userInfo) {
+          this.setUserInfo(userInfo);
+        }
+      };
+    }
   },
 
-  loadUserProfile() {
-    wx.showLoading({ title: '加载中' });
-    db.collection('users').get().then(res => {
-      wx.hideLoading();
-      if (res.data.length > 0) {
-        const user = res.data[0];
+  onShow() {
+    // Refresh stats when showing page
+    if (app.globalData.isLogged) {
+      this.loadStats();
+    }
+  },
+
+  setUserInfo(user) {
+    this.setData({
+      isLogged: true,
+      userInfo: {
+        ...this.data.userInfo,
+        ...user,
+        bio: user.bio || '点击设置个性签名'
+      }
+    });
+    this.loadStats();
+  },
+
+  loadStats() {
+    if (!app.globalData.openid) return;
+
+    wx.cloud.callFunction({
+      name: 'get_user_stats'
+    }).then(res => {
+      console.log('Stats res:', res);
+      if (res.result && res.result.success) {
         this.setData({
-          userInfo: {
-            ...this.data.userInfo,
-            ...user,
-            bio: user.bio || '点击设置个性签名' 
-          }
+          stats: res.result.data
         });
+      } else {
+        console.warn('获取统计失败', res);
       }
     }).catch(err => {
-      wx.hideLoading();
-      console.error('Failed to load user profile', err);
+      console.error('云函数调用异常', err);
     });
   },
 
   onEditProfile() {
+    if (!this.data.isLogged) {
+      this.handleLogin();
+      return;
+    }
+
     this.setData({
       showEditModal: true,
       tempUserInfo: { 
@@ -62,13 +94,32 @@ Page({
     });
   },
 
+  handleLogin() {
+    wx.showLoading({ title: '登录中' });
+    app.checkUserLogin().then(() => {
+        wx.hideLoading();
+        if (app.globalData.isLogged) {
+            this.setUserInfo(app.globalData.userInfo);
+        } else {
+            this.setData({
+                showEditModal: true,
+                tempUserInfo: {
+                    nickName: '微信用户',
+                    avatarUrl: '',
+                    bio: ''
+                }
+            });
+        }
+    });
+  },
+
   closeEditModal() {
     this.setData({
       showEditModal: false
     });
   },
 
-  noop() {}, // Prevent event bubbling
+  noop() {}, 
 
   onChooseAvatar(e) {
     const { avatarUrl } = e.detail;
@@ -88,7 +139,6 @@ Page({
       fail: err => {
         wx.hideLoading();
         wx.showToast({ title: '上传失败', icon: 'none' });
-        console.error(err);
       }
     });
   },
@@ -113,6 +163,11 @@ Page({
 
   saveProfile() {
     const { tempUserInfo } = this.data;
+    if (!tempUserInfo.nickName || !tempUserInfo.avatarUrl) {
+        wx.showToast({ title: '请补全头像和昵称', icon: 'none' });
+        return;
+    }
+
     wx.showLoading({ title: '保存中' });
 
     const userData = {
@@ -121,25 +176,33 @@ Page({
       bio: tempUserInfo.bio,
     };
 
-    // 使用云函数更新用户信息
-    wx.cloud.callFunction({
-      name: 'user_updata',
-      data: {
-        data: userData
-      }
-    }).then(res => {
-      if (res.result.success) {
-        this.finishSave(userData);
-      } else {
-        wx.hideLoading();
-        wx.showToast({ title: res.result.msg || '保存失败', icon: 'none' });
-        console.error('云函数调用失败', res.result);
-      }
-    }).catch(err => {
-      wx.hideLoading();
-      console.error('云函数调用异常', err);
-      wx.showToast({ title: '网络异常', icon: 'none' });
-    });
+    if (!this.data.isLogged) {
+        app.registerUser(userData).then(success => {
+            wx.hideLoading();
+            if (success) {
+                this.finishSave(userData);
+            } else {
+                wx.showToast({ title: '注册失败', icon: 'none' });
+            }
+        });
+    } else {
+        wx.cloud.callFunction({
+          name: 'user_updata',
+          data: {
+            data: userData
+          }
+        }).then(res => {
+          if (res.result.success) {
+            this.finishSave(userData);
+          } else {
+            wx.hideLoading();
+            wx.showToast({ title: res.result.msg || '保存失败', icon: 'none' });
+          }
+        }).catch(err => {
+          wx.hideLoading();
+          wx.showToast({ title: '网络异常', icon: 'none' });
+        });
+    }
   },
 
   finishSave(userData) {
@@ -147,11 +210,14 @@ Page({
     wx.showToast({ title: '保存成功' });
     this.setData({
       showEditModal: false,
+      isLogged: true,
       userInfo: {
         ...this.data.userInfo,
         ...userData,
         bio: userData.bio || '点击设置个性签名'
       }
     });
+    app.globalData.userInfo = this.data.userInfo;
+    app.globalData.isLogged = true;
   }
 })

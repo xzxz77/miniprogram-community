@@ -5,7 +5,12 @@
     <image src="{{userInfo.avatarUrl}}" class="w-20 h-20 rounded-full mb-3 bg-gray-100" mode="aspectFill"></image>
     <view class="text-lg font-bold text-gray-900 mb-1">{{userInfo.nickName}}</view>
     <view class="text-sm text-gray-500 mb-4">{{userInfo.bio || '暂无签名'}}</view>
-    <button class="bg-yellow-400 text-white font-bold text-sm px-6 py-2 rounded-full" bindtap="onContact">私信</button>
+    <view class="flex space-x-3">
+      <button class="bg-yellow-400 text-white font-bold text-sm px-6 py-2 rounded-full m-0" bindtap="onContact">私信</button>
+      <button class="{{isFollowing ? 'bg-gray-200 text-gray-500' : 'bg-orange-500 text-white'}} font-bold text-sm px-6 py-2 rounded-full m-0" bindtap="onToggleFollow">
+        {{isFollowing ? '已关注' : '关注'}}
+      </button>
+    </view>
   </view>
 
   <!-- Goods List -->

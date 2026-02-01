@@ -1,24 +1,12 @@
 // pages/profile/subpages/collection-list/index.js
+const app = getApp();
+const db = wx.cloud.database();
+
 Page({
   data: {
     type: 'collection',
-    itemList: [
-      {
-        id: 1,
-        title: '全实木双人床，带床垫',
-        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-        price: 500,
-        distance: '200m',
-        tag: '降价了'
-      },
-      {
-        id: 2,
-        title: '实木书柜，复古风格',
-        image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-        price: 200,
-        distance: '1.2km'
-      }
-    ]
+    itemList: [],
+    isLoading: true
   },
 
   onLoad: function (options) {
@@ -28,5 +16,56 @@ Page({
         title: options.type === 'selling' ? '我的在售' : '我的收藏'
       });
     }
+    
+    this.loadData();
+  },
+
+  onShow() {
+    // 每次显示时刷新数据（比如从详情页下架回来）
+    this.loadData();
+  },
+
+  async loadData() {
+    this.setData({ isLoading: true });
+    
+    // 确保已获取 openid
+    if (!app.globalData.openid) {
+      try {
+        const { result } = await wx.cloud.callFunction({ name: 'login' });
+        app.globalData.openid = result.openid;
+      } catch(e) {
+        wx.showToast({ title: '登录失败', icon: 'none' });
+        return;
+      }
+    }
+
+    if (this.data.type === 'selling') {
+      this.loadSellingGoods();
+    } else {
+      this.loadCollectionGoods();
+    }
+  },
+
+  loadSellingGoods() {
+    db.collection('goods').where({
+      _openid: app.globalData.openid,
+      status: 'active' // 仅显示在售
+    }).orderBy('createTime', 'desc').get()
+    .then(res => {
+      this.setData({
+        itemList: res.data,
+        isLoading: false
+      });
+    }).catch(err => {
+      console.error(err);
+      this.setData({ isLoading: false });
+    });
+  },
+
+  loadCollectionGoods() {
+    // 暂时保留 Mock 或实现收藏逻辑
+    // 假设有一个 favorites 集合
+    this.setData({ isLoading: false });
+    // TODO: 实现收藏列表
   }
 })

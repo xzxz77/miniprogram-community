@@ -6,13 +6,61 @@ Page({
     userId: '',
     userInfo: null,
     goodsList: [],
-    isLoading: true
+    isLoading: true,
+    isFollowing: false
   },
 
   onLoad(options) {
     if (options.id) {
       this.setData({ userId: options.id });
       this.fetchData(options.id);
+      this.checkFollowStatus(options.id);
+    }
+  },
+
+  checkFollowStatus(targetId) {
+    // 检查关注状态
+    // 需要先确保已登录 (简单起见，这里假设 app.js 会自动静默登录或已登录)
+    // 实际应引用 app.globalData.openid
+    const app = getApp();
+    const myOpenId = app.globalData.openid;
+    if (!myOpenId) return;
+
+    db.collection('follows').where({
+      _openid: myOpenId, // 我关注
+      followedId: targetId // 他
+    }).count().then(res => {
+      this.setData({ isFollowing: res.total > 0 });
+    });
+  },
+
+  onToggleFollow() {
+    const app = getApp();
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    if (this.data.isFollowing) {
+      // 取消关注
+      db.collection('follows').where({
+        _openid: app.globalData.openid,
+        followedId: this.data.userId
+      }).remove().then(() => {
+        this.setData({ isFollowing: false });
+        wx.showToast({ title: '已取消关注', icon: 'none' });
+      });
+    } else {
+      // 关注
+      db.collection('follows').add({
+        data: {
+          followedId: this.data.userId,
+          createTime: db.serverDate()
+        }
+      }).then(() => {
+        this.setData({ isFollowing: true });
+        wx.showToast({ title: '已关注' });
+      });
     }
   },
 

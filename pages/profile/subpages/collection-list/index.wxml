@@ -1,22 +1,28 @@
 <!-- pages/profile/subpages/collection-list/index.wxml -->
-<view class="container p-4">
-  <view class="grid-container">
-    <block wx:for="{{itemList}}" wx:key="id">
-      <view class="item-card bg-white rounded-xl shadow-sm overflow-hidden">
+<view class="container p-4 min-h-screen bg-gray-50">
+  <view wx:if="{{isLoading}}" class="text-center text-gray-400 py-10">加载中...</view>
+  
+  <view wx:elif="{{itemList.length === 0}}" class="text-center text-gray-400 py-10">
+    {{type === 'selling' ? '暂无在售商品' : '暂无收藏'}}
+  </view>
+
+  <view class="grid-container" wx:else>
+    <block wx:for="{{itemList}}" wx:key="_id">
+      <navigator url="/pages/goods-detail/index?id={{item._id}}" class="item-card bg-white rounded-xl shadow-sm overflow-hidden mb-3">
         <view class="img-container relative bg-gray-200">
-          <image class="item-img" src="{{item.image}}" mode="aspectFill"></image>
-          <view wx:if="{{item.tag}}" class="status-tag">{{item.tag}}</view>
+          <image class="item-img" src="{{item.images[0]}}" mode="aspectFill"></image>
+          <view wx:if="{{item.status === 'sold'}}" class="status-tag">已售出</view>
         </view>
         <view class="p-3">
           <view class="item-title line-clamp-2">{{item.title}}</view>
           <view class="flex justify-between items-end mt-2">
-            <view class="price">
-              <text class="currency">¥</text>{{item.price}}
+            <view class="price text-red-500 font-bold">
+              <text class="text-xs">¥</text>{{item.price}}
             </view>
-            <view class="distance">{{item.distance}}</view>
+            <view class="distance text-xs text-gray-400">{{item.location || '同城'}}</view>
           </view>
         </view>
-      </view>
+      </navigator>
     </block>
   </view>
 </view>

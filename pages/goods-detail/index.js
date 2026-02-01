@@ -93,6 +93,16 @@ Page({
         };
       }
 
+      // 获取收藏状态
+      if (app.globalData.openid) {
+        db.collection('favorites').where({
+          _openid: app.globalData.openid,
+          goodId: id
+        }).count().then(res => {
+          this.setData({ isFavorited: res.total > 0 });
+        });
+      }
+
       this.setData({
         good: good,
         seller: seller,
@@ -189,11 +199,33 @@ Page({
   },
 
   toggleFavorite() {
-    this.setData({ isFavorited: !this.data.isFavorited });
-    wx.showToast({
-      title: this.data.isFavorited ? '已收藏' : '已取消收藏',
-      icon: 'none'
-    });
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    const db = wx.cloud.database();
+    if (this.data.isFavorited) {
+      // 取消收藏
+      db.collection('favorites').where({
+        _openid: app.globalData.openid,
+        goodId: this.data.good._id
+      }).remove().then(() => {
+        this.setData({ isFavorited: false });
+        wx.showToast({ title: '已取消收藏', icon: 'none' });
+      });
+    } else {
+      // 添加收藏
+      db.collection('favorites').add({
+        data: {
+          goodId: this.data.good._id,
+          createTime: db.serverDate()
+        }
+      }).then(() => {
+        this.setData({ isFavorited: true });
+        wx.showToast({ title: '已收藏' });
+      });
+    }
   },
 
   onContactSeller() {
