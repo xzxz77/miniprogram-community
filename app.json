@@ -16,7 +16,8 @@
     "pages/profile/subpages/address-list/index",
     "pages/profile/subpages/judge-center/index",
     "pages/profile/subpages/settings/index",
-    "pages/user-home/index"
+    "pages/user-home/index",
+    "pages/publish-entry/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -43,7 +44,7 @@
         "selectedIconPath": "assets/icons/community-active.png"
       },
       {
-        "pagePath": "pages/publish/index",
+        "pagePath": "pages/publish-entry/index",
         "text": "发布",
         "iconPath": "assets/icons/plus.png",
         "selectedIconPath": "assets/icons/plus.png"

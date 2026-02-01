@@ -88,13 +88,18 @@
 
   <!-- Bottom Bar -->
   <view class="bottom-bar-wrapper">
-    <view class="bottom-bar pb-safe">
+    <!-- Buyer Bottom Bar -->
+    <view class="bottom-bar pb-safe" wx:if="{{!isOwner}}">
       <!-- Left: Icons -->
       <view class="action-icons">
         <view class="icon-item" bindtap="toggleFavorite">
-          <image src="/assets/icons/{{isFavorited ? 'heart.png' : 'heart-active.png'}}" class="icon-img" mode="aspectFit"></image>
+          <image src="/assets/icons/{{isFavorited ? 'heart-active.png' : 'heart.png'}}" class="icon-img" mode="aspectFit"></image>
           <text class="icon-text">收藏</text>
         </view>
+        <button class="icon-item share-btn" open-type="share">
+          <image src="/assets/icons/share.png" class="icon-img" mode="aspectFit"></image>
+          <text class="icon-text">分享</text>
+        </button>
       </view>
 
       <!-- Right: Action Buttons -->
@@ -104,6 +109,21 @@
         </view>
         <view class="trade-btn buy-btn" bindtap="onBuyNow">
           <text>我想要</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Seller Bottom Bar -->
+    <view class="bottom-bar pb-safe" wx:else>
+      <view class="action-buttons full-width" style="display: flex; gap: 20rpx; width: 100%;">
+        <view class="trade-btn edit-btn bg-blue-500" bindtap="onEditGood" style="flex: 1; background-color: #3b82f6;">
+          <text>编辑</text>
+        </view>
+        <view class="trade-btn off-btn bg-gray-500" bindtap="onOffShelf" style="flex: 1; background-color: #6b7280;">
+          <text>下架</text>
+        </view>
+        <view class="trade-btn delete-btn bg-red-500" bindtap="onDeleteGood" style="flex: 1; background-color: #ef4444;">
+          <text>删除</text>
         </view>
       </view>
     </view>

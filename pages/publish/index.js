@@ -14,12 +14,52 @@ Page({
     deliveryIndex: 2, 
     
     agreed: false,
-    canPublish: false
+    canPublish: false,
+    goodId: null, // If present, update mode
+    pageTitle: '发布闲置'
   },
 
   onLoad(options) {
-    // Initial check
-    this.checkValidity();
+    if (options.id) {
+      this.setData({ 
+        goodId: options.id,
+        pageTitle: '编辑商品'
+      });
+      this.loadGoodData(options.id);
+    } else {
+      this.checkValidity();
+    }
+  },
+
+  async loadGoodData(id) {
+    wx.showLoading({ title: '加载中' });
+    try {
+      const db = wx.cloud.database();
+      const res = await db.collection('goods').doc(id).get();
+      const good = res.data;
+      
+      // Map data to state
+      const categoryIndex = this.data.categories.indexOf(good.category);
+      const deliveryIndex = this.data.deliveryMethods.indexOf(good.deliveryMethod);
+
+      this.setData({
+        title: good.title,
+        description: good.description,
+        price: good.price.toString(),
+        images: good.images,
+        categoryIndex: categoryIndex >= 0 ? categoryIndex : -1,
+        deliveryIndex: deliveryIndex >= 0 ? deliveryIndex : 2,
+        location: good.location || '幸福花园小区',
+        agreed: true // Edit mode assumes agreed
+      });
+      
+      this.checkValidity();
+      wx.hideLoading();
+    } catch (err) {
+      console.error(err);
+      wx.hideLoading();
+      wx.showToast({ title: '加载失败', icon: 'none' });
+    }
   },
 
   onShow() {
@@ -213,6 +253,11 @@ Page({
         views: 0
       };
 
+      // Add ID if update mode
+      if (this.data.goodId) {
+        goodData._id = this.data.goodId;
+      }
+
       const res = await wx.cloud.callFunction({
         name: 'add_good_updata',
         data: {
@@ -227,6 +272,8 @@ Page({
         // Clear draft
         wx.removeStorageSync('publish_draft');
         
+        const publishedId = res.result.id || this.data.goodId;
+
         // Reset data
         this.setData({
           images: [], 
@@ -235,12 +282,15 @@ Page({
           price: '',
           categoryIndex: -1, 
           agreed: false,
-          canPublish: false
+          canPublish: false,
+          goodId: null,
+          pageTitle: '发布闲置'
         });
 
         setTimeout(() => {
-          wx.switchTab({
-            url: '/pages/home/index'
+          // 跳转到详情页，避免 navigateTo 栈过深使用 redirectTo
+          wx.redirectTo({
+            url: `/pages/goods-detail/index?id=${publishedId}`
           });
         }, 1500);
       } else {

@@ -7,12 +7,13 @@ Page({
     good: null, // 商品详情
     seller: null, // 卖家信息
     isLoading: true,
-    isFavorited: false, // 是否收藏
-    currentImage: 0, // 当前轮播图索引
+    isFavorited: false,
+    currentImage: 0,
+    isOwner: false // 是否是商品发布者
   },
 
   onLoad: function(options) {
-    const sysInfo = wx.getSystemInfoSync();
+    const sysInfo = wx.getWindowInfo();
     this.setData({
       statusBarHeight: sysInfo.statusBarHeight
     });
@@ -43,6 +44,19 @@ Page({
 
       // 格式化时间
       good.publishTime = this.formatTime(good.createTime);
+
+      // 判断是否是发布者
+      let isOwner = false;
+      if (app.globalData.openid && app.globalData.openid === good._openid) {
+        isOwner = true;
+      } else {
+        // Double check using login function if globalData is empty (rare case)
+        try {
+           const { result } = await wx.cloud.callFunction({ name: 'login' });
+           if (result.openid === good._openid) isOwner = true;
+           app.globalData.openid = result.openid; // cache it
+        } catch(e) {}
+      }
 
       // 增加浏览量 (静默更新)
       db.collection('goods').doc(id).update({
@@ -82,6 +96,7 @@ Page({
       this.setData({
         good: good,
         seller: seller,
+        isOwner: isOwner,
         isLoading: false
       });
     } catch (err) {
@@ -89,6 +104,64 @@ Page({
       wx.showToast({ title: '获取详情失败', icon: 'none' });
       this.setData({ isLoading: false });
     }
+  },
+
+  // ... (formatTime, onSwiperChange, previewImage, toggleFavorite) ...
+
+  onEditGood() {
+    wx.navigateTo({
+      url: `/pages/publish/index?id=${this.data.good._id}&mode=edit` // 需在发布页处理 edit 模式
+    });
+  },
+
+  onOffShelf() {
+    wx.showModal({
+      title: '提示',
+      content: '确定要下架该商品吗？下架后别人将无法看到',
+      success: async (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '处理中' });
+          try {
+            const db = wx.cloud.database();
+            await db.collection('goods').doc(this.data.good._id).update({
+              data: { status: 'offline' }
+            });
+            wx.hideLoading();
+            wx.showToast({ title: '已下架' });
+            setTimeout(() => wx.navigateBack(), 1500);
+          } catch (err) {
+            wx.hideLoading();
+            wx.showToast({ title: '操作失败', icon: 'none' });
+          }
+        }
+      }
+    });
+  },
+
+  onDeleteGood() {
+    wx.showModal({
+      title: '警告',
+      content: '确定要删除该商品吗？此操作不可恢复',
+      confirmColor: '#ff0000',
+      success: async (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '删除中' });
+          try {
+            const db = wx.cloud.database();
+            // 软删除
+            await db.collection('goods').doc(this.data.good._id).update({
+              data: { status: 'deleted' }
+            });
+            wx.hideLoading();
+            wx.showToast({ title: '已删除' });
+            setTimeout(() => wx.navigateBack(), 1500);
+          } catch (err) {
+            wx.hideLoading();
+            wx.showToast({ title: '删除失败', icon: 'none' });
+          }
+        }
+      }
+    });
   },
 
   formatTime(date) {

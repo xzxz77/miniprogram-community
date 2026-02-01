@@ -14,11 +14,20 @@ Page({
   },
 
   onLoad: function() {
-    const sysInfo = wx.getSystemInfoSync();
+    const sysInfo = wx.getWindowInfo();
     this.setData({
       statusBarHeight: sysInfo.statusBarHeight
     });
     this.getGoodsList();
+  },
+
+  onShow() {
+    if (typeof wx.getTabBar === 'function' && wx.getTabBar()) {
+      wx.getTabBar().setData({
+        selected: 0 // Ensure Home tab is selected if using custom tabbar, else system tabbar
+      });
+      wx.showTabBar(); // Force show system TabBar
+    }
   },
 
   onPullDownRefresh: function() {

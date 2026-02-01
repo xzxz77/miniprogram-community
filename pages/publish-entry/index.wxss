@@ -1,0 +1,4 @@
+/* pages/publish-entry/index.wxss */
+page {
+  background: transparent;
+}

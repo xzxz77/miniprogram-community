@@ -21,6 +21,25 @@ exports.main = async (event, context) => {
       }
     }
 
+    // 如果传入了 _id，则是更新操作
+    if (goodData._id) {
+      const docId = goodData._id
+      delete goodData._id // 删除 _id 字段，不能更新主键
+
+      await goodsCollection.doc(docId).update({
+        data: {
+          ...goodData,
+          updateTime: db.serverDate()
+        }
+      })
+
+      return {
+        success: true,
+        msg: '更新成功',
+        id: docId
+      }
+    }
+
     // 新增商品记录
     const res = await goodsCollection.add({
       data: {

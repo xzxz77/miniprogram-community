@@ -3,9 +3,8 @@
   <scroll-view scroll-y class="content" enable-flex>
     <!-- Navigation Bar (Inside ScrollView) -->
     <view class="nav-bar">
-      <view class="nav-left" bindtap="onCancel">取消</view>
       <view class="nav-right">
-        <button class="publish-btn {{canPublish ? '' : 'disabled'}}" bindtap="onPublish">发布</button>
+        <button class="publish-btn {{canPublish ? '' : 'disabled'}}" bindtap="onPublish" style="position: relative; left: 442rpx; top: 0rpx; width: 213rpx; display: block; box-sizing: border-box">发布</button>
       </view>
     </view>
 
