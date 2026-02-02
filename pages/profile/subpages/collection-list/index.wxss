@@ -40,6 +40,10 @@ page {
   border-radius: 8rpx;
 }
 
+.status-tag.bg-gray {
+  background-color: #9ca3af;
+}
+
 .p-3 { padding: 24rpx; }
 
 .item-title {

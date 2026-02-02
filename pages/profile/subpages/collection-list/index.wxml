@@ -12,6 +12,7 @@
         <view class="img-container relative bg-gray-200">
           <image class="item-img" src="{{item.images[0]}}" mode="aspectFill"></image>
           <view wx:if="{{item.status === 'sold'}}" class="status-tag">已售出</view>
+          <view wx:if="{{item.status === 'offline'}}" class="status-tag bg-gray">已下架</view>
         </view>
         <view class="p-3">
           <view class="item-title line-clamp-2">{{item.title}}</view>

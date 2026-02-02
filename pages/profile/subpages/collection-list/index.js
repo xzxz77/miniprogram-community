@@ -47,9 +47,10 @@ Page({
   },
 
   loadSellingGoods() {
+    const _ = db.command;
     db.collection('goods').where({
       _openid: app.globalData.openid,
-      status: 'active' // 仅显示在售
+      status: _.in(['active', 'offline', 'sold']) // 显示在售、已下架和已售出
     }).orderBy('createTime', 'desc').get()
     .then(res => {
       this.setData({

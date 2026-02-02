@@ -49,12 +49,21 @@ Page({
   },
 
   setUserInfo(user) {
+    let days = 1;
+    if (user.createTime) {
+        const now = new Date();
+        const createTime = new Date(user.createTime);
+        const diffTime = now - createTime;
+        days = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    }
+
     this.setData({
       isLogged: true,
       userInfo: {
         ...this.data.userInfo,
         ...user,
-        bio: user.bio || '点击设置个性签名'
+        bio: user.bio || '点击设置个性签名',
+        days: days
       }
     });
     this.loadStats();

@@ -20,6 +20,19 @@ Page({
   },
 
   onLoad(options) {
+    // 开启返回确认提示
+    if (wx.enableAlertBeforeUnload) {
+      wx.enableAlertBeforeUnload({
+        message: '您的修改尚未发布，确定要退出吗？',
+        success: (res) => {
+          console.log('enableAlertBeforeUnload success', res)
+        },
+        fail: (err) => {
+          console.log('enableAlertBeforeUnload fail', err)
+        }
+      });
+    }
+
     if (options.id) {
       this.setData({ 
         goodId: options.id,
@@ -225,16 +238,17 @@ Page({
       
       try {
         const res = await wx.cloud.uploadFile({
-          url:'',
           cloudPath,
           filePath,
         });
-        return res.fileID;
+        fileIDs.push(res.fileID);
       } catch (e) {
         console.error('Upload failed for path:', filePath, e);
         throw e;
       }
+      
     });
+  
 
     return Promise.all(uploads);
   },

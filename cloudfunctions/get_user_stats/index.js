@@ -29,7 +29,7 @@ exports.main = async (event, context) => {
       // 1. 在售商品数
       safeCount('goods', {
         _openid: targetId,
-        status: 'active'
+        status: _.in(['active', 'offline']) 
       }),
 
       // 2. 收藏数 (我收藏的)
