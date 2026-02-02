@@ -215,14 +215,25 @@ Page({
       // Check if it's already a cloud ID
       if (filePath.startsWith('cloud://')) return filePath;
 
-      const ext = filePath.match(/\.[^.]+?$/)[0];
+      let ext = '.jpg'; // Default extension
+      const match = filePath.match(/\.[^.]+?$/);
+      if (match) {
+          ext = match[0];
+      }
+      
       const cloudPath = `goods/${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
       
-      const res = await wx.cloud.uploadFile({
-        cloudPath,
-        filePath,
-      });
-      return res.fileID;
+      try {
+        const res = await wx.cloud.uploadFile({
+          url:'',
+          cloudPath,
+          filePath,
+        });
+        return res.fileID;
+      } catch (e) {
+        console.error('Upload failed for path:', filePath, e);
+        throw e;
+      }
     });
 
     return Promise.all(uploads);

@@ -87,7 +87,7 @@ Page({
       if (!seller) {
         seller = {
           nickName: '社区邻居',
-          avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0',
+          avatarUrl: '',
           credit: '信用极好',
           isVerified: false
         };

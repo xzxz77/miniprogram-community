@@ -93,13 +93,13 @@
       <!-- Left: Icons -->
       <view class="action-icons">
         <view class="icon-item" bindtap="toggleFavorite">
-          <image src="/assets/icons/{{isFavorited ? 'heart-active.png' : 'heart.png'}}" class="icon-img" mode="aspectFit"></image>
+          <image src="/assets/icons/{{isFavorited ? 'heart.png' : 'heart-active.png'}}" class="icon-img" mode="aspectFit"></image>
           <text class="icon-text">收藏</text>
         </view>
-        <button class="icon-item share-btn" open-type="share">
+        <!-- <button class="icon-item share-btn" open-type="share">
           <image src="/assets/icons/share.png" class="icon-img" mode="aspectFit"></image>
           <text class="icon-text">分享</text>
-        </button>
+        </button> -->
       </view>
 
       <!-- Right: Action Buttons -->

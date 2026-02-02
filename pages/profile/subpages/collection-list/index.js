@@ -62,10 +62,47 @@ Page({
     });
   },
 
-  loadCollectionGoods() {
-    // 暂时保留 Mock 或实现收藏逻辑
-    // 假设有一个 favorites 集合
-    this.setData({ isLoading: false });
-    // TODO: 实现收藏列表
+  async loadCollectionGoods() {
+    try {
+      // 1. 获取收藏记录
+      const favRes = await db.collection('favorites').where({
+        _openid: app.globalData.openid
+      }).orderBy('createTime', 'desc').get();
+
+      if (favRes.data.length === 0) {
+        this.setData({ itemList: [], isLoading: false });
+        return;
+      }
+
+      // 2. 提取商品ID
+      const goodIds = favRes.data.map(item => item.goodId);
+
+      // 3. 批量查询商品详情
+      const _ = db.command;
+      const goodsRes = await db.collection('goods').where({
+        _id: _.in(goodIds)
+      }).get();
+
+      // 4. 排序：按照收藏时间顺序（favRes的顺序）重新排列 goodsRes
+      // 创建一个以 id 为 key 的 map
+      const goodsMap = {};
+      goodsRes.data.forEach(good => {
+        goodsMap[good._id] = good;
+      });
+
+      // 根据 goodIds 的顺序（也就是收藏时间倒序）构建最终列表
+      // 注意：如果有商品被物理删除了，可能会在 map 中找不到，需要 filter 掉
+      const itemList = goodIds.map(id => goodsMap[id]).filter(item => item);
+
+      this.setData({
+        itemList: itemList,
+        isLoading: false
+      });
+
+    } catch (err) {
+      console.error(err);
+      wx.showToast({ title: '加载失败', icon: 'none' });
+      this.setData({ isLoading: false });
+    }
   }
 })

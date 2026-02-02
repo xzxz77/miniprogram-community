@@ -75,7 +75,7 @@ Page({
       
       newGoods.forEach((item, index) => {
         // 简单模拟用户信息，实际应从 users 表查
-        item.sellerAvatar = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0'; 
+        item.sellerAvatar = ''; 
         item.sellerName = '社区邻居';
         item.timeAgo = this.formatTime(item.createTime);
         
