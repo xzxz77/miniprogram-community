@@ -71,15 +71,13 @@
 
     <!-- Sticky Tabs (Inside ScrollView) -->
     <view class="sticky-tabs-container mt-6 px-4 mb-2">
-      <view class="tab-item active">
+      <view class="tab-item {{currentSort === 'newest' ? 'active' : ''}}" bindtap="onSortChange" data-sort="newest">
         <text>最新发布</text>
-        <view class="indicator"></view>
+        <view class="indicator" wx:if="{{currentSort === 'newest'}}"></view>
       </view>
-      <view class="tab-item">
-        <text>距离最近</text>
-      </view>
-      <view class="tab-item">
-        <text>信用极好</text>
+      <view class="tab-item {{currentSort === 'hot' ? 'active' : ''}}" bindtap="onSortChange" data-sort="hot">
+        <text>综合排序</text>
+        <view class="indicator" wx:if="{{currentSort === 'hot'}}"></view>
       </view>
     </view>
 
@@ -90,8 +88,7 @@
         <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{leftList}}" wx:key="_id">
           <view class="img-wrapper">
             <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
-            <view class="tag-label" wx:if="{{item.deliveryMethod !== '邮寄'}}">自提</view>
-            <view class="tag-label blue" wx:else>可邮寄</view>
+            <view class="tag-label blue">{{item.deliveryMethod}}</view>
           </view>
           <view class="goods-info">
             <view class="goods-title">{{item.title}}</view>
@@ -114,8 +111,7 @@
         <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{rightList}}" wx:key="_id">
            <view class="img-wrapper">
             <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
-            <view class="tag-label" wx:if="{{item.deliveryMethod !== '邮寄'}}">自提</view>
-            <view class="tag-label blue" wx:else>可邮寄</view>
+            <view class="tag-label blue">{{item.deliveryMethod}}</view>
           </view>
           <view class="goods-info">
             <view class="goods-title">{{item.title}}</view>

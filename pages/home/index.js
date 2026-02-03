@@ -11,6 +11,7 @@ Page({
     pageSize: 10,
     hasMore: true,
     isLoading: false,
+    currentSort: 'newest' // newest or hot
   },
 
   onLoad: function() {
@@ -54,32 +55,53 @@ Page({
     }
   },
 
+  onSortChange(e) {
+    const sort = e.currentTarget.dataset.sort;
+    if (this.data.currentSort === sort) return;
+
+    this.setData({
+      currentSort: sort,
+      page: 1,
+      goodsList: [],
+      leftList: [],
+      rightList: [],
+      hasMore: true
+    }, () => {
+      this.getGoodsList();
+    });
+  },
+
   async getGoodsList() {
     if (this.data.isLoading) return;
     this.setData({ isLoading: true });
 
     try {
-      const db = wx.cloud.database();
-      const res = await db.collection('goods')
-        .where({ status: 'active' }) // 仅获取在售
-        .orderBy('createTime', 'desc')
-        .skip((this.data.page - 1) * this.data.pageSize)
-        .limit(this.data.pageSize)
-        .get();
+      const res = await wx.cloud.callFunction({
+        name: 'get_goods_list',
+        data: {
+          page: this.data.page,
+          pageSize: this.data.pageSize,
+          sortBy: this.data.currentSort
+        }
+      });
 
-      const newGoods = res.data;
+      if (!res.result.success) {
+        throw new Error(res.result.error);
+      }
+
+      const newGoods = res.result.data;
       
       // 瀑布流左右分发
       const left = this.data.leftList;
       const right = this.data.rightList;
       
       newGoods.forEach((item, index) => {
-        // 简单模拟用户信息，实际应从 users 表查
-        item.sellerAvatar = ''; 
-        item.sellerName = '社区邻居';
+        // 处理卖家信息
+        item.sellerAvatar = (item.seller && item.seller.avatarUrl) ? item.seller.avatarUrl : 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0'; 
+        item.sellerName = (item.seller && item.seller.nickName) ? item.seller.nickName : '社区邻居';
         item.timeAgo = this.formatTime(item.createTime);
         
-        // 简单的左右平衡算法：哪边短放哪边，或者直接奇偶
+        // 简单的左右平衡算法
         if (left.length <= right.length) {
           left.push(item);
         } else {
@@ -98,7 +120,10 @@ Page({
     } catch (err) {
       console.error(err);
       this.setData({ isLoading: false });
-      wx.showToast({ title: '加载失败', icon: 'none' });
+      // 首次加载失败才提示，避免分页加载失败打断体验
+      if (this.data.page === 1) {
+          wx.showToast({ title: '加载失败', icon: 'none' });
+      }
     }
   },
 
