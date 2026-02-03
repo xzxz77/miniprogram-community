@@ -4,7 +4,7 @@
   <view class="nav-bar fixed top-0 w-full z-20 flex items-center px-4" style="padding-top: {{statusBarHeight}}px; height: 44px;">
     <!-- Back Button only, removed Share button -->
     <view class="nav-btn bg-black-20 rounded-full w-8 h-8 flex items-center justify-center text-white" bindtap="goBack">
-      <text class="iconfont icon-left text-lg"></text>
+      <image src="/assets/icons/back.png" class="cat-img"></image>
     </view>
   </view>
 
@@ -73,11 +73,36 @@
     <view class="font-bold text-sm mb-3 text-gray-900">宝贝详情</view>
     <view class="text-base text-gray-800 leading-relaxed mb-4 whitespace-pre-wrap">{{good.description}}</view>
     
+    <!-- Comments Section -->
+    <view class="h-px bg-gray-50 w-full mb-3"></view>
+    
+    <view class="mb-3">
+      <view class="font-bold text-sm mb-3 text-gray-900 flex justify-between items-center">
+        <text>留言 ({{comments.length}})</text>
+        <view class="text-xs text-blue-500" bindtap="onAddComment">写留言</view>
+      </view>
+      
+      <block wx:if="{{comments.length > 0}}">
+        <view class="comment-item mb-3" wx:for="{{comments}}" wx:key="_id">
+          <view class="flex items-start">
+            <image src="{{item.user.avatarUrl || '/assets/icons/profile.png'}}" class="w-8 h-8 rounded-full bg-gray-100 mr-2"></image>
+            <view class="flex-1">
+              <view class="flex justify-between items-center mb-1">
+                <text class="text-xs font-bold text-gray-700">{{item.user.nickName || '用户'}}</text>
+                <text class="text-xs text-gray-400">{{item.timeDisplay}}</text>
+              </view>
+              <view class="text-sm text-gray-600">{{item.content}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="text-center text-gray-400 text-xs py-4">暂无留言，快来问问细节吧</view>
+    </view>
+
     <view class="h-px bg-gray-50 w-full mb-3"></view>
     
     <view class="flex text-xs text-gray-500 space-x-4 bg-gray-50 p-3 rounded-lg">
       <text class="mr-4">分类: {{good.category}}</text>
-      <text>交易方式: {{good.deliveryMethod}}</text>
     </view>
   </view>
   

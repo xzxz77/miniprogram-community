@@ -202,3 +202,10 @@ page {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.cat-img {
+  width: 56rpx;
+  height: 56rpx;
+  /* Ensure images fit well */
+  object-fit: contain; 
+}

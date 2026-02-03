@@ -101,6 +101,7 @@
             <view class="seller-row mt-3">
               <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
               <text class="seller-name">{{item.sellerName}}</text>
+              <text class="time-ago">{{item.timeAgo}}</text>
             </view>
           </view>
         </navigator>

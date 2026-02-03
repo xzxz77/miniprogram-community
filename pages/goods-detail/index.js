@@ -9,7 +9,9 @@ Page({
     isLoading: true,
     isFavorited: false,
     currentImage: 0,
-    isOwner: false // 是否是商品发布者
+    isOwner: false, // 是否是商品发布者
+    comments: [],
+    showCommentInput: false
   },
 
   onLoad: function(options) {
@@ -20,6 +22,59 @@ Page({
 
     if (options.id) {
       this.getGoodDetail(options.id);
+      this.loadComments(options.id);
+    }
+  },
+
+  onAddComment() {
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+    
+    wx.showModal({
+      title: '留言',
+      editable: true,
+      placeholderText: '想问什么？',
+      success: async (res) => {
+        if (res.confirm && res.content) {
+          wx.showLoading({ title: '提交中' });
+          try {
+            await wx.cloud.callFunction({
+              name: 'add_comment',
+              data: {
+                goodId: this.data.good._id,
+                content: res.content
+              }
+            });
+            wx.hideLoading();
+            wx.showToast({ title: '留言成功' });
+            this.loadComments(this.data.good._id);
+          } catch (err) {
+            wx.hideLoading();
+            wx.showToast({ title: '留言失败', icon: 'none' });
+          }
+        }
+      }
+    });
+  },
+
+  async loadComments(goodId) {
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'get_comments',
+        data: { goodId }
+      });
+      
+      if (result.success) {
+        const comments = result.data.map(c => ({
+          ...c,
+          timeDisplay: this.formatTime(c.createTime)
+        }));
+        this.setData({ comments });
+      }
+    } catch (err) {
+      console.error('加载留言失败', err);
     }
   },
 
