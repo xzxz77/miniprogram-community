@@ -1,0 +1,19 @@
+<view class="container bg-white min-h-screen">
+  <block wx:for="{{interactions}}" wx:key="id">
+    <view class="flex items-start p-4 border-b border-gray-50">
+      <image class="avatar mr-3" src="{{item.user.avatarUrl}}"></image>
+      <view class="flex-1">
+        <view class="flex justify-between items-center mb-1">
+          <text class="font-bold text-gray-800 text-sm">{{item.user.nickName}}</text>
+          <text class="text-xs text-gray-400">{{item.time}}</text>
+        </view>
+        <view class="text-gray-600 text-sm">
+          {{item.content}}
+          <text wx:if="{{item.type === 'like'}}" class="iconfont icon-heart-fill text-red-500 ml-1"></text>
+        </view>
+      </view>
+      <image class="target-img ml-3" src="{{item.targetImage}}" mode="aspectFill"></image>
+    </view>
+  </block>
+  <view wx:if="{{interactions.length === 0}}" class="text-center text-gray-400 py-10">暂无互动</view>
+</view>

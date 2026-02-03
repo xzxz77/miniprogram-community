@@ -1,0 +1,14 @@
+<view class="container bg-gray-50 min-h-screen p-4">
+  <block wx:for="{{notifications}}" wx:key="id">
+    <view class="bg-white p-4 rounded-xl mb-3 shadow-sm">
+      <view class="flex justify-between items-center mb-2">
+        <text class="font-bold text-gray-800 text-lg">{{item.title}}</text>
+        <text class="text-xs text-gray-400">{{item.time}}</text>
+      </view>
+      <view class="text-gray-600 text-sm leading-relaxed">
+        {{item.content}}
+      </view>
+    </view>
+  </block>
+  <view wx:if="{{notifications.length === 0}}" class="text-center text-gray-400 py-10">暂无通知</view>
+</view>

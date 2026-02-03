@@ -1,0 +1,23 @@
+<view class="container bg-gray-50 min-h-screen p-4">
+  <block wx:for="{{updates}}" wx:key="id">
+    <view class="bg-white p-4 rounded-xl mb-3 shadow-sm flex">
+      <view class="icon-wrap mr-3 {{item.status === 'bought' ? 'bg-blue-100' : 'bg-orange-100'}}">
+        <image class="status-icon" src="{{item.status === 'bought' ? '/assets/icons/pay.png' : '/assets/icons/deliver.png'}}"></image>
+      </view>
+      <view class="flex-1">
+        <view class="flex justify-between items-center mb-1">
+          <text class="font-bold text-gray-800 text-base">{{item.title}}</text>
+          <text class="text-xs text-gray-400">{{item.time}}</text>
+        </view>
+        <view class="text-gray-600 text-sm mb-2">
+          {{item.content}}
+        </view>
+        <view class="bg-gray-50 p-2 rounded flex items-center">
+          <image class="goods-thumb mr-2" src="{{item.image}}" mode="aspectFill"></image>
+          <text class="text-xs text-gray-500">点击查看详情</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  <view wx:if="{{updates.length === 0}}" class="text-center text-gray-400 py-10">暂无交易动态</view>
+</view>
