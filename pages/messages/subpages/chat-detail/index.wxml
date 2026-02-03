@@ -3,7 +3,7 @@
   <!-- Custom Navigation Bar -->
   <view class="nav-bar fixed top-0 w-full z-20 flex items-center px-4 bg-gray-100" style="padding-top: {{statusBarHeight}}px; height: {{navHeight}}px;">
     <view class="nav-btn rounded-full w-8 h-8 flex items-center justify-center -ml-2" bindtap="goBack">
-      <text class="iconfont icon-left text-lg text-black"></text>
+      <image src="/assets/icons/back.png" class="cat-img"></image>
     </view>
     <view class="nav-title text-base font-bold ml-2">{{targetUserInfo.nickName || '聊天'}}</view>
   </view>
@@ -17,7 +17,7 @@
     scroll-with-animation
     enable-flex
     bindtap="onTapContent"
-    style="padding-top: {{totalNavHeight}}px;"
+    style="padding-top: {{totalNavHeight}}px; padding-bottom: {{keyboardHeight + 75}}px;"
   >
     <view class="padding-top"></view>
 
@@ -72,7 +72,7 @@
       <!-- Action Button -->
       <view class="action-btn-wrapper ml-2">
         <view class="icon-btn" bindtap="chooseImage" wx:if="{{!inputValue}}">
-          <text class="iconfont icon-plus"></text>
+          <image src="/assets/icons/uploadimg.png" class="cat-img"></image>
         </view>
         <view class="send-btn" bindtap="sendMessage" wx:else>发送</view>
       </view>

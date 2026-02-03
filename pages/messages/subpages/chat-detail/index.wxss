@@ -187,3 +187,10 @@ page {
 .text-black { color: #000; }
 .text-base { font-size: 32rpx; }
 .font-bold { font-weight: 700; }
+
+.cat-img {
+  width: 56rpx;
+  height: 56rpx;
+  /* Ensure images fit well */
+  object-fit: contain; 
+}

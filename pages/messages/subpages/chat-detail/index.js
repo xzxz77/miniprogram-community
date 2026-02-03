@@ -94,7 +94,10 @@ Page({
       const chatId = ids.join('_');
       this.setData({ chatId, isInit: true });
       
-      // 3. 开启监听
+      // 3. 标记已读
+      this.markAsRead();
+
+      // 4. 开启监听
       this.startWatch();
 
     } catch (err) {
@@ -103,8 +106,24 @@ Page({
     }
   },
 
+  markAsRead() {
+    wx.cloud.callFunction({
+      name: 'mark_read',
+      data: {
+        chatId: this.data.chatId
+      }
+    }).catch(err => console.error('标记已读失败', err));
+  },
+
   startWatch() {
     if (this.watcher) this.watcher.close();
+
+    // 1. 标记当前会话所有发给我的未读消息为已读
+    // 注意：客户端 update 只能更新自己的记录（如果权限是仅创建者可读写），
+    // 这里的 messages 权限如果是“所有用户可读，仅创建者可写”，接收者无法直接 update sender 的消息状态。
+    // 因此严谨的做法是调用云函数更新，或仅在本地维护 unread 计数。
+    // 为简化，这里假设 messages 表权限允许 update 或我们调用云函数。
+    // 这里先省略自动标记已读的云函数调用，留作后续优化。
 
     this.watcher = db.collection('messages')
       .where({ chatId: this.data.chatId })
@@ -194,7 +213,8 @@ Page({
           type: 'text',
           timestamp: db.serverDate(),
           receiverId: this.data.targetUserId,
-          senderId: this.data.myOpenId
+          senderId: this.data.myOpenId,
+          isRead: false // 标记为未读
         }
       });
     } catch (err) {
