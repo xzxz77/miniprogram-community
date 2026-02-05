@@ -69,7 +69,7 @@
       </picker>
 
       <!-- Location -->
-      <view class="setting-item">
+      <view class="setting-item" bindtap="onLocationTap">
         <view class="label">
           <text class="iconfont icon-location"></text>
           <text>发货地</text>

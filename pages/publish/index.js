@@ -82,9 +82,26 @@ Page({
       this.setData({
         ...draft
       });
-      // Re-check validity after restoring
-      this.checkValidity();
     }
+
+    // Check for updated location from Address Page
+    const selectedAddress = wx.getStorageSync('selectedAddress');
+    if (selectedAddress) {
+        let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园小区';
+        // Optional: truncate if too long
+        // if (displayLoc.length > 12) displayLoc = displayLoc.substring(0, 12) + '...';
+        this.setData({ location: displayLoc });
+        // Don't clear storage, so other pages can use it too, or clear if unique to this flow
+    }
+    
+    // Re-check validity after restoring/updating
+    this.checkValidity();
+  },
+
+  onLocationTap() {
+    wx.navigateTo({
+      url: '/pages/profile/subpages/address-list/index'
+    });
   },
 
   onHide() {
@@ -224,6 +241,7 @@ Page({
 
   // Upload
   async uploadImages() {
+    
     const uploads = this.data.images.map(async (filePath) => {
       // Check if it's already a cloud ID
       if (filePath.startsWith('cloud://')) return filePath;
@@ -241,7 +259,8 @@ Page({
           cloudPath,
           filePath,
         });
-        fileIDs.push(res.fileID);
+        
+        return res.fileID; // FIXED: Return ID directly, Promise.all will collect them
       } catch (e) {
         console.error('Upload failed for path:', filePath, e);
         throw e;
@@ -264,7 +283,7 @@ Page({
     try {
       // 1. Upload Images
       const fileIDs = await this.uploadImages();
-
+      
       // 2. Call Cloud Function
       const goodData = {
         title,

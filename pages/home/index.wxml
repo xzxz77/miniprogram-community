@@ -6,9 +6,9 @@
   <!-- Header (Fixed) -->
   <view class="header-container" style="top: {{statusBarHeight}}px;">
     <view class="flex justify-between items-center px-4 pt-2 pb-1 mt-2">
-      <view class="flex items-center location-tag ">
+      <view class="flex items-center location-tag" bindtap="onLocationTap">
         <text class="iconfont icon-location text-orange-600 mr-1 text-lg"></text>
-        <text class="font-bold text-lg text-gray-900">幸福花园小区</text>
+        <text class="font-bold text-lg text-gray-900">{{currentLocation}}</text>
         <text class="iconfont icon-arrow-down text-xs ml-1 text-gray-400 font-bold"></text>
       </view>
       <view class="relative notification-box">

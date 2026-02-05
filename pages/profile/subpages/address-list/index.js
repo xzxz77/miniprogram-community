@@ -13,11 +13,20 @@ Page({
       phone: '',
       address: '',
       isDefault: false
-    }
+    },
+    selectedId: null
   },
 
   onLoad: function () {
     this.loadAddressList();
+  },
+
+  onShow: function() {
+      // Check for selected address to highlight
+      const selected = wx.getStorageSync('selectedAddress');
+      if (selected && selected.id) {
+          this.setData({ selectedId: selected.id });
+      }
   },
 
   loadAddressList() {
@@ -42,19 +51,63 @@ Page({
     this.setData({
       showModal: true,
       isEdit: false,
-      tempAddress: { name: '', phone: '', address: '', isDefault: false }
+      tempAddress: { 
+        name: '', 
+        phone: '', 
+        locationName: '', 
+        locationAddress: '', 
+        detail: '', 
+        address: '', 
+        isDefault: false 
+      }
     });
   },
 
-  onEditAddress(e) {
+  onChooseLocation() {
+    wx.chooseLocation({
+      success: (res) => {
+        this.setData({
+          'tempAddress.locationName': res.name,
+          'tempAddress.locationAddress': res.address,
+          'tempAddress.latitude': res.latitude,
+          'tempAddress.longitude': res.longitude
+        });
+      }
+    });
+  },
+
+  onSelectAddress(e) {
+      // If opened from home page selection mode
+      const index = e.currentTarget.dataset.index;
+      const address = this.data.addressList[index];
+      
+      // Store selected address
+      wx.setStorageSync('selectedAddress', address);
+      this.setData({ selectedId: address.id }); // Update UI immediately
+      
+      wx.navigateBack();
+  },
+
+  onEditBtnTap(e) {
+    // Separate edit action
     const index = e.currentTarget.dataset.index;
     const address = this.data.addressList[index];
+    const temp = { ...address };
+    if (!temp.locationName && temp.address) {
+       temp.detail = temp.address;
+       temp.locationName = '';
+    }
+    
     this.setData({
       showModal: true,
       isEdit: true,
       editIndex: index,
-      tempAddress: { ...address }
+      tempAddress: temp
     });
+  },
+
+  onEditAddress(e) {
+      // Deprecated, split into onSelectAddress and onEditBtnTap
   },
 
   closeModal() {
@@ -79,9 +132,20 @@ Page({
   saveAddress() {
     const { tempAddress, addressList, isEdit, editIndex } = this.data;
     
-    if (!tempAddress.name || !tempAddress.phone || !tempAddress.address) {
-      wx.showToast({ title: '请填写完整信息', icon: 'none' });
+    // Check required fields
+    if (!tempAddress.name || !tempAddress.phone) {
+      wx.showToast({ title: '请填写联系人和手机号', icon: 'none' });
       return;
+    }
+
+    if (!tempAddress.locationName) {
+      wx.showToast({ title: '请选择收货地点', icon: 'none' });
+      return;
+    }
+
+    if (!tempAddress.detail) {
+        wx.showToast({ title: '请填写详细地址', icon: 'none' });
+        return;
     }
 
     if (!/^1[3-9]\d{9}$/.test(tempAddress.phone)) {
@@ -91,19 +155,26 @@ Page({
 
     wx.showLoading({ title: '保存中' });
 
+    // Construct full display address
+    const fullAddress = `${tempAddress.locationName} ${tempAddress.detail}`;
+    const addressToSave = {
+        ...tempAddress,
+        address: fullAddress
+    };
+
     let newList = [...addressList];
 
     // 如果设为默认，先取消其他默认
-    if (tempAddress.isDefault) {
+    if (addressToSave.isDefault) {
       newList = newList.map(item => ({ ...item, isDefault: false }));
     }
 
     if (isEdit) {
-      newList[editIndex] = tempAddress;
+      newList[editIndex] = addressToSave;
     } else {
       // 新增地址分配一个临时ID，实际场景可能不需要，或者由后端生成
-      tempAddress.id = Date.now(); 
-      newList.push(tempAddress);
+      addressToSave.id = Date.now(); 
+      newList.push(addressToSave);
     }
 
     // 调用云函数更新

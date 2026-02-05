@@ -11,7 +11,8 @@ Page({
     pageSize: 10,
     hasMore: true,
     isLoading: false,
-    currentSort: 'newest' // newest or hot
+    currentSort: 'newest', // newest or hot
+    currentLocation: '请选择地址' // Default location
   },
 
   onLoad: function() {
@@ -28,6 +29,19 @@ Page({
         selected: 0 // Ensure Home tab is selected if using custom tabbar, else system tabbar
       });
       wx.showTabBar(); // Force show system TabBar
+    }
+    
+    // Check for updated location from Address Page
+    const selectedAddress = wx.getStorageSync('selectedAddress');
+    if (selectedAddress) {
+        // If locationName exists use it, otherwise use truncated address or default
+        let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园小区';
+        if (displayLoc.length > 8) {
+             displayLoc = displayLoc.substring(0, 8) + '...';
+        }
+        this.setData({ currentLocation: displayLoc });
+        // Optional: clear storage if you only want it to update once per selection
+        // wx.removeStorageSync('selectedAddress');
     }
   },
 
@@ -53,6 +67,12 @@ Page({
         this.getGoodsList();
       });
     }
+  },
+
+  onLocationTap() {
+    wx.navigateTo({
+      url: '/pages/profile/subpages/address-list/index'
+    });
   },
 
   onSortChange(e) {

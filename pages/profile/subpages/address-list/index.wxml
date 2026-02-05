@@ -2,17 +2,19 @@
 <view class="container">
   <view class="address-list p-4 flex-1">
     <block wx:for="{{addressList}}" wx:key="id">
-      <view class="address-card bg-white rounded-xl p-4 shadow-sm mb-3 flex justify-between items-center" bindtap="onEditAddress" data-index="{{index}}">
-        <view class="info">
+      <view class="address-card bg-white rounded-xl p-4 shadow-sm mb-3 flex justify-between items-center {{selectedId === item.id ? 'border-orange' : ''}}" bindtap="onSelectAddress" data-index="{{index}}" style="{{selectedId === item.id ? 'border: 2rpx solid #f97316;' : ''}}">
+        <view class="info flex-1">
           <view class="user-row flex items-center mb-1">
             <text class="name font-bold text-lg mr-2">{{item.name}}</text>
             <text class="phone text-gray-500 text-sm">{{item.phone}}</text>
             <view wx:if="{{item.isDefault}}" class="default-tag bg-orange-100 text-orange-600 ml-2">默认</view>
+            <view wx:if="{{selectedId === item.id}}" class="default-tag bg-orange-100 text-orange-600 ml-2">当前</view>
           </view>
           <view class="address-text text-sm text-gray-600">{{item.address}}</view>
         </view>
-        <view class="edit-btn text-gray-400 p-2">
-          <text class="iconfont icon-edit"></text>
+        
+        <view class="edit-btn-wrapper pl-3 border-l border-gray-100 ml-3" catchtap="onEditBtnTap" data-index="{{index}}">
+          <view class="text-gray-400 text-sm">编辑</view>
         </view>
       </view>
     </block>
@@ -39,8 +41,20 @@
       </view>
 
       <view class="form-item">
+        <text class="label">收货地点</text>
+        <view class="flex items-center" bindtap="onChooseLocation">
+           <view class="flex-1 input flex items-center {{tempAddress.locationName ? '' : 'text-gray-400'}}" style="overflow:hidden; white-space:nowrap;">
+             {{tempAddress.locationName || '点击选择小区/大厦/学校'}}
+           </view>
+           <view class="ml-2 text-orange-500">
+             <text class="iconfont icon-location text-xl"></text>
+           </view>
+        </view>
+      </view>
+
+      <view class="form-item">
         <text class="label">详细地址</text>
-        <input class="input" placeholder="街道门牌信息" value="{{tempAddress.address}}" bindinput="onInput" data-field="address"/>
+        <input class="input" placeholder="街道、楼牌号等" value="{{tempAddress.detail}}" bindinput="onInput" data-field="detail"/>
       </view>
 
       <view class="form-item flex justify-between items-center">

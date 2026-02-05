@@ -63,6 +63,14 @@
       }
     ]
   },
+  "requiredPrivateInfos": [
+    "chooseLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于选择收货地址"
+    }
+  },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
