@@ -11,7 +11,9 @@ Page({
     currentImage: 0,
     isOwner: false, // 是否是商品发布者
     comments: [],
-    showCommentInput: false
+    showCommentInput: false,
+    commentContent: '',
+    keyboardHeight: 0
   },
 
   onLoad: function(options) {
@@ -26,37 +28,59 @@ Page({
     }
   },
 
-  onAddComment() {
+  onShowInput() {
     if (!app.globalData.openid) {
       wx.showToast({ title: '请先登录', icon: 'none' });
       return;
     }
-    
-    wx.showModal({
-      title: '留言',
-      editable: true,
-      placeholderText: '想问什么？',
-      success: async (res) => {
-        if (res.confirm && res.content) {
-          wx.showLoading({ title: '提交中' });
-          try {
-            await wx.cloud.callFunction({
-              name: 'add_comment',
-              data: {
-                goodId: this.data.good._id,
-                content: res.content
-              }
-            });
-            wx.hideLoading();
-            wx.showToast({ title: '留言成功' });
-            this.loadComments(this.data.good._id);
-          } catch (err) {
-            wx.hideLoading();
-            wx.showToast({ title: '留言失败', icon: 'none' });
-          }
-        }
-      }
+    this.setData({ showCommentInput: true });
+  },
+
+  hideInput() {
+    this.setData({ 
+      showCommentInput: false,
+      keyboardHeight: 0
     });
+  },
+
+  onCommentInput(e) {
+    this.setData({ commentContent: e.detail.value });
+  },
+
+  onInputFocus(e) {
+    this.setData({ keyboardHeight: e.detail.height });
+  },
+
+  onInputBlur() {
+    this.setData({ keyboardHeight: 0 });
+  },
+
+  async onSendComment() {
+    if (!this.data.commentContent.trim()) return;
+
+    wx.showLoading({ title: '提交中' });
+    try {
+      await wx.cloud.callFunction({
+        name: 'add_comment',
+        data: {
+          goodId: this.data.good._id,
+          content: this.data.commentContent
+        }
+      });
+      wx.hideLoading();
+      wx.showToast({ title: '留言成功' });
+      
+      this.setData({ 
+        commentContent: '',
+        showCommentInput: false,
+        keyboardHeight: 0
+      });
+      
+      this.loadComments(this.data.good._id);
+    } catch (err) {
+      wx.hideLoading();
+      wx.showToast({ title: '留言失败', icon: 'none' });
+    }
   },
 
   async loadComments(goodId) {
@@ -170,8 +194,6 @@ Page({
       this.setData({ isLoading: false });
     }
   },
-
-  // ... (formatTime, onSwiperChange, previewImage, toggleFavorite) ...
 
   onEditGood() {
     wx.navigateTo({

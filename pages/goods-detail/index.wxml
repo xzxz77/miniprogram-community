@@ -72,6 +72,10 @@
   <view class="bg-white p-4 mb-3 mx-3 rounded-xl shadow-sm">
     <view class="font-bold text-sm mb-3 text-gray-900">宝贝详情</view>
     <view class="text-base text-gray-800 leading-relaxed mb-4 whitespace-pre-wrap">{{good.description}}</view>
+
+    <view class="flex text-xs text-gray-500 space-x-4 bg-gray-50 p-3 rounded-lg">
+      <text class="mr-4">分类: {{good.category}}</text>
+    </view>
     
     <!-- Comments Section -->
     <view class="h-px bg-gray-50 w-full mb-3"></view>
@@ -79,7 +83,7 @@
     <view class="mb-3">
       <view class="font-bold text-sm mb-3 text-gray-900 flex justify-between items-center">
         <text>留言 ({{comments.length}})</text>
-        <view class="text-xs text-blue-500" bindtap="onAddComment">写留言</view>
+        <view class="text-xs text-blue-500" bindtap="onShowInput">写留言</view>
       </view>
       
       <block wx:if="{{comments.length > 0}}">
@@ -101,9 +105,6 @@
 
     <view class="h-px bg-gray-50 w-full mb-3"></view>
     
-    <view class="flex text-xs text-gray-500 space-x-4 bg-gray-50 p-3 rounded-lg">
-      <text class="mr-4">分类: {{good.category}}</text>
-    </view>
   </view>
   
   <!-- Safety Tip -->
@@ -112,7 +113,7 @@
   </view>
 
   <!-- Bottom Bar -->
-  <view class="bottom-bar-wrapper">
+  <view class="bottom-bar-wrapper" wx:if="{{!showCommentInput}}">
     <!-- Buyer Bottom Bar -->
     <view class="bottom-bar pb-safe" wx:if="{{!isOwner}}">
       <!-- Left: Icons -->
@@ -121,10 +122,10 @@
           <image src="/assets/icons/{{isFavorited ? 'heart.png' : 'heart-active.png'}}" class="icon-img" mode="aspectFit"></image>
           <text class="icon-text">收藏</text>
         </view>
-        <!-- <button class="icon-item share-btn" open-type="share">
-          <image src="/assets/icons/share.png" class="icon-img" mode="aspectFit"></image>
-          <text class="icon-text">分享</text>
-        </button> -->
+        <view class="icon-item" bindtap="onShowInput">
+          <image src="/assets/icons/comment.png" class="icon-img" mode="aspectFit"></image>
+          <text class="icon-text">留言</text>
+        </view>
       </view>
 
       <!-- Right: Action Buttons -->
@@ -157,4 +158,21 @@
 
 <view wx:else class="flex items-center justify-center h-screen bg-white">
   <view class="loading-spinner"></view>
+</view>
+
+<!-- Comment Input Layer -->
+<view class="mask" wx:if="{{showCommentInput}}" bindtap="hideInput"></view>
+<view class="comment-input-layer" wx:if="{{showCommentInput}}" style="bottom: {{keyboardHeight}}px">
+  <input class="comment-input" 
+    placeholder="想问什么？" 
+    focus="{{showCommentInput}}"
+    value="{{commentContent}}"
+    adjust-position="{{false}}"
+    bindinput="onCommentInput"
+    bindfocus="onInputFocus"
+    bindblur="onInputBlur"
+    confirm-type="send"
+    bindconfirm="onSendComment"
+  />
+  <view class="comment-send-btn {{!commentContent ? 'disabled' : ''}}" bindtap="onSendComment">发送</view>
 </view>
