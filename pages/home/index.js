@@ -12,7 +12,8 @@ Page({
     hasMore: true,
     isLoading: false,
     currentSort: 'newest', // newest or hot
-    currentLocation: '请选择地址' // Default location
+    currentLocation: '请选择地址', // Default location
+    searchKeyword: ''
   },
 
   onLoad: function() {
@@ -73,6 +74,18 @@ Page({
     wx.navigateTo({
       url: '/pages/profile/subpages/address-list/index'
     });
+  },
+
+  onSearchInput(e) {
+    this.setData({ searchKeyword: e.detail.value });
+  },
+
+  onSearch() {
+    if (this.data.searchKeyword.trim()) {
+      wx.navigateTo({
+        url: `/pages/home/subpages/search-result/index?keyword=${encodeURIComponent(this.data.searchKeyword)}`
+      });
+    }
   },
 
   onSortChange(e) {

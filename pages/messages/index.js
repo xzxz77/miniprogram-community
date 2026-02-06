@@ -5,11 +5,13 @@ Page({
   data: {
     chatList: [],
     isLoading: false,
-    tabBarHeight: 50 // Default
+    tabBarHeight: 50, // Default
+    interactionUnread: 0
   },
 
   onShow() {
     this.loadChatList();
+    this.loadInteractionUnread();
     
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 3 });
@@ -17,9 +19,20 @@ Page({
   },
 
   onPullDownRefresh() {
-    this.loadChatList().then(() => {
+    Promise.all([
+        this.loadChatList(),
+        this.loadInteractionUnread()
+    ]).then(() => {
       wx.stopPullDownRefresh();
     });
+  },
+
+  async loadInteractionUnread() {
+      // TODO: Call cloud function to get unread comments/likes count
+      // For now, mock or leave empty until feature is fully ready
+      // Example:
+      // const res = await wx.cloud.callFunction({ name: 'get_interaction_unread' });
+      // this.setData({ interactionUnread: res.result.total });
   },
 
   async loadChatList() {

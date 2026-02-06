@@ -1,7 +1,7 @@
-// pages/home/subpages/category-detail/index.js
+// pages/home/subpages/search-result/index.js
 Page({
   data: {
-    category: '',
+    keyword: '',
     goodsList: [],
     leftList: [],
     rightList: [],
@@ -9,21 +9,21 @@ Page({
     pageSize: 10,
     hasMore: true,
     isLoading: false,
-    showEmpty: false,
-    keyword: ''
+    showEmpty: false
   },
 
   onLoad(options) {
-    const category = options.category || '全部';
-    const title = category === '全部' ? '全部分类' : category;
+    const keyword = options.keyword || '';
     
-    this.setData({ category });
+    this.setData({ keyword });
     
     wx.setNavigationBarTitle({
-      title: title
+      title: keyword ? `"${keyword}" 的搜索结果` : '搜索结果'
     });
 
-    this.loadGoods();
+    if (keyword) {
+      this.loadGoods();
+    }
   },
 
   onPullDownRefresh() {
@@ -56,6 +56,12 @@ Page({
   },
 
   onSearch() {
+    if (!this.data.keyword.trim()) return;
+    
+    wx.setNavigationBarTitle({
+      title: `"${this.data.keyword}" 的搜索结果`
+    });
+
     this.setData({
       page: 1,
       goodsList: [],
@@ -78,8 +84,7 @@ Page({
         data: {
           page: this.data.page,
           pageSize: this.data.pageSize,
-          sortBy: 'newest', // 默认按时间排序
-          category: this.data.category,
+          sortBy: 'newest', 
           keyword: this.data.keyword
         }
       });
@@ -90,12 +95,10 @@ Page({
 
       const newGoods = res.result.data;
       
-      // 瀑布流处理
       const left = this.data.leftList;
       const right = this.data.rightList;
       
       newGoods.forEach(item => {
-        // 处理卖家信息
         item.sellerAvatar = (item.seller && item.seller.avatarUrl) ? item.seller.avatarUrl : 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0'; 
         item.sellerName = (item.seller && item.seller.nickName) ? item.seller.nickName : '社区邻居';
         item.timeAgo = this.formatTime(item.createTime);

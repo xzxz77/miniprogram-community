@@ -23,6 +23,8 @@
     <navigator url="/pages/messages/subpages/interaction-messages/index" hover-class="none" class="nav-item">
       <view class="icon-wrapper bg-blue">
         <image class="nav-icon" src="/assets/icons/comment.png"></image>
+        <!-- Unread badge for interactions -->
+        <view class="badge-dot" wx:if="{{interactionUnread > 0}}"></view>
       </view>
       <text class="nav-label">互动消息</text>
     </navigator>

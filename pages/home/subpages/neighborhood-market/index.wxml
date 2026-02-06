@@ -1,2 +1,69 @@
 <!--pages/home/subpages/neighborhood-market/index.wxml-->
-<text>pages/home/subpages/neighborhood-market/index.wxml</text>
+<view class="container">
+  <!-- Header -->
+  <view class="header-bar" bindtap="onLocationTap">
+    <view class="location-info">
+      <text class="iconfont icon-location text-orange-600"></text>
+      <text class="location-text">{{currentLocation}}</text>
+      <text class="iconfont icon-arrow-right text-gray-400 text-xs"></text>
+    </view>
+    <view class="market-stats">附近 3km 在售宝贝</view>
+  </view>
+
+  <!-- Masonry List -->
+  <view class="masonry px-3 pt-3 pb-6" wx:if="{{goodsList.length > 0}}">
+    <!-- Left Column -->
+    <view class="column">
+      <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{leftList}}" wx:key="_id">
+        <view class="img-wrapper">
+          <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
+          <view class="tag-label blue">{{item.deliveryMethod}}</view>
+        </view>
+        <view class="goods-info">
+          <view class="goods-title">{{item.title}}</view>
+          <view class="flex justify-between items-baseline mt-2">
+            <view class="price-group">
+              <text class="currency">¥</text>
+              <text class="amount">{{item.price}}</text>
+            </view>
+          </view>
+          <view class="seller-row mt-3">
+            <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
+            <text class="seller-name">{{item.sellerName}}</text>
+            <text class="time-ago">{{item.timeAgo}}</text>
+          </view>
+        </view>
+      </navigator>
+    </view>
+    
+    <!-- Right Column -->
+    <view class="column">
+      <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{rightList}}" wx:key="_id">
+          <view class="img-wrapper">
+          <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
+          <view class="tag-label blue">{{item.deliveryMethod}}</view>
+        </view>
+        <view class="goods-info">
+          <view class="goods-title">{{item.title}}</view>
+          <view class="flex justify-between items-baseline mt-2">
+            <view class="price-group">
+              <text class="currency">¥</text>
+              <text class="amount">{{item.price}}</text>
+            </view>
+          </view>
+          <view class="seller-row mt-3">
+            <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
+            <text class="seller-name">{{item.sellerName}}</text>
+            <text class="time-ago">{{item.timeAgo}}</text>
+          </view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+
+  <!-- Empty State -->
+  <view class="text-center text-gray-300 text-xs py-6" wx:if="{{goodsList.length === 0 && !isLoading}}">附近暂无宝贝</view>
+
+  <!-- Loading State -->
+  <view class="text-center text-gray-300 text-xs py-6 pb-safe" wx:if="{{!hasMore && goodsList.length > 0}}">没有更多数据了</view>
+</view>

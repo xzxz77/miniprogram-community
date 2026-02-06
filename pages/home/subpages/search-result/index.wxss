@@ -1,4 +1,4 @@
-/* pages/home/subpages/neighborhood-market/index.wxss */
+/* pages/home/subpages/search-result/index.wxss */
 page {
   background-color: #f7f8fa;
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
@@ -8,34 +8,40 @@ page {
   min-height: 100vh;
 }
 
-/* Header */
+/* Header with Search */
 .header-bar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
   background-color: #fff;
-  padding: 20rpx 32rpx;
+  z-index: 99;
+  padding: 16rpx 32rpx;
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.02);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-.location-info {
+.search-box {
+  background-color: #f5f6f8;
+  border-radius: 9999px;
+  height: 72rpx;
   display: flex;
   align-items: center;
+  padding: 0 24rpx;
 }
 
-.location-text {
-  font-size: 32rpx;
-  font-weight: 700;
+.search-btn {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #ff6b00;
+  padding-left: 24rpx;
+  border-left: 2rpx solid #e5e7eb;
+  margin-left: 16rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
   color: #333;
-  margin: 0 8rpx;
-}
-
-.market-stats {
-  font-size: 24rpx;
-  color: #666;
 }
 
 /* Masonry Masonry */
@@ -152,6 +158,27 @@ page {
   color: #bbb;
 }
 
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.empty-img {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
 /* Utilities */
 .flex { display: flex; }
 .justify-between { justify-content: space-between; }
@@ -166,7 +193,5 @@ page {
 .text-gray-300 { color: #d1d5db; }
 .text-xs { font-size: 24rpx; }
 .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 20rpx); }
-.text-orange-600 { color: #ea580c; }
 .text-gray-400 { color: #9ca3af; }
 .iconfont { font-family: "iconfont" !important; font-size: 16px; font-style: normal; }
-.icon-location { font-size: 36rpx; }

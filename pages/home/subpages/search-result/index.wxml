@@ -1,0 +1,74 @@
+<!--pages/home/subpages/search-result/index.wxml-->
+<view class="container">
+  <!-- Search Header -->
+  <view class="header-bar">
+    <view class="search-box">
+      <text class="iconfont icon-search text-gray-400 mr-2"></text>
+      <input class="search-input" placeholder="搜索闲置好物..." value="{{keyword}}" bindinput="onSearchInput" bindconfirm="onSearch" confirm-type="search"/>
+      <view class="search-btn" bindtap="onSearch">搜索</view>
+    </view>
+  </view>
+
+  <!-- Content (with padding for fixed header) -->
+  <view style="padding-top: 110rpx;">
+    <!-- Masonry List -->
+    <view class="masonry px-3 pt-3 pb-6" wx:if="{{goodsList.length > 0}}">
+      <!-- Left Column -->
+      <view class="column">
+        <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{leftList}}" wx:key="_id">
+          <view class="img-wrapper">
+            <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
+            <view class="tag-label blue">{{item.deliveryMethod}}</view>
+          </view>
+          <view class="goods-info">
+            <view class="goods-title">{{item.title}}</view>
+            <view class="flex justify-between items-baseline mt-2">
+              <view class="price-group">
+                <text class="currency">¥</text>
+                <text class="amount">{{item.price}}</text>
+              </view>
+            </view>
+            <view class="seller-row mt-3">
+              <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
+              <text class="seller-name">{{item.sellerName}}</text>
+              <text class="time-ago">{{item.timeAgo}}</text>
+            </view>
+          </view>
+        </navigator>
+      </view>
+      
+      <!-- Right Column -->
+      <view class="column">
+        <navigator url="/pages/goods-detail/index?id={{item._id}}" class="goods-card" wx:for="{{rightList}}" wx:key="_id">
+            <view class="img-wrapper">
+            <image class="goods-img" src="{{item.images[0]}}" mode="widthFix" lazy-load></image>
+            <view class="tag-label blue">{{item.deliveryMethod}}</view>
+          </view>
+          <view class="goods-info">
+            <view class="goods-title">{{item.title}}</view>
+            <view class="flex justify-between items-baseline mt-2">
+              <view class="price-group">
+                <text class="currency">¥</text>
+                <text class="amount">{{item.price}}</text>
+              </view>
+            </view>
+            <view class="seller-row mt-3">
+              <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
+              <text class="seller-name">{{item.sellerName}}</text>
+              <text class="time-ago">{{item.timeAgo}}</text>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </view>
+
+    <!-- Empty State -->
+    <view class="empty-state" wx:if="{{showEmpty}}">
+      <image src="/assets/icons/empty.png" mode="aspectFit" class="empty-img"></image>
+      <text class="empty-text">没有找到“{{keyword}}”相关的宝贝</text>
+    </view>
+
+    <!-- Loading State -->
+    <view class="text-center text-gray-300 text-xs py-6 pb-safe" wx:if="{{!hasMore && goodsList.length > 0}}">没有更多数据了</view>
+  </view>
+</view>

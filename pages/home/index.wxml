@@ -21,8 +21,8 @@
     <view class="px-4 pb-2 pt-2" style="height: 124rpx; display: block; box-sizing: border-box">
       <view class="search-bar" style="position: relative; left: -3rpx; top: 17rpx">
         <text class="iconfont icon-search text-gray-400 mr-2 text-lg"></text>
-        <input class="flex-1 text-sm text-gray-800" placeholder="搜索闲置好物..." placeholder-class="text-gray-400" />
-        <view class="search-btn">搜索</view>
+        <input class="flex-1 text-sm text-gray-800" placeholder="搜索闲置好物..." placeholder-class="text-gray-400" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" confirm-type="search"/>
+        <view class="search-btn" bindtap="onSearch">搜索</view>
       </view>
     </view>
   </view>
@@ -33,26 +33,26 @@
     <!-- Categories -->
     <view class="category-panel mx-4 mt-3 bg-white rounded-2xl p-4 shadow-sm">
       <view class="grid-cols-5">
-        <navigator url="/pages/home/subpages/category-detail/index?type=furniture" class="cat-item">
+        <navigator url="/pages/home/subpages/category-detail/index?category=家具" class="cat-item">
           <view class="cat-icon bg-orange-50"><image src="/assets/icons/furniture.png" class="cat-img"></image></view>
           <text class="cat-name">家具</text>
         </navigator>
-        <view class="cat-item">
+        <navigator url="/pages/home/subpages/category-detail/index?category=数码" class="cat-item">
           <view class="cat-icon bg-blue-50"><image src="/assets/icons/digital.png" class="cat-img"></image></view>
           <text class="cat-name">数码</text>
-        </view>
-        <view class="cat-item">
+        </navigator>
+        <navigator url="/pages/home/subpages/category-detail/index?category=衣物" class="cat-item">
           <view class="cat-icon bg-green-50"><image src="/assets/icons/clothes.png" class="cat-img"></image></view>
           <text class="cat-name">衣物</text>
-        </view>
-        <view class="cat-item">
+        </navigator>
+        <navigator url="/pages/home/subpages/category-detail/index?category=图书" class="cat-item">
           <view class="cat-icon bg-purple-50"><image src="/assets/icons/book.png" class="cat-img"></image></view>
           <text class="cat-name">图书</text>
-        </view>
-        <view class="cat-item">
+        </navigator>
+        <navigator url="/pages/home/subpages/category-detail/index?category=全部" class="cat-item">
           <view class="cat-icon bg-gray-50"><image src="/assets/icons/all.png" class="cat-img"></image></view>
           <text class="cat-name">全部分类</text>
-        </view>
+        </navigator>
       </view>
     </view>
 

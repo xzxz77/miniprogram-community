@@ -13,11 +13,28 @@ exports.main = async (event, context) => {
   const sortBy = event.sortBy || 'newest' // newest or hot
   
   try {
+    // 构建查询条件
+    let matchCondition = {
+      status: _.in(['active']) // 仅显示在售
+    };
+    
+    if (event.category && event.category !== '全部') {
+      // 确保是字符串且去除空格
+      matchCondition.category = String(event.category).trim();
+    }
+
+    // 关键词搜索
+    if (event.keyword && event.keyword.trim()) {
+      const keyword = event.keyword.trim();
+      matchCondition.title = db.RegExp({
+        regexp: keyword,
+        options: 'i', // 大小写不敏感
+      });
+    }
+
     // 聚合查询
     let aggregate = db.collection('goods').aggregate()
-      .match({
-        status: _.in(['active']) // 仅显示在售
-      })
+      .match(matchCondition)
 
     // 根据排序方式处理
     if (sortBy === 'hot') {
@@ -32,7 +49,7 @@ exports.main = async (event, context) => {
         ])
       })
       .sort({
-        score: 1 // 升序 (Ascending) - 按照用户要求 "以升序的排列方式"
+        score: -1 // 升序 (Ascending) - 按照用户要求 "以升序的排列方式"
         // 通常热门是降序 (-1)，但这里严格遵循指令
       })
     } else {
