@@ -28,11 +28,16 @@ Page({
   },
 
   async loadInteractionUnread() {
-      // TODO: Call cloud function to get unread comments/likes count
-      // For now, mock or leave empty until feature is fully ready
-      // Example:
-      // const res = await wx.cloud.callFunction({ name: 'get_interaction_unread' });
-      // this.setData({ interactionUnread: res.result.total });
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'get_interaction_unread'
+      });
+      if (result.success) {
+        this.setData({ interactionUnread: result.total });
+      }
+    } catch (err) {
+      console.error('获取互动未读数失败', err);
+    }
   },
 
   async loadChatList() {

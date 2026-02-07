@@ -14,12 +14,20 @@ exports.main = async (event, context) => {
   }
 
   try {
+    // 1. Get Good Details to find the owner (receiver)
+    const goodRes = await db.collection('goods').doc(goodId).get()
+    const good = goodRes.data
+    const receiverId = good._openid
+
+    // 2. Add Comment
     const res = await db.collection('comments').add({
       data: {
         _openid: OPENID,
         goodId,
         content,
         replyToId: replyToId || null,
+        receiverId: receiverId, // Add receiverId for notifications
+        isRead: false,          // Add isRead flag
         createTime: db.serverDate(),
         status: 'active'
       }

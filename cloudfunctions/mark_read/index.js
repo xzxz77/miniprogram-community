@@ -8,9 +8,26 @@ const _ = db.command
 
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
-  const { chatId, scope } = event // scope: 'single' (default) or 'all'
+  const { chatId, scope, type = 'chat' } = event // type: 'chat' | 'interaction'
 
   try {
+    if (type === 'interaction') {
+      const res = await db.collection('comments')
+        .where({
+          receiverId: OPENID,
+          isRead: false
+        })
+        .update({
+          data: {
+            isRead: true
+          }
+        })
+      return {
+        success: true,
+        updated: res.stats.updated
+      }
+    }
+
     let matchCondition = {
       receiverId: OPENID,
       isRead: false
