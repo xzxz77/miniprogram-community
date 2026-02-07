@@ -62,6 +62,9 @@ Page({
           chatList: result.data,
           isLoading: false
         });
+        
+        // Update tab bar badge
+        this.updateTabBarBadge(result.data);
       } else {
         console.error('获取消息列表失败', result.error);
         this.setData({ isLoading: false });
@@ -69,6 +72,21 @@ Page({
     } catch (err) {
       console.error('调用云函数失败', err);
       this.setData({ isLoading: false });
+    }
+  },
+
+  updateTabBarBadge(list) {
+    const totalUnread = list.reduce((sum, item) => sum + (item.unread || 0), 0);
+    
+    if (totalUnread > 0) {
+      wx.setTabBarBadge({
+        index: 3, // Messages tab index
+        text: totalUnread > 99 ? '99+' : totalUnread.toString()
+      });
+    } else {
+      wx.removeTabBarBadge({
+        index: 3
+      });
     }
   },
 

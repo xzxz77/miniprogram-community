@@ -49,6 +49,8 @@ Page({
     if (this.watcher) {
       this.watcher.close();
     }
+    // Mark as read when leaving chat
+    this.markAsRead();
   },
 
   goBack() {

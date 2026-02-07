@@ -49,14 +49,14 @@ exports.main = async (event, context) => {
       .group({
         _id: '$chatId',
         lastMessage: { $first: '$$ROOT' },
-        // 简单计算未读数（需配合 isRead 字段，目前暂时未能准确计数，先尝试统计 receiverId 为我且没有 isRead 标记的）
+        // 简单计算未读数（需配合 isRead 字段）
         unreadCount: {
           $sum: {
             $cond: [
               { 
                 $and: [
                   { $eq: ['$receiverId', OPENID] },
-                  { $ne: ['$isRead', true] } // 统计未读（包括 false 和 undefined）
+                  { $eq: ['$isRead', false] } // 明确检查 false，排除 undefined
                 ] 
               }, 
               1, 
