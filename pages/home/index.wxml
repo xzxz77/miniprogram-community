@@ -19,7 +19,7 @@
     
     <!-- Search Bar -->
     <view class="px-4 pb-2 pt-2" style="height: 140rpx; display: block; box-sizing: border-box">
-      <view class="search-bar" style="position: relative; left: -1rpx; top: 25rpx">
+      <view class="search-bar" style="position: relative; left: 2rpx; top: 32rpx">
         <text class="iconfont icon-search text-gray-400 mr-2 text-lg"></text>
         <input class="flex-1 text-sm text-gray-800" placeholder="搜索闲置好物..." placeholder-class="text-gray-400" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" confirm-type="search"/>
         <view class="search-btn" bindtap="onSearch">搜索</view>

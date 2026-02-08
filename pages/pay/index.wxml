@@ -1,0 +1,98 @@
+<!-- pages/pay/index.wxml -->
+<view class="container">
+  <!-- Address Card -->
+  <view class="card address-card" bindtap="onSelectAddress">
+    <block wx:if="{{address}}">
+      <view class="address-content">
+        <view class="location-row">
+          <view class="tag" wx:if="{{address.isDefault}}">默认</view>
+          <text class="location">{{address.locationName || address.address}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail">{{address.detail}}</text>
+        </view>
+        <view class="user-row">
+          <text class="name">{{address.name}}</text>
+          <text class="phone">{{address.phone}}</text>
+        </view>
+      </view>
+      <text class="iconfont icon-arrow-right arrow"></text>
+    </block>
+    <block wx:else>
+      <view class="empty-address">
+        <view class="icon-circle">
+          <text class="iconfont icon-location"></text>
+        </view>
+        <text class="tip">请选择收货地址</text>
+        <text class="iconfont icon-arrow-right arrow"></text>
+      </view>
+    </block>
+    <view class="bottom-line"></view>
+  </view>
+
+  <!-- Goods Card -->
+  <view class="card goods-card">
+    <view class="shop-header" wx:if="{{good.seller}}">
+      <image class="avatar" src="{{good.seller.avatarUrl}}" mode="aspectFill"></image>
+      <text class="shop-name">{{good.seller.nickName}}</text>
+    </view>
+    <view class="goods-content">
+      <image class="goods-img" src="{{good.images[0]}}" mode="aspectFill"></image>
+      <view class="goods-info">
+        <view class="title">{{good.title}}</view>
+        <view class="tags-row">
+          <text class="delivery-tag">{{good.deliveryMethod}}</text>
+        </view>
+        <view class="price-row">
+          <text class="symbol">¥</text>
+          <text class="price">{{good.price}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Options Card -->
+  <view class="card options-card">
+    <view class="cell border-b">
+      <text class="label">配送方式</text>
+      <view class="value">
+        <text>{{good.deliveryMethod}}</text>
+      </view>
+    </view>
+    <view class="cell">
+      <text class="label">订单备注</text>
+      <input class="input" placeholder="选填，建议先和卖家沟通" placeholder-class="placeholder" bindinput="onRemarkInput" />
+    </view>
+  </view>
+
+  <!-- Bill Card -->
+  <view class="card bill-card">
+    <view class="row">
+      <text class="label">商品金额</text>
+      <text class="value">¥{{good.price}}</text>
+    </view>
+    <view class="row">
+      <text class="label">运费</text>
+      <text class="value highlight">免运费</text>
+    </view>
+    <view class="divider"></view>
+    <view class="total-row">
+      <text class="label">合计</text>
+      <view class="price-box">
+        <text class="symbol">¥</text>
+        <text class="price">{{totalPrice}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- Bottom Bar -->
+<view class="bottom-bar-placeholder"></view>
+<view class="bottom-bar">
+  <view class="price-container">
+    <text class="total-text">合计:</text>
+    <text class="symbol">¥</text>
+    <text class="price">{{totalPrice}}</text>
+  </view>
+  <button class="pay-btn" bindtap="onSubmitOrder">提交订单</button>
+</view>

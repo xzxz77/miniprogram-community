@@ -320,6 +320,15 @@ Page({
   },
   
   onBuyNow() {
-    wx.showToast({ title: '开发中...', icon: 'none' });
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+    
+    if (!this.data.good) return;
+
+    wx.navigateTo({
+      url: `/pages/pay/index?id=${this.data.good._id}`
+    });
   }
 })

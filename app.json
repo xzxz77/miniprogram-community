@@ -21,7 +21,8 @@
     "pages/profile/subpages/judge-center/index",
     "pages/profile/subpages/settings/index",
     "pages/user-home/index",
-    "pages/publish-entry/index"
+    "pages/publish-entry/index",
+    "pages/pay/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
