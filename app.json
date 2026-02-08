@@ -22,7 +22,9 @@
     "pages/profile/subpages/settings/index",
     "pages/user-home/index",
     "pages/publish-entry/index",
-    "pages/pay/index"
+    "pages/pay/index",
+    "pages/order-detail/index",
+    "pages/pay-result/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,70 @@
+<!--pages/order-detail/index.wxml-->
+<view class="container" wx:if="{{!isLoading}}">
+  <!-- Status Header -->
+  <view class="status-header">
+    <view class="status-icon">
+      <text class="iconfont icon-check-circle text-white text-3xl"></text>
+    </view>
+    <view class="status-text">{{order.statusText}}</view>
+    <view class="status-desc">等待卖家发货</view>
+  </view>
+
+  <!-- Address Card -->
+  <view class="card address-card">
+    <view class="flex items-center">
+      <view class="icon-wrapper bg-orange-100 mr-3">
+        <text class="iconfont icon-location text-orange-600 text-xl"></text>
+      </view>
+      <view>
+        <view class="user-info text-gray-900 font-bold mb-1">
+          {{order.address.name}} <text class="ml-2 font-normal">{{order.address.phone}}</text>
+        </view>
+        <view class="address-text text-sm text-gray-500">
+          {{order.address.locationName || ''}} {{order.address.detail || order.address.address}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Goods Card -->
+  <view class="card goods-card">
+    <view class="goods-content">
+      <image class="goods-img" src="{{order.good.images[0]}}" mode="aspectFill"></image>
+      <view class="goods-info">
+        <view class="title">{{order.good.title}}</view>
+        <view class="price text-red-500 font-bold">¥{{order.good.price}}</view>
+      </view>
+    </view>
+    <view class="divider"></view>
+    <view class="info-row">
+      <text class="label">配送方式</text>
+      <text class="value">{{order.deliveryMethod}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">实付款</text>
+      <text class="value price-text">¥{{order.amount}}</text>
+    </view>
+  </view>
+
+  <!-- Order Info -->
+  <view class="card order-info">
+    <view class="info-row small">
+      <text class="label">订单编号</text>
+      <view class="flex items-center">
+        <text class="value mr-2">{{order.id}}</text>
+        <text class="copy-btn">复制</text>
+      </view>
+    </view>
+    <view class="info-row small">
+      <text class="label">创建时间</text>
+      <text class="value">{{order.createTime}}</text>
+    </view>
+  </view>
+
+  <!-- Bottom Bar -->
+  <view class="bottom-bar-placeholder"></view>
+  <view class="bottom-bar">
+    <button class="btn secondary" bindtap="onContactSeller">联系卖家</button>
+    <button class="btn primary" bindtap="onBackHome">返回首页</button>
+  </view>
+</view>

@@ -94,5 +94,5 @@
     <text class="symbol">¥</text>
     <text class="price">{{totalPrice}}</text>
   </view>
-  <button class="pay-btn" bindtap="onSubmitOrder">提交订单</button>
+  <button class="pay-btn" bindtap="onSubmitOrder" style="position: relative; left: 131rpx; top: -1rpx">提交订单</button>
 </view>

@@ -1,0 +1,194 @@
+/* pages/order-detail/index.wxss */
+page {
+  background-color: #f5f6fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+}
+
+.container {
+  padding: 24rpx;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+/* Status Header */
+.status-header {
+  background: linear-gradient(135deg, #ff9a44 0%, #ff6b00 100%);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  color: #fff;
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8rpx 20rpx rgba(255, 107, 0, 0.2);
+}
+
+.status-icon {
+  margin-bottom: 16rpx;
+}
+
+.status-text {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+/* Card Common */
+.card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.02);
+}
+
+/* Address */
+.icon-wrapper {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Goods */
+.goods-content {
+  display: flex;
+  margin-bottom: 24rpx;
+}
+
+.goods-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background: #f3f4f6;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.goods-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8rpx 0;
+}
+
+.title {
+  font-size: 28rpx;
+  color: #1f2937;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.divider {
+  height: 1rpx;
+  background: #f3f4f6;
+  margin: 24rpx 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-row.small {
+  font-size: 26rpx;
+  margin-bottom: 20rpx;
+}
+
+.label {
+  color: #6b7280;
+}
+
+.value {
+  color: #1f2937;
+}
+
+.price-text {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 32rpx;
+}
+
+.copy-btn {
+  font-size: 22rpx;
+  color: #6b7280;
+  border: 1rpx solid #e5e7eb;
+  padding: 2rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+/* Bottom Bar */
+.bottom-bar-placeholder {
+  height: calc(110rpx + env(safe-area-inset-bottom));
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 16rpx 32rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 100;
+}
+
+.btn {
+  font-size: 28rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 9999px;
+  margin: 0;
+  margin-left: 24rpx;
+  line-height: 1.4;
+}
+
+.btn.secondary {
+  background: #fff;
+  color: #4b5563;
+  border: 2rpx solid #e5e7eb;
+}
+
+.btn.primary {
+  background: #ff6b00;
+  color: #fff;
+  border: 2rpx solid #ff6b00;
+}
+
+/* Utilities */
+.flex { display: flex; }
+.items-center { align-items: center; }
+.mr-2 { margin-right: 16rpx; }
+.mr-3 { margin-right: 24rpx; }
+.ml-2 { margin-left: 16rpx; }
+.mb-1 { margin-bottom: 8rpx; }
+.text-white { color: #fff; }
+.text-gray-900 { color: #111827; }
+.text-gray-500 { color: #6b7280; }
+.text-orange-600 { color: #ea580c; }
+.text-red-500 { color: #ef4444; }
+.font-bold { font-weight: 700; }
+.font-normal { font-weight: 400; }
+.text-sm { font-size: 28rpx; }
+.text-xl { font-size: 40rpx; }
+.text-3xl { font-size: 48rpx; }
+.bg-orange-100 { background-color: #fff7ed; }

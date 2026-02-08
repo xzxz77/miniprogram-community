@@ -89,13 +89,45 @@ Page({
       return;
     }
 
-    wx.showLoading({ title: '正在创建订单' });
+    wx.showLoading({ title: '正在支付' });
     
-    // Simulate payment process
-    setTimeout(() => {
-        wx.hideLoading();
-        wx.showToast({ title: '支付功能开发中', icon: 'none' });
-        // Here we would call cloud function to create order
-    }, 1000);
+    // Call cloud function to create order
+    wx.cloud.callFunction({
+      name: 'create_order',
+      data: {
+        goodId: this.data.good._id,
+        address: this.data.address,
+        totalPrice: this.data.totalPrice,
+        deliveryMethod: this.data.good.deliveryMethod,
+        remark: this.data.remark
+      }
+    }).then(res => {
+      wx.hideLoading();
+      if (res.result.success) {
+        const orderId = res.result.orderId;
+        
+        // Save pay info for mock order detail (fallback or for immediate transition)
+        // Although we should rely on fetching from DB in order-detail now.
+        // But keeping it for smooth transition if fetch is slow is okay, 
+        // but let's trust the DB fetch in order-detail.
+        
+        // Navigate to order detail page directly
+        wx.redirectTo({
+            url: `/pages/order-detail/index?orderId=${orderId}&amount=${this.data.totalPrice}`
+        });
+      } else {
+        wx.showToast({
+          title: res.result.msg || '支付失败',
+          icon: 'none'
+        });
+      }
+    }).catch(err => {
+      wx.hideLoading();
+      console.error(err);
+      wx.showToast({
+        title: '支付异常',
+        icon: 'none'
+      });
+    });
   }
 })
