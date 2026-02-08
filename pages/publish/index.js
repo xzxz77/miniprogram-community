@@ -10,7 +10,7 @@ Page({
     categories: ['家具', '数码', '衣物', '图书', '其他'],
     categoryIndex: -1, 
     
-    deliveryMethods: ['自提', '邮寄', '自提/邮寄'],
+    deliveryMethods: ['买家上门', '卖家上门'],
     deliveryIndex: 2, 
     
     agreed: false,
