@@ -15,6 +15,15 @@
         <image src="{{item}}" mode="aspectFill" class="w-full h-full" bindtap="previewImage" data-url="{{item}}"></image>
       </swiper-item>
     </swiper>
+    
+    <!-- Sold Overlay -->
+    <view wx:if="{{good.status === 'sold'}}" class="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10" style="background: rgba(0,0,0,0.3); pointer-events: none;">
+        <view class="bg-black text-white text-2xl font-bold px-8 py-3 rounded-full border-4 border-white transform -rotate-12 opacity-80">已卖出</view>
+    </view>
+    <view wx:if="{{good.status === 'offline'}}" class="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10" style="background: rgba(0,0,0,0.3); pointer-events: none;">
+        <view class="bg-gray-600 text-white text-2xl font-bold px-8 py-3 rounded-full border-4 border-white transform -rotate-12 opacity-80">已下架</view>
+    </view>
+
     <!-- Image Indicator -->
     <view class="absolute bottom-4 right-4 bg-black-50 text-white text-xs px-3 py-1 rounded-full">
       {{currentImage + 1}}/{{good.images.length}}
@@ -133,9 +142,22 @@
         <view class="trade-btn chat-btn" bindtap="onContactSeller">
           <text>聊一聊</text>
         </view>
-        <view class="trade-btn buy-btn" bindtap="onBuyNow">
-          <text>我想要</text>
-        </view>
+        
+        <block wx:if="{{good.status === 'sold'}}">
+           <view class="trade-btn buy-btn" style="background-color: #9ca3af;">
+              <text>已卖出</text>
+           </view>
+        </block>
+        <block wx:elif="{{good.status === 'offline'}}">
+           <view class="trade-btn buy-btn" style="background-color: #9ca3af;">
+              <text>已下架</text>
+           </view>
+        </block>
+        <block wx:else>
+           <view class="trade-btn buy-btn" bindtap="onBuyNow">
+             <text>我想要</text>
+           </view>
+        </block>
       </view>
     </view>
 

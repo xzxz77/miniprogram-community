@@ -327,6 +327,11 @@ Page({
     
     if (!this.data.good) return;
 
+    if (this.data.good.status !== 'active') {
+        wx.showToast({ title: '商品已下架或已卖出', icon: 'none' });
+        return;
+    }
+
     wx.navigateTo({
       url: `/pages/pay/index?id=${this.data.good._id}`
     });

@@ -15,7 +15,7 @@
     </block>
     <block wx:elif="{{orderList.length === 0}}">
        <view class="empty-state flex flex-col items-center py-10">
-         <image src="/assets/icons/empty.png" class="w-24 h-24 mb-2 opacity-50"></image>
+         <!-- <image src="/assets/icons/empty.png" class="w-24 h-24 mb-2 opacity-50"></image> -->
          <text class="text-gray-400">暂无订单</text>
        </view>
     </block>
