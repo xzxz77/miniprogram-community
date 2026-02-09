@@ -12,10 +12,10 @@
 
   <!-- Navigation Grid -->
   <view class="nav-grid">
-    <navigator url="/pages/messages/subpages/service-notifications/index" hover-class="none" class="nav-item">
+    <navigator url="/pages/messages/subpages/service-notifications/index" hover-class="none" class="nav-item" bindtap="onServiceTap">
       <view class="icon-wrapper bg-orange">
         <image class="nav-icon" src="/assets/icons/message-active.png"></image>
-        <view class="badge-dot" wx:if="{{true}}"></view>
+        <view class="badge-dot" wx:if="{{serviceUnread > 0}}"></view>
       </view>
       <text class="nav-label">服务通知</text>
     </navigator>
@@ -23,15 +23,15 @@
     <navigator url="/pages/messages/subpages/interaction-messages/index" hover-class="none" class="nav-item">
       <view class="icon-wrapper bg-blue">
         <image class="nav-icon" src="/assets/icons/comment.png"></image>
-        <!-- Unread badge for interactions -->
         <view class="badge-dot" wx:if="{{interactionUnread > 0}}"></view>
       </view>
       <text class="nav-label">互动消息</text>
     </navigator>
     
-    <navigator url="/pages/messages/subpages/transaction-updates/index" hover-class="none" class="nav-item">
+    <navigator url="/pages/messages/subpages/transaction-updates/index" hover-class="none" class="nav-item" bindtap="onTransactionTap">
       <view class="icon-wrapper bg-green">
         <image class="nav-icon" src="/assets/icons/pay.png"></image>
+        <view class="badge-dot" wx:if="{{transactionUnread > 0}}"></view>
       </view>
       <text class="nav-label">交易动态</text>
     </navigator>

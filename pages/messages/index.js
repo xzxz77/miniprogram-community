@@ -6,12 +6,14 @@ Page({
     chatList: [],
     isLoading: false,
     tabBarHeight: 50, // Default
-    interactionUnread: 0
+    interactionUnread: 0,
+    transactionUnread: 0,
+    serviceUnread: 0
   },
 
   onShow() {
     this.loadChatList();
-    this.loadInteractionUnread();
+    this.loadUnreadCounts();
     
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 3 });
@@ -21,23 +23,44 @@ Page({
   onPullDownRefresh() {
     Promise.all([
         this.loadChatList(),
-        this.loadInteractionUnread()
+        this.loadUnreadCounts()
     ]).then(() => {
       wx.stopPullDownRefresh();
     });
   },
 
-  async loadInteractionUnread() {
+  async loadUnreadCounts() {
     try {
+      const lastReadServiceTime = wx.getStorageSync('lastReadServiceTime');
+      const lastReadTransactionTime = wx.getStorageSync('lastReadTransactionTime');
+
       const { result } = await wx.cloud.callFunction({
-        name: 'get_interaction_unread'
+        name: 'get_unread_counts',
+        data: {
+            lastReadServiceTime,
+            lastReadTransactionTime
+        }
       });
       if (result.success) {
-        this.setData({ interactionUnread: result.total });
+        this.setData({ 
+            interactionUnread: result.interactionUnread,
+            transactionUnread: result.transactionUnread,
+            serviceUnread: result.serviceUnread
+        });
       }
     } catch (err) {
-      console.error('获取互动未读数失败', err);
+      console.error('获取未读数失败', err);
     }
+  },
+
+  onServiceTap() {
+    wx.setStorageSync('lastReadServiceTime', new Date());
+    this.setData({ serviceUnread: 0 });
+  },
+
+  onTransactionTap() {
+    wx.setStorageSync('lastReadTransactionTime', new Date());
+    this.setData({ transactionUnread: 0 });
   },
 
   async loadChatList() {
@@ -76,7 +99,22 @@ Page({
   },
 
   updateTabBarBadge(list) {
-    const totalUnread = list.reduce((sum, item) => sum + (item.unread || 0), 0);
+    // Total unread = chat unread + interaction + transaction + service?
+    // Usually tab badge is just for chats, or all.
+    // Let's keep it for chats for now as per previous logic, OR sum them all up.
+    // Ideally sum them all up.
+    // But interactionUnread is fetched separately.
+    // Let's just sum chats for now, or wait until loadUnreadCounts finishes.
+    // But they are async independent.
+    // Let's stick to chat unread for tab bar badge to avoid complexity, or update it in both places.
+    
+    const chatUnread = list.reduce((sum, item) => sum + (item.unread || 0), 0);
+    const totalUnread = chatUnread; // + this.data.interactionUnread ...?
+    
+    // Note: if we want to include other unreads, we should call this after both are loaded.
+    // But for now, let's just stick to chat messages for the tab badge to be consistent with 'Messages' tab usually meaning 'IM'.
+    // If the user wants all notifications to badge the tab, we should add them.
+    // Let's stick to chat unread for now.
     
     if (totalUnread > 0) {
       wx.setTabBarBadge({
@@ -98,9 +136,18 @@ Page({
         if (res.confirm) {
           // 乐观更新 UI
           const newList = this.data.chatList.map(item => ({...item, unread: 0}));
-          this.setData({ chatList: newList });
+          this.setData({ 
+              chatList: newList,
+              interactionUnread: 0,
+              transactionUnread: 0,
+              serviceUnread: 0
+          });
           
-          // 调用云函数批量更新数据库状态
+          // Clear storages
+          wx.setStorageSync('lastReadServiceTime', new Date());
+          wx.setStorageSync('lastReadTransactionTime', new Date());
+
+          // Mark chats and interactions as read
           wx.cloud.callFunction({
             name: 'mark_read',
             data: { scope: 'all' }

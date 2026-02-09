@@ -6,7 +6,9 @@
       <text class="iconfont icon-check-circle text-white text-3xl"></text>
     </view>
     <view class="status-text">{{order.statusText}}</view>
-    <view class="status-desc">等待卖家发货</view>
+    <view class="status-desc" wx:if="{{order.status === 'paid'}}">等待卖家发货</view>
+    <view class="status-desc" wx:elif="{{order.status === 'shipped'}}">卖家已发货，等待买家收货</view>
+    <view class="status-desc" wx:elif="{{order.status === 'completed'}}">交易已完成</view>
   </view>
 
   <!-- Address Card -->
@@ -64,7 +66,19 @@
   <!-- Bottom Bar -->
   <view class="bottom-bar-placeholder"></view>
   <view class="bottom-bar">
-    <button class="btn secondary" bindtap="onContactSeller">联系卖家</button>
-    <button class="btn primary" bindtap="onBackHome">返回首页</button>
+    <block wx:if="{{isBuyer}}">
+      <button class="btn secondary" bindtap="onContactSeller">联系卖家</button>
+      <button class="btn primary" wx:if="{{order.status === 'shipped'}}" bindtap="onReceive">确认收货</button>
+      <button class="btn primary" wx:elif="{{order.status === 'completed'}}" bindtap="onBackHome">返回首页</button>
+      <button class="btn primary" wx:else bindtap="onBackHome">返回首页</button>
+    </block>
+    <block wx:elif="{{isSeller}}">
+      <button class="btn secondary" bindtap="onContactBuyer">联系买家</button>
+      <button class="btn primary" wx:if="{{order.status === 'paid'}}" bindtap="onShip">确认发货</button>
+      <button class="btn primary" wx:else bindtap="onBackHome">返回首页</button>
+    </block>
+    <block wx:else>
+      <button class="btn primary" bindtap="onBackHome">返回首页</button>
+    </block>
   </view>
 </view>
