@@ -91,7 +91,7 @@
       <navigator url="/pages/profile/subpages/order-list/index?status=1" class="icon-item relative" hover-class="none">
         <image class="icon-img" src="/assets/icons/pay.png" mode="aspectFit"></image> <!-- Placeholder for icon -->
         <text class="icon-text">待付款</text>
-        <view class="badge">1</view>
+
       </navigator>
       <navigator url="/pages/profile/subpages/order-list/index?status=2" class="icon-item" hover-class="none">
         <image class="icon-img" src="/assets/icons/ship.png" mode="aspectFit"></image>
