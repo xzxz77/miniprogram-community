@@ -1,0 +1,15 @@
+<!-- components/top-notification/index.wxml -->
+<view class="notification-container {{visible ? 'show' : ''}}" style="top: {{top}}px;" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindtap="onTap">
+  <view class="notification-content" style="transform: translateX({{translateX}}px); transition: {{transition}}">
+    <view class="avatar-box">
+      <image class="avatar" src="{{avatar}}" mode="aspectFill"></image>
+    </view>
+    <view class="text-box">
+      <view class="header">
+        <text class="nickname">{{title}}</text>
+        <text class="time">刚刚</text>
+      </view>
+      <text class="message">{{content}}</text>
+    </view>
+  </view>
+</view>

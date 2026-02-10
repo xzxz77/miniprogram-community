@@ -1,2 +1,3 @@
 <!-- pages/publish-entry/index.wxml -->
+<top-notification id="top-notification"></top-notification>
 <view class="container"></view>

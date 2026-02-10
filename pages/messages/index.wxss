@@ -104,13 +104,21 @@ page {
 
 .badge-dot {
   position: absolute;
-  top: 4rpx;
-  right: 4rpx;
-  width: 20rpx;
-  height: 20rpx;
+  top: -8rpx;
+  right: -8rpx;
   background-color: #ef4444;
-  border-radius: 50%;
+  color: white;
+  font-size: 22rpx;
+  font-weight: 700;
+  min-width: 36rpx;
+  height: 36rpx;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 4rpx solid #ffffff;
+  padding: 0 6rpx;
+  box-sizing: border-box;
 }
 
 /* Chat List */

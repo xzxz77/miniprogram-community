@@ -1,0 +1,99 @@
+/* components/top-notification/index.wxss */
+.notification-container {
+  position: fixed;
+  left: 32rpx;
+  right: 32rpx;
+  z-index: 9999;
+  transform: translateY(-200%);
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  /* Adapt to safe area */
+  top: env(safe-area-inset-top);
+  margin-top: 16rpx;
+}
+
+.notification-container.show {
+  transform: translateY(0);
+}
+
+.notification-content {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.08), 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.avatar-box {
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  border: 1rpx solid rgba(0,0,0,0.05);
+}
+
+.text-box {
+  flex: 1;
+  min-width: 0; /* Enable text truncation */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.nickname {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1f2937;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.time {
+  font-size: 22rpx;
+  color: #9ca3af;
+}
+
+.message {
+  font-size: 26rpx;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .notification-content {
+    background: rgba(30, 30, 30, 0.96);
+    box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.3);
+  }
+  
+  .nickname {
+    color: #f3f4f6;
+  }
+  
+  .message {
+    color: #9ca3af;
+  }
+  
+  .avatar {
+    border-color: rgba(255,255,255,0.1);
+  }
+}

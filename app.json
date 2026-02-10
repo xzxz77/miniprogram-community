@@ -26,6 +26,9 @@
     "pages/order-detail/index",
     "pages/pay-result/index"
   ],
+  "usingComponents": {
+    "top-notification": "/components/top-notification/index"
+  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",

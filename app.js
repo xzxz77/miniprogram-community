@@ -13,6 +13,87 @@ App({
     
     // 尝试静默登录
     this.checkUserLogin();
+
+    // Start polling for messages
+    this.startMessagePolling();
+  },
+
+  startMessagePolling() {
+    // Poll every 10 seconds
+    setInterval(() => {
+        if (this.globalData.isLogged) {
+            this.checkNewMessages();
+        }
+    }, 10000);
+  },
+
+  async checkNewMessages() {
+    try {
+        const lastReadServiceTime = wx.getStorageSync('lastReadServiceTime');
+        const lastReadTransactionTime = wx.getStorageSync('lastReadTransactionTime');
+
+        const { result } = await wx.cloud.callFunction({
+            name: 'get_unread_counts',
+            data: {
+                lastReadServiceTime,
+                lastReadTransactionTime
+            }
+        });
+
+        if (result.success) {
+            const currentTotal = result.interactionUnread + result.transactionUnread + result.serviceUnread + (result.chatUnread || 0);
+            const lastTotal = this.globalData.lastUnreadCount || 0;
+
+            // Update global stored count
+            this.globalData.lastUnreadCount = currentTotal;
+
+            if (currentTotal > lastTotal) {
+                // Check if current page is Messages page
+                const pages = getCurrentPages();
+                const currentPage = pages[pages.length - 1];
+                
+                if (currentPage && currentPage.route !== 'pages/messages/index') {
+                    // Try to use the top-notification component if available on the page
+                    // We need to select the component instance from the current page
+                    const notification = currentPage.selectComponent('#top-notification');
+                    if (notification) {
+                        notification.show({
+                            title: '新消息提醒',
+                            content: '您收到了新的消息，点击查看',
+                            path: '/pages/messages/index'
+                        });
+                    } else {
+                        // Fallback to modal if component not present (should ideally be on all pages via layout or app-wide logic but global component is tricky in MP without custom tabbar/page wrapper)
+                        // Or just suppress if we rely on component. 
+                        // But user asked to REPLACE the modal. 
+                        // To make it work globally, every page needs to include <top-notification id="top-notification" />.
+                        // I will add it to key pages first.
+                    }
+                }
+            }
+            
+            // Update TabBar Badge
+            const badgeCount = result.chatUnread || currentTotal; // Usually tab badge is for chats, but user wants notification for all?
+            // Let's stick to total for now to be safe, or just chat.
+            // Earlier I used chatUnread for tab badge.
+            // Let's use result.chatUnread if available, else total.
+            // Actually, previously it was just chat list unread.
+            // Let's sum them all for the badge if that's what "New Message" implies.
+            // Or just use chatUnread for the badge on the tab, and popup for ANY new thing.
+            // Let's use total for badge to be consistent with "There is something new".
+            
+            if (currentTotal > 0) {
+                 wx.setTabBarBadge({
+                    index: 3,
+                    text: currentTotal > 99 ? '99+' : currentTotal.toString()
+                 });
+            } else {
+                 wx.removeTabBarBadge({ index: 3 });
+            }
+        }
+    } catch (e) {
+        // console.error('Poll failed', e);
+    }
   },
 
   async checkUserLogin() {

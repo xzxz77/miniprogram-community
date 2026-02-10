@@ -1,3 +1,6 @@
 {
-  "navigationStyle": "custom"
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "top-notification": "/components/top-notification/index"
+  }
 }

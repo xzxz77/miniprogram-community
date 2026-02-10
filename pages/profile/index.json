@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "我的",
-  "navigationStyle": "custom"
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "top-notification": "/components/top-notification/index"
+  }
 }
