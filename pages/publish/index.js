@@ -5,7 +5,7 @@ Page({
     title: '',
     description: '',
     price: '',
-    location: '幸福花园小区',
+    location: '请选择发货地址',
     
     categories: ['家具', '数码', '衣物', '图书', '其他'],
     categoryIndex: -1, 

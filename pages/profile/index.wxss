@@ -174,7 +174,7 @@ page {
   width: 56rpx; /* placeholder size */
   height: 56rpx;
   margin-bottom: 8rpx;
-  background-color: #f3f4f6; /* placeholder bg */
+  /* background-color: #f3f4f6; placeholder bg */
   border-radius: 50%;
 }
 

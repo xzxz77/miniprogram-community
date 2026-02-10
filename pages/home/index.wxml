@@ -52,7 +52,7 @@
         </navigator>
         <navigator url="/pages/home/subpages/category-detail/index?category=全部" class="cat-item">
           <view class="cat-icon bg-gray-50"><image src="/assets/icons/all.png" class="cat-img"></image></view>
-          <text class="cat-name">全部分类</text>
+          <text class="cat-name">全部</text>
         </navigator>
       </view>
     </view>

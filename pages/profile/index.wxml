@@ -1,5 +1,4 @@
 <!-- pages/profile/index.wxml -->
-<top-notification id="top-notification"></top-notification>
 <view class="container">
   <!-- Status Bar Spacer (For Custom Nav) -->
   <view style="height: {{statusBarHeight}}px; background: #fff;"></view>
