@@ -1,14 +1,27 @@
 // pages/publish-entry/index.js
 Page({
   onShow() {
-    // 自动跳转到发布页，并重置上一级页面为首页，防止返回时死循环
-    wx.switchTab({
-      url: '/pages/home/index',
-      success: () => {
-        wx.navigateTo({
-          url: '/pages/publish/index'
-        });
-      }
+    // No auto redirect anymore
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+        this.getTabBar().setData({ selected: 2 });
+    }
+  },
+
+  onPublishGood() {
+    wx.navigateTo({
+      url: '/pages/publish/index'
     });
+  },
+
+  onPublishPost() {
+    wx.navigateTo({
+      url: '/pages/publish-post/index'
+    });
+  },
+  
+  onClose() {
+      wx.switchTab({
+          url: '/pages/home/index'
+      });
   }
 })

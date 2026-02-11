@@ -1,3 +1,30 @@
 <!-- pages/publish-entry/index.wxml -->
 <top-notification id="top-notification"></top-notification>
-<view class="container"></view>
+<view class="container flex flex-col items-center justify-end pb-safe">
+  <!-- Close Button -->
+  <!-- <view class="close-btn" bindtap="onClose">
+    <text class="iconfont icon-close text-2xl text-gray-500"></text>
+  </view> -->
+
+  <view class="selection-container flex justify-center w-full mb-20 px-8">
+    <!-- Publish Good -->
+    <view class="option-card mr-8" bindtap="onPublishGood">
+      <view class="icon-circle bg-yellow-100">
+        <image src="/assets/icons/furniture.png" class="option-icon"></image>
+      </view>
+      <text class="option-title">发布闲置</text>
+      <text class="option-desc">闲置好物 快速回血</text>
+    </view>
+
+    <!-- Publish Post -->
+    <view class="option-card" bindtap="onPublishPost">
+      <view class="icon-circle bg-blue-100">
+        <image src="/assets/icons/community-active.png" class="option-icon"></image>
+      </view>
+      <text class="option-title">发布动态</text>
+      <text class="option-desc">分享生活 邻里互动</text>
+    </view>
+  </view>
+  
+  <view class="slogan text-gray-400 text-sm mb-10">让闲置游起来，让邻里暖起来</view>
+</view>

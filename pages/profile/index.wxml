@@ -117,7 +117,7 @@
     <navigator url="/pages/profile/subpages/my-posts/index" class="menu-item flex items-center justify-between">
       <view class="flex items-center">
         <view class="menu-icon bg-blue-100 text-blue-500">
-          <text class="iconfont icon-post"></text>
+          <image class="icon-img" src="/assets/icons/push.png" mode="aspectFit"></image>
         </view>
         <text class="menu-text">我发布的帖子</text>
       </view>
@@ -126,7 +126,7 @@
     <navigator url="/pages/profile/subpages/address-list/index" class="menu-item flex items-center justify-between">
       <view class="flex items-center">
         <view class="menu-icon bg-green-100 text-green-500">
-          <text class="iconfont icon-location"></text>
+          <image class="icon-img" src="/assets/icons/locate.png" mode="aspectFit"></image>
         </view>
         <text class="menu-text">收货地址管理</text>
       </view>
@@ -135,7 +135,7 @@
     <navigator url="/pages/profile/subpages/judge-center/index" class="menu-item flex items-center justify-between">
       <view class="flex items-center">
         <view class="menu-icon bg-purple-100 text-purple-500">
-          <text class="iconfont icon-scale"></text>
+          <image class="icon-img" src="/assets/icons/decree.png" mode="aspectFit"></image>
         </view>
         <text class="menu-text">社区小判官</text>
       </view>
@@ -147,7 +147,7 @@
     <navigator url="/pages/profile/subpages/settings/index" class="menu-item flex items-center justify-between border-none">
       <view class="flex items-center">
         <view class="menu-icon bg-gray-100 text-gray-500">
-          <text class="iconfont icon-settings"></text>
+          <image class="icon-img" src="/assets/icons/setting.png" mode="aspectFit"></image>
         </view>
         <text class="menu-text">设置</text>
       </view>

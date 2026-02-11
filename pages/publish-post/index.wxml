@@ -1,0 +1,44 @@
+<!-- pages/publish-post/index.wxml -->
+<view class="container bg-white min-h-screen">
+  <!-- Content Input -->
+  <view class="p-4">
+    <textarea class="w-full text-base" placeholder="分享你的新鲜事..." placeholder-class="text-gray-400" maxlength="500" auto-height value="{{content}}" bindinput="onContentInput" style="min-height: 200rpx;"></textarea>
+  </view>
+
+  <!-- Image Uploader -->
+  <view class="px-4 pb-4">
+    <view class="grid-3 gap-2">
+      <block wx:for="{{images}}" wx:key="*this">
+        <view class="relative" style="width: 100%; padding-bottom: 100%; height: 0;">
+          <image src="{{item}}" mode="aspectFill" class="absolute top-0 left-0 w-full h-full rounded-lg" bindtap="previewImage" data-url="{{item}}"></image>
+          <view class="absolute top-1 right-1 bg-black-50 rounded-full p-1" catchtap="onRemoveImage" data-index="{{index}}">
+            <text class="iconfont icon-close text-white text-xs"></text>
+          </view>
+        </view>
+      </block>
+      <view class="relative bg-gray-100 rounded-lg flex items-center justify-center" style="width: 100%; padding-bottom: 100%; height: 0;" bindtap="onChooseImage" wx:if="{{images.length < 9}}">
+        <view class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-gray-400">
+          <text class="iconfont icon-camera text-3xl mb-1"></text>
+          <text class="text-xs">添加图片</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Category Selection -->
+  <view class="px-4 py-3 border-t border-b border-gray-100 flex items-center justify-between" bindtap="showCategoryActionSheet">
+    <view class="flex items-center">
+      <text class="iconfont icon-tag text-gray-500 mr-2"></text>
+      <text class="text-gray-700">选择话题</text>
+    </view>
+    <view class="flex items-center text-gray-400">
+      <text class="mr-1">{{category || '未选择'}}</text>
+      <text class="iconfont icon-arrow-right text-xs"></text>
+    </view>
+  </view>
+
+  <!-- Bottom Bar -->
+  <view class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 safe-area-pb">
+    <button class="bg-orange-500 text-white rounded-full font-bold text-lg w-full" bindtap="onPublish" disabled="{{!canPublish}}" style="{{!canPublish ? 'opacity: 0.5;' : ''}}">发布</button>
+  </view>
+</view>
