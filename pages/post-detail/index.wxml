@@ -1,0 +1,80 @@
+<!-- pages/post-detail/index.wxml -->
+<view class="container bg-white min-h-screen pb-safe">
+  <block wx:if="{{isLoading}}">
+    <view class="flex items-center justify-center py-20">
+      <view class="loading-spinner"></view>
+    </view>
+  </block>
+  <block wx:elif="{{post}}">
+    <!-- Author Info -->
+    <view class="p-4 flex justify-between items-center">
+      <view class="flex items-center">
+        <image class="avatar bg-gray-100" src="{{post.author.avatarUrl}}" mode="aspectFill"></image>
+        <view class="ml-3">
+          <view class="font-bold text-gray-900 text-base">{{post.author.nickName}}</view>
+          <view class="text-xs text-gray-400 mt-0.5">
+            {{post.timeAgo}} · {{post.author.community}}
+          </view>
+        </view>
+      </view>
+      <!-- Follow button placeholder if needed -->
+    </view>
+
+    <!-- Content -->
+    <view class="px-4 pb-4">
+      <view class="text-lg text-gray-800 leading-relaxed mb-4">
+        <text wx:if="{{post.category && post.category !== '全部'}}" class="text-blue-600 font-bold mr-1">#{{post.category}}#</text>
+        {{post.content}}
+      </view>
+      
+      <!-- Images -->
+      <view class="flex flex-col gap-2">
+        <block wx:for="{{post.images}}" wx:key="*this">
+          <image src="{{item}}" mode="widthFix" class="w-full rounded-lg bg-gray-100" bindtap="previewImage" data-current="{{item}}" data-urls="{{post.images}}"></image>
+        </block>
+      </view>
+    </view>
+
+    <!-- Stats -->
+    <view class="px-4 py-3 flex items-center justify-between text-gray-400 text-sm border-b border-gray-100">
+      <view>浏览 {{post.viewCount || 0}}</view>
+      <view class="flex items-center">
+        <view class="mr-4">{{post.likeCount}} 赞</view>
+        <view>{{post.commentCount}} 评论</view>
+      </view>
+    </view>
+
+    <!-- Comments Section Placeholder -->
+    <view class="p-4">
+      <view class="font-bold text-base mb-4">全部评论</view>
+      <view class="text-center text-gray-400 py-10 text-sm">
+        <image src="/assets/icons/comment.png" class="w-12 h-12 opacity-20 mb-2"></image>
+        <view>暂无评论，快来抢沙发~</view>
+      </view>
+    </view>
+
+    <!-- Bottom Bar -->
+    <view class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center justify-between pb-safe z-10">
+      <view class="bg-gray-100 rounded-full flex-1 px-4 py-2 text-gray-400 text-sm mr-4">
+        说点什么...
+      </view>
+      <view class="flex items-center space-x-6">
+        <view class="flex flex-col items-center" bindtap="onLikeTap">
+          <text class="iconfont {{post.isLiked ? 'icon-thumb-up-fill text-orange-500' : 'icon-thumb-up text-gray-600'}} text-2xl"></text>
+          <text class="text-xs {{post.isLiked ? 'text-orange-500' : 'text-gray-500'}}">{{post.likeCount || '点赞'}}</text>
+        </view>
+        <view class="flex flex-col items-center">
+          <text class="iconfont icon-star text-gray-600 text-2xl"></text>
+          <text class="text-xs text-gray-500">收藏</text>
+        </view>
+        <button class="flex flex-col items-center bg-transparent p-0 m-0 leading-normal" open-type="share" style="width: auto;">
+          <text class="iconfont icon-share text-gray-600 text-2xl"></text>
+          <text class="text-xs text-gray-500">分享</text>
+        </button>
+      </view>
+    </view>
+    
+    <!-- Spacer for bottom bar -->
+    <view class="h-20"></view>
+  </block>
+</view>

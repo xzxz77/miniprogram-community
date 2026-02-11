@@ -25,7 +25,8 @@
     "pages/pay/index",
     "pages/order-detail/index",
     "pages/pay-result/index",
-    "pages/publish-post/index"
+    "pages/publish-post/index",
+    "pages/post-detail/index"
   ],
   "usingComponents": {
     "top-notification": "/components/top-notification/index"

@@ -79,8 +79,9 @@ Page({
 
   onPostTap(e) {
     const id = e.currentTarget.dataset.id;
-    // Navigate to post detail (feature to be added)
-    wx.showToast({ title: '帖子详情开发中', icon: 'none' });
+    wx.navigateTo({
+      url: `/pages/post-detail/index?id=${id}`
+    });
   },
 
   onLikeTap(e) {
