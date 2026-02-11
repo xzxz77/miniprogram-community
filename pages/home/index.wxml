@@ -12,10 +12,10 @@
         <text class="font-bold text-lg text-gray-900">{{currentLocation}}</text>
         <text class="iconfont icon-arrow-down text-xs ml-1 text-gray-400 font-bold"></text>
       </view>
-      <view class="relative notification-box">
+      <!-- <view class="relative notification-box">
         <text class="iconfont icon-bell text-xl text-gray-800"></text>
         <view class="badge">3</view>
-      </view>
+      </view> -->
     </view>
     
     <!-- Search Bar -->
