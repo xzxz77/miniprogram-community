@@ -133,6 +133,6 @@
       </view>
     </view>
     
-    <view class="text-center text-gray-300 text-xs py-6 pb-safe">没有更多数据了</view>
+    <view class="flex justify-center text-center text-gray-300 text-xs py-6 pb-safe" >没有更多数据了</view>
   </scroll-view>
 </view>

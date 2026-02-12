@@ -4,15 +4,39 @@ const app = getApp();
 Page({
   data: {
     post: null,
-    isLoading: true
+    isLoading: true,
+    comments: [],
+    showInput: false,
+    content: '',
+    placeholder: '',
+    replyTo: null,
+    keyboardHeight: 0
   },
 
   onLoad(options) {
     if (options.id) {
       this.loadPostDetail(options.id);
+      this.loadComments(options.id);
     } else {
       wx.showToast({ title: '参数错误', icon: 'none' });
       setTimeout(() => wx.navigateBack(), 1500);
+    }
+  },
+
+  async loadComments(id) {
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'get_comments',
+        data: { postId: id }
+      });
+      
+      if (result.success) {
+        this.setData({
+          comments: result.data
+        });
+      }
+    } catch (err) {
+      console.error('Load comments failed', err);
     }
   },
 
@@ -46,6 +70,14 @@ Page({
       current,
       urls
     });
+  },
+
+  onAuthorTap() {
+    if (this.data.post && this.data.post._openid) {
+      wx.navigateTo({
+        url: `/pages/user-home/index?id=${this.data.post._openid}`
+      });
+    }
   },
 
   async onLikeTap() {
@@ -88,5 +120,83 @@ Page({
       path: `/pages/post-detail/index?id=${this.data.post._id}`,
       imageUrl: this.data.post.images[0] || ''
     };
+  },
+
+  onShowInput() {
+    this.setData({ 
+      showInput: true,
+      placeholder: '说点什么...',
+      replyTo: null 
+    });
+  },
+
+  hideInput() {
+    this.setData({ 
+      showInput: false,
+      keyboardHeight: 0
+    });
+  },
+
+  onInput(e) {
+    this.setData({ content: e.detail.value });
+  },
+
+  onFocus(e) {
+    this.setData({ keyboardHeight: e.detail.height });
+  },
+
+  onBlur() {
+    this.setData({ keyboardHeight: 0 });
+  },
+
+  onReply(e) {
+    const { id, name } = e.currentTarget.dataset;
+    this.setData({
+      showInput: true,
+      replyTo: id,
+      content: `回复 @${name}：`,
+      placeholder: `回复 @${name}: `
+    });
+  },
+
+  async onSend() {
+    if (!this.data.content.trim()) return;
+    
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    wx.showLoading({ title: '发送中' });
+    
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'add_comment',
+        data: {
+          postId: this.data.post._id,
+          content: this.data.content,
+          replyToId: this.data.replyTo
+        }
+      });
+
+      wx.hideLoading();
+
+      if (result.success) {
+        wx.showToast({ title: '评论成功' });
+        this.setData({
+          content: '',
+          showInput: false,
+          replyTo: null
+        });
+        // Refresh comments
+        this.loadComments(this.data.post._id);
+      } else {
+        wx.showToast({ title: result.msg || '发送失败', icon: 'none' });
+      }
+    } catch (err) {
+      console.error(err);
+      wx.hideLoading();
+      wx.showToast({ title: '网络异常', icon: 'none' });
+    }
   }
 })

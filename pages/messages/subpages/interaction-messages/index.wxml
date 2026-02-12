@@ -15,5 +15,6 @@
       <image class="target-img ml-3" src="{{item.targetImage}}" mode="aspectFill"></image>
     </view>
   </block>
-  <view wx:if="{{interactions.length === 0}}" class="text-center text-gray-400 py-10">暂无互动</view>
+  <view 
+  wx:if="{{interactions.length === 0}}" class="text-center text-gray-400 py-10" style="display: flex; align-items: center; justify-content: center;">暂无互动</view>
 </view>
