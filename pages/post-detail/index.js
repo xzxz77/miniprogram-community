@@ -21,13 +21,29 @@ Page({
       wx.showToast({ title: '参数错误', icon: 'none' });
       setTimeout(() => wx.navigateBack(), 1500);
     }
+
+    this.onKeyboardHeightChange = (res) => {
+      if (this.data.showInput) {
+        this.setData({ keyboardHeight: res.height });
+      }
+    };
+    wx.onKeyboardHeightChange(this.onKeyboardHeightChange);
+  },
+
+  onUnload() {
+    if (this.onKeyboardHeightChange) {
+      wx.offKeyboardHeightChange(this.onKeyboardHeightChange);
+    }
   },
 
   async loadComments(id) {
     try {
       const { result } = await wx.cloud.callFunction({
-        name: 'get_comments',
-        data: { postId: id }
+        name: 'comment_service',
+        data: { 
+          action: 'list',
+          postId: id 
+        }
       });
       
       if (result.success) {
@@ -142,11 +158,11 @@ Page({
   },
 
   onFocus(e) {
-    this.setData({ keyboardHeight: e.detail.height });
+    // this.setData({ keyboardHeight: e.detail.height });
   },
 
   onBlur() {
-    this.setData({ keyboardHeight: 0 });
+    // this.setData({ keyboardHeight: 0 });
   },
 
   onReply(e) {
@@ -171,8 +187,9 @@ Page({
     
     try {
       const { result } = await wx.cloud.callFunction({
-        name: 'add_comment',
+        name: 'comment_service',
         data: {
+          action: 'add',
           postId: this.data.post._id,
           content: this.data.content,
           replyToId: this.data.replyTo

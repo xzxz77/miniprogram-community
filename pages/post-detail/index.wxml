@@ -108,7 +108,7 @@
           bindblur="onBlur"
           bindconfirm="onSend"
         />
-        <button class="send-btn" bindtap="onSend" disabled="{{!content.trim()}}">发送</button>
+        <button class="send-btn" bindtap="onSend" >发送</button>
       </view>
     </view>
     
