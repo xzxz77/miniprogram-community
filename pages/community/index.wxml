@@ -78,13 +78,13 @@
 
           <!-- Actions -->
           <view class="flex justify-between text-gray-500 text-sm pt-3 border-t border-gray-50">
-            <view class="flex items-center flex-1 justify-center" catchtap="onLikeTap" data-index="{{index}}">
+            <!-- <view class="flex items-center flex-1 justify-center" catchtap="onLikeTap" data-index="{{index}}">
               <text class="iconfont {{item.isLiked ? 'icon-thumb-up-fill text-orange-500' : 'icon-thumb-up'}} mr-1 text-lg"></text>
               <text>{{item.likeCount || '赞'}}</text>
-            </view>
+            </view> -->
             <view class="flex items-center flex-1 justify-center border-l border-r border-gray-100">
               <text class="iconfont icon-comment mr-1 text-lg"></text>
-              <text>{{item.commentCount || '评论'}}</text>
+              <text>评论</text>
             </view>
             <view class="flex items-center flex-1 justify-center">
               <text class="iconfont icon-share mr-1 text-lg"></text>

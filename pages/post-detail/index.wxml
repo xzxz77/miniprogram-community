@@ -69,23 +69,19 @@
 
     <!-- Bottom Bar -->
     <view class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center justify-between pb-safe z-10 shadow-lg">
-      <view class="bg-gray-100 rounded-full flex-1 px-4 py-2 text-gray-400 text-sm mr-4 flex items-center" bindtap="onShowInput">
+      <view class="bg-gray-100 rounded-full flex-1 px-4 py-2 text-gray-400 text-sm flex items-center" bindtap="onShowInput">
         <text class="iconfont icon-edit mr-2 text-gray-400"></text>
         {{placeholder || '说点什么...'}}
       </view>
-      <view class="flex items-center space-x-6">
+      <view class="flex items-center ml-4 space-x-6">
         <view class="flex flex-col items-center" bindtap="onLikeTap">
-          <text class="iconfont {{post.isLiked ? 'icon-thumb-up-fill text-orange-500' : 'icon-thumb-up text-gray-600'}} text-2xl transition-all"></text>
+          <image class="action-icon" src="/assets/icons/{{post.isLiked ? 'start-active' : 'start'}}.png" mode="aspectFit"></image>
           <text class="text-xs {{post.isLiked ? 'text-orange-500' : 'text-gray-500'}} mt-0.5">{{post.likeCount > 0 ? post.likeCount : '点赞'}}</text>
         </view>
-        <view class="flex flex-col items-center">
-          <text class="iconfont icon-star text-gray-600 text-2xl"></text>
-          <text class="text-xs text-gray-500 mt-0.5">收藏</text>
+        <view class="flex flex-col items-center" bindtap="onFavoriteTap">
+          <image class="action-icon" src="/assets/icons/{{post.isFavorited ? 'heart' : 'heart-active'}}.png" mode="aspectFit"></image>
+          <text class="text-xs {{post.isFavorited ? 'text-orange-500' : 'text-gray-500'}} mt-0.5">收藏</text>
         </view>
-        <button class="flex flex-col items-center bg-transparent p-0 m-0 leading-normal" open-type="share" style="width: auto;">
-          <text class="iconfont icon-share text-gray-600 text-2xl"></text>
-          <text class="text-xs text-gray-500 mt-0.5">分享</text>
-        </button>
       </view>
     </view>
     

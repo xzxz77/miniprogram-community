@@ -129,13 +129,21 @@ Page({
     }
   },
 
-  onShareAppMessage() {
-    if (!this.data.post) return {};
-    return {
-      title: this.data.post.content.substring(0, 30),
-      path: `/pages/post-detail/index?id=${this.data.post._id}`,
-      imageUrl: this.data.post.images[0] || ''
-    };
+  async onFavoriteTap() {
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+    
+    // Placeholder for favorite logic
+    const post = this.data.post;
+    const isFavorited = !post.isFavorited;
+    
+    this.setData({
+      'post.isFavorited': isFavorited
+    });
+    
+    wx.showToast({ title: isFavorited ? '已收藏' : '已取消收藏', icon: 'none' });
   },
 
   onShowInput() {
