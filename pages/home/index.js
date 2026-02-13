@@ -133,6 +133,12 @@ Page({
         item.sellerAvatar = (item.seller && item.seller.avatarUrl) ? item.seller.avatarUrl : 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0'; 
         item.sellerName = (item.seller && item.seller.nickName) ? item.seller.nickName : '社区邻居';
         item.timeAgo = this.formatTime(item.createTime);
+        item.views = item.views || 0;
+        item.location = item.location || '未知地点';
+        // Truncate location if too long
+        if (item.location.length > 6) {
+            item.location = item.location.substring(0, 6) + '...';
+        }
         
         // 简单的左右平衡算法
         if (left.length <= right.length) {

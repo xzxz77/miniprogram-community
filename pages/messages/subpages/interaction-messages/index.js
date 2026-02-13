@@ -24,18 +24,35 @@ Page({
       });
 
       if (result.success) {
-        const list = result.data.map(item => ({
-          id: item._id,
-          type: 'comment', // Currently only comments
-          user: {
-            nickName: item.user ? item.user.nickName : '用户',
-            avatarUrl: item.user ? item.user.avatarUrl : '/assets/icons/profile.png'
-          },
-          content: `评论了：${item.content}`,
-          targetImage: item.good && item.good.images && item.good.images.length > 0 ? item.good.images[0] : '',
-          time: this.formatTime(item.createTime),
-          goodId: item.good ? item.good._id : ''
-        }));
+        const list = result.data.map(item => {
+          let targetImage = '';
+          let targetId = '';
+          let targetType = '';
+
+          if (item.good) {
+            targetImage = item.good.images && item.good.images.length > 0 ? item.good.images[0] : '';
+            targetId = item.good._id;
+            targetType = 'good';
+          } else if (item.post) {
+            targetImage = item.post.images && item.post.images.length > 0 ? item.post.images[0] : '';
+            targetId = item.post._id;
+            targetType = 'post';
+          }
+
+          return {
+            id: item._id,
+            type: 'comment',
+            user: {
+              nickName: item.user ? item.user.nickName : '用户',
+              avatarUrl: item.user ? item.user.avatarUrl : '/assets/icons/profile.png'
+            },
+            content: `评论了：${item.content}`,
+            targetImage,
+            time: this.formatTime(item.createTime),
+            targetId,
+            targetType
+          };
+        });
         this.setData({ interactions: list, isLoading: false });
 
         // Mark as read
@@ -63,11 +80,13 @@ Page({
   },
 
   onItemTap(e) {
-    const id = e.currentTarget.dataset.id;
-    if (id) {
-      wx.navigateTo({
-        url: `/pages/goods-detail/index?id=${id}`
-      });
+    const { id, type } = e.currentTarget.dataset;
+    if (id && type) {
+      const url = type === 'good' 
+        ? `/pages/goods-detail/index?id=${id}`
+        : `/pages/post-detail/index?id=${id}`;
+      
+      wx.navigateTo({ url });
     }
   }
 })

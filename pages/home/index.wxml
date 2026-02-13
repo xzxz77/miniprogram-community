@@ -98,11 +98,22 @@
                 <text class="currency">¥</text>
                 <text class="amount">{{item.price}}</text>
               </view>
+              <text class="time-ago">{{item.timeAgo}}</text>
             </view>
-            <view class="seller-row mt-3">
+            
+            <view class="seller-row mt-2">
               <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
               <text class="seller-name">{{item.sellerName}}</text>
-              <text class="time-ago">{{item.timeAgo}}</text>
+            </view>
+
+            <view class="meta-row mt-2 flex justify-between items-center">
+              <view class="location-info flex items-center text-gray-400">
+                <text class="iconfont icon-location text-xs mr-1"></text>
+                <text class="text-xs">{{item.location}}</text>
+              </view>
+              <view class="heat-info flex items-center text-gray-400">
+                <text class="text-xs">{{item.views}}浏览</text>
+              </view>
             </view>
           </view>
         </navigator>
@@ -122,11 +133,22 @@
                 <text class="currency">¥</text>
                 <text class="amount">{{item.price}}</text>
               </view>
+              <text class="time-ago">{{item.timeAgo}}</text>
             </view>
-            <view class="seller-row mt-3">
+            
+            <view class="seller-row mt-2">
               <image class="seller-avatar" src="{{item.sellerAvatar}}"></image>
               <text class="seller-name">{{item.sellerName}}</text>
-              <text class="time-ago">{{item.timeAgo}}</text>
+            </view>
+
+            <view class="meta-row mt-2 flex justify-between items-center">
+              <view class="location-info flex items-center text-gray-400">
+                <text class="iconfont icon-location text-xs mr-1"></text>
+                <text class="text-xs">{{item.location}}</text>
+              </view>
+              <view class="heat-info flex items-center text-gray-400">
+                <text class="text-xs">{{item.views}}浏览</text>
+              </view>
             </view>
           </view>
         </navigator>

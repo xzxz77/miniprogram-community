@@ -1,6 +1,6 @@
 <view class="container bg-white min-h-screen">
   <block wx:for="{{interactions}}" wx:key="id">
-    <view class="flex items-start p-4 border-b border-gray-50" bindtap="onItemTap" data-id="{{item.goodId}}">
+    <view class="flex items-start p-4 border-b border-gray-50" bindtap="onItemTap" data-id="{{item.targetId}}" data-type="{{item.targetType}}">
       <image class="avatar mr-3" src="{{item.user.avatarUrl}}"></image>
       <view class="flex-1">
         <view class="flex justify-between items-center mb-1">

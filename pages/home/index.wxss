@@ -297,8 +297,7 @@ page {
 .seller-row {
   display: flex;
   align-items: center;
-  padding-top: 16rpx;
-  border-top: 1rpx solid #f9fafb;
+  margin-top: 12rpx;
 }
 
 .seller-avatar {
@@ -315,6 +314,16 @@ page {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.meta-row {
+  padding-top: 12rpx;
+  border-top: 1rpx solid #f9fafb;
+}
+
+.location-info, .heat-info {
+  display: flex;
+  align-items: center;
 }
 
 .credit-badge {

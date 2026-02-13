@@ -34,12 +34,19 @@ exports.main = async (event, context) => {
         foreignField: '_id',
         as: 'goodInfo'
       })
+      .lookup({
+        from: 'posts',
+        localField: 'postId',
+        foreignField: '_id',
+        as: 'postInfo'
+      })
       .project({
         content: 1,
         createTime: 1,
         isRead: 1,
         user: $.arrayElemAt(['$userInfo', 0]),
-        good: $.arrayElemAt(['$goodInfo', 0])
+        good: $.arrayElemAt(['$goodInfo', 0]),
+        post: $.arrayElemAt(['$postInfo', 0])
       })
       .end()
 
