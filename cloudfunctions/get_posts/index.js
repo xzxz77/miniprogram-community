@@ -9,7 +9,7 @@ const db = cloud.database();
 const _ = db.command;
 
 exports.main = async (event, context) => {
-  const { category, page = 1, pageSize = 10 } = event;
+  const { category, page = 1, pageSize = 10, userLocation } = event;
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
 
@@ -18,6 +18,15 @@ exports.main = async (event, context) => {
     if (category && category !== '全部') {
       match.category = category;
     }
+
+    // Location Filtering (DISABLED FOR TESTING)
+    // To enable: Uncomment the following block.
+    // Logic: If user is NOT in the default test area '幸福花园', restrict posts to their location.
+    /*
+    if (userLocation && userLocation !== '幸福花园') {
+      match.location = userLocation;
+    }
+    */
 
     // Aggregate to lookup user info
     const postsRes = await db.collection('posts').aggregate()

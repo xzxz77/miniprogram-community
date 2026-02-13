@@ -37,6 +37,17 @@
     </view>
   </view>
 
+  <!-- Location Display -->
+  <view class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+    <view class="flex items-center">
+      <text class="iconfont icon-location text-gray-500 mr-2"></text>
+      <text class="text-gray-700">所在位置</text>
+    </view>
+    <view class="flex items-center text-gray-400">
+      <text class="mr-1">{{location}}</text>
+    </view>
+  </view>
+
   <!-- Bottom Bar -->
   <view class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 safe-area-pb">
     <button class="bg-orange-500 text-white rounded-full font-bold text-lg w-full" bindtap="onPublish" disabled="{{!canPublish}}" style="{{!canPublish ? 'opacity: 0.5;' : ''}}">发布</button>

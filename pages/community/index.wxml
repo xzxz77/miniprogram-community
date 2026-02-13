@@ -11,7 +11,7 @@
       <view class="flex items-center">
         <text class="text-2xl font-bold text-gray-900 mr-2">邻里圈</text>
         <view class="bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full text-xs font-bold flex items-center border border-orange-100">
-          <text class="iconfont icon-location text-xs mr-1"></text>幸福花园
+          <text class="iconfont icon-location text-xs mr-1"></text>{{currentLocation}}
         </view>
       </view>
       <view class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center">

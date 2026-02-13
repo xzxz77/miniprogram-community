@@ -10,7 +10,19 @@ Page({
     pageSize: 10,
     isLoading: false,
     hasMore: true,
-    statusBarHeight: 20
+    statusBarHeight: 20,
+    currentLocation: '幸福花园'
+  },
+
+  onShow() {
+    const selectedAddress = wx.getStorageSync('selectedAddress');
+    if (selectedAddress) {
+      let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园';
+      if (displayLoc.length > 6) {
+        displayLoc = displayLoc.substring(0, 6) + '...';
+      }
+      this.setData({ currentLocation: displayLoc });
+    }
   },
 
   onLoad() {
@@ -57,7 +69,8 @@ Page({
         data: {
           category: this.data.currentCategory,
           page: this.data.page,
-          pageSize: this.data.pageSize
+          pageSize: this.data.pageSize,
+          userLocation: this.data.currentLocation
         }
       });
 

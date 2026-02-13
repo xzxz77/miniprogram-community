@@ -7,7 +7,16 @@ Page({
     images: [],
     category: '',
     categories: ['互助问答', '新鲜事', '避坑指南', '宠物联盟'],
-    canPublish: false
+    canPublish: false,
+    location: '幸福花园'
+  },
+
+  onShow() {
+    const selectedAddress = wx.getStorageSync('selectedAddress');
+    if (selectedAddress) {
+      let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园';
+      this.setData({ location: displayLoc });
+    }
   },
 
   onContentInput(e) {
@@ -98,7 +107,8 @@ Page({
         data: {
           content: this.data.content,
           images: fileIDs,
-          category: this.data.category
+          category: this.data.category,
+          location: this.data.location
         }
       });
 
