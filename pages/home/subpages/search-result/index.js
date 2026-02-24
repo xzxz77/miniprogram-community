@@ -13,7 +13,7 @@ Page({
   },
 
   onLoad(options) {
-    const keyword = options.keyword || '';
+    const keyword = options.keyword ? decodeURIComponent(options.keyword) : '';
     
     this.setData({ keyword });
     

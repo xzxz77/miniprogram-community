@@ -64,7 +64,7 @@
 
     <!-- Empty State -->
     <view class="empty-state" wx:if="{{showEmpty}}">
-      <image src="/assets/icons/empty.png" mode="aspectFit" class="empty-img"></image>
+      <!-- <image src="/assets/icons/empty.png" mode="aspectFit" class="empty-img"></image> -->
       <text class="empty-text">没有找到“{{keyword}}”相关的宝贝</text>
     </view>
 

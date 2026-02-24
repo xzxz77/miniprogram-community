@@ -24,8 +24,11 @@ exports.main = async (event, context) => {
     }
 
     // 关键词搜索
-    if (event.keyword && event.keyword.trim()) {
-      const keyword = event.keyword.trim();
+    if (event.keyword && String(event.keyword).trim()) {
+      let keyword = String(event.keyword).trim();
+      // Escape special characters for regex
+      keyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      
       matchCondition.title = db.RegExp({
         regexp: keyword,
         options: 'i', // 大小写不敏感
