@@ -6,6 +6,7 @@ Page({
     userId: '',
     userInfo: null,
     goodsList: [],
+    postsList: [],
     isLoading: true,
     isFollowing: false
   },
@@ -96,6 +97,22 @@ Page({
         status: 'active'
       }).orderBy('createTime', 'desc').get();
 
+    // 3. 获取该用户的帖子
+      try {
+        const postsRes = await wx.cloud.callFunction({
+          name: 'get_posts',
+          data: { userId: userId }
+        });
+        
+        if (postsRes.result && postsRes.result.success) {
+          this.setData({
+            postsList: postsRes.result.data
+          });
+        }
+      } catch (e) {
+        console.error('获取用户帖子失败', e);
+      }
+
       this.setData({
         userInfo,
         goodsList: goodsRes.data,
@@ -112,5 +129,21 @@ Page({
       wx.navigateTo({
           url: `/pages/messages/subpages/chat-detail/index?id=${this.data.userId}`
       })
+  },
+
+  onPostTap(e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: `/pages/post-detail/index?id=${id}`
+    });
+  },
+
+  previewImage(e) {
+    const urls = e.currentTarget.dataset.urls;
+    const current = e.currentTarget.dataset.current;
+    wx.previewImage({
+      current,
+      urls
+    });
   }
 })

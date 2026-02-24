@@ -9,7 +9,7 @@ const db = cloud.database();
 const _ = db.command;
 
 exports.main = async (event, context) => {
-  const { category, page = 1, pageSize = 10, userLocation } = event;
+  const { category, page = 1, pageSize = 10, userLocation, userId } = event;
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
 
@@ -17,6 +17,11 @@ exports.main = async (event, context) => {
     let match = {};
     if (category && category !== '全部') {
       match.category = category;
+    }
+    
+    if (userId) {
+      // Ensure exact match for openid
+      match._openid = String(userId);
     }
 
     // Location Filtering (DISABLED FOR TESTING)
