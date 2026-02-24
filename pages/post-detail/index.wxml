@@ -55,7 +55,10 @@
             <view class="flex-1">
               <view class="flex justify-between items-baseline mb-1">
                 <text class="text-sm font-bold text-gray-600">{{item.user.nickName}}</text>
-                <text class="text-xs text-gray-400">{{item.timeAgo}}</text>
+                <view class="text-xs text-gray-400">
+                  <text class="mr-2">{{index + 1}}楼</text>
+                  <text>{{item.timeAgo}}</text>
+                </view>
               </view>
               <view class="text-base text-gray-800">{{item.content}}</view>
             </view>

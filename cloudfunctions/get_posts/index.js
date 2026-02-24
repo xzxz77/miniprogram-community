@@ -69,7 +69,7 @@ exports.main = async (event, context) => {
       success: false,
       msg: err.message
     };
-  }
+  } 
 };
 
 function formatTime(date) {
