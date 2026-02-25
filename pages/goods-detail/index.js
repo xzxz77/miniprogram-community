@@ -263,6 +263,42 @@ Page({
     return Math.floor(diff / 86400) + '天前';
   },
 
+  onReport() {
+    if (!app.globalData.openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    const reasons = ['诈骗/欺诈', '商品与描述不符', '违禁品', '骚扰/辱骂', '其他'];
+    wx.showActionSheet({
+      itemList: reasons,
+      success: async (res) => {
+        const reason = reasons[res.tapIndex];
+        
+        wx.showLoading({ title: '提交中' });
+        try {
+          const { result } = await wx.cloud.callFunction({
+            name: 'report_item',
+            data: {
+              goodId: this.data.good._id,
+              reason: reason
+            }
+          });
+          
+          wx.hideLoading();
+          if (result.success) {
+            wx.showToast({ title: '举报成功' });
+          } else {
+            wx.showToast({ title: result.msg || '提交失败', icon: 'none' });
+          }
+        } catch (err) {
+          wx.hideLoading();
+          wx.showToast({ title: '网络异常', icon: 'none' });
+        }
+      }
+    });
+  },
+
   onSwiperChange(e) {
     this.setData({ currentImage: e.detail.current });
   },
