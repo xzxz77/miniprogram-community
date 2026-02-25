@@ -1,0 +1,49 @@
+/* pages/profile/subpages/privacy-policy/index.wxss */
+.bg-white { background-color: #fff; }
+
+.min-h-screen { min-height: 100vh; }
+
+.px-6 { padding-left: 48rpx; padding-right: 48rpx; }
+.py-8 { padding-top: 64rpx; padding-bottom: 64rpx; }
+
+.text-center { text-align: center; }
+
+.mb-8 { margin-bottom: 64rpx; }
+.mb-2 { margin-bottom: 16rpx; }
+.mb-6 { margin-bottom: 48rpx; }
+.mb-3 { margin-bottom: 24rpx; }
+.mt-10 { margin-top: 80rpx; }
+.mt-1 { margin-top: 8rpx; }
+
+.font-bold { font-weight: 700; }
+
+.text-xl { font-size: 40rpx; }
+.text-base { font-size: 32rpx; }
+.text-sm { font-size: 28rpx; }
+.text-xs { font-size: 24rpx; }
+
+.text-gray-900 { color: #111827; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-600 { color: #4b5563; }
+.text-gray-400 { color: #9ca3af; }
+
+.leading-relaxed {
+  line-height: 1.8;
+}
+
+.section-title {
+  margin-bottom: 16rpx;
+  position: relative;
+  padding-left: 16rpx;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+  bottom: 8rpx;
+  width: 6rpx;
+  background-color: #f97316; /* orange-500 */
+  border-radius: 4rpx;
+}

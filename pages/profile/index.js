@@ -23,6 +23,14 @@ Page({
     tempUserInfo: {}
   },
 
+  onShareAppMessage() {
+    return {
+      title: '发现一个超棒的社区闲置小程序，快来加入吧！',
+      path: '/pages/home/index',
+      imageUrl: '/assets/images/share-cover.png' // 如果没有图片，微信会默认使用当前页面截图
+    }
+  },
+
   onLoad: function () {
     const sysInfo = wx.getWindowInfo();
     this.setData({

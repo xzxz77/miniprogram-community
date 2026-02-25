@@ -153,6 +153,15 @@
       </view>
       <text class="iconfont icon-arrow-right text-gray-300"></text>
     </navigator>
+    <navigator url="/pages/profile/subpages/privacy-policy/index" class="menu-item flex items-center justify-between border-none">
+      <view class="flex items-center">
+        <view class="menu-icon bg-gray-100 text-gray-500">
+          <image class="icon-img" src="/assets/icons/safety.png" mode="aspectFit"></image>
+        </view>
+        <text class="menu-text">隐私协议</text>
+      </view>
+      <text class="iconfont icon-arrow-right text-gray-300"></text>
+    </navigator>
   </view>
 
   <!-- Invite Banner -->
@@ -160,9 +169,9 @@
     <view class="invite-banner bg-orange-50 rounded-xl p-4 flex items-center justify-between">
       <view>
         <view class="text-sm font-bold text-orange-700">邀请邻居加入</view>
-        <view class="text-xs text-orange-500 mt-1">每邀请一位邻居认证，信用分+5</view>
+        <view class="text-xs text-orange-500 mt-1">每邀请一位邻居认证，获得5元代金券</view>
       </view>
-      <button class="invite-btn bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full">去邀请</button>
+      <button class="invite-btn bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full" open-type="share" style="margin: 0; width: 250rpx; font-weight: normal;">去邀请</button>
     </view>
   </view>
 
