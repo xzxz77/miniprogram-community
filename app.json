@@ -27,7 +27,8 @@
     "pages/pay-result/index",
     "pages/publish-post/index",
     "pages/post-detail/index",
-    "pages/profile/subpages/privacy-policy/index"
+    "pages/profile/subpages/privacy-policy/index",
+    "pages/judge-apply/index"
   ],
   "usingComponents": {
     "top-notification": "/components/top-notification/index"

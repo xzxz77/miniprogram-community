@@ -1,0 +1,27 @@
+<!-- pages/judge-apply/index.wxml -->
+<view class="container p-4">
+  <view class="form-group mb-4">
+    <view class="label mb-2 font-bold text-gray-800">申诉理由</view>
+    <input class="input border border-gray-200 rounded p-2 text-sm w-full" placeholder="请输入申诉理由（如：商品与描述不符）" value="{{reason}}" bindinput="onReasonInput" />
+  </view>
+
+  <view class="form-group mb-4">
+    <view class="label mb-2 font-bold text-gray-800">详细描述</view>
+    <textarea class="textarea border border-gray-200 rounded p-2 text-sm w-full h-32" placeholder="请详细描述事情经过，以便小判官公正裁决" value="{{description}}" bindinput="onDescriptionInput"></textarea>
+  </view>
+
+  <view class="form-group mb-6">
+    <view class="label mb-2 font-bold text-gray-800">证据图片 ({{images.length}}/{{maxImages}})</view>
+    <view class="image-grid flex flex-wrap gap-2">
+      <block wx:for="{{images}}" wx:key="*this">
+        <view class="image-item relative w-20 h-20 bg-gray-100 rounded overflow-hidden">
+          <image src="{{item}}" mode="aspectFill" class="w-full h-full"></image>
+          <view class="delete-btn absolute top-0 right-0 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-bl text-xs" catchtap="deleteImage" data-index="{{index}}">×</view>
+        </view>
+      </block>
+      <view class="add-btn w-20 h-20 bg-gray-100 rounded flex items-center justify-center text-gray-400 text-2xl border border-dashed border-gray-300" bindtap="chooseImage" wx:if="{{images.length < maxImages}}">+</view>
+    </view>
+  </view>
+
+  <button class="submit-btn bg-blue-600 text-white w-full py-3 rounded-lg font-bold" bindtap="submit">提交申请</button>
+</view>

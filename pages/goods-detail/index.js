@@ -269,11 +269,21 @@ Page({
       return;
     }
 
-    const reasons = ['诈骗/欺诈', '商品与描述不符', '违禁品', '骚扰/辱骂', '其他'];
+    const reasons = ['申请小判官介入', '诈骗/欺诈', '商品与描述不符', '违禁品', '骚扰/辱骂', '其他'];
     wx.showActionSheet({
       itemList: reasons,
       success: async (res) => {
-        const reason = reasons[res.tapIndex];
+        const index = res.tapIndex;
+        
+        if (index === 0) {
+          // 申请小判官介入
+          wx.navigateTo({
+            url: `/pages/judge-apply/index?goodId=${this.data.good._id}`
+          });
+          return;
+        }
+
+        const reason = reasons[index];
         
         wx.showLoading({ title: '提交中' });
         try {
