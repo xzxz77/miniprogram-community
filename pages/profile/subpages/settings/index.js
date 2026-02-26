@@ -48,6 +48,24 @@ Page({
     });
   },
 
+  onContactService() {
+    wx.showModal({
+      title: '联系客服',
+      content: '客服微信号：aizoey1598\n(工作时间: 9:00-18:00)',
+      confirmText: '复制',
+      success: (res) => {
+        if (res.confirm) {
+          wx.setClipboardData({
+            data: 'aizoey1598',
+            success: () => {
+              wx.showToast({ title: '已复制微信号', icon: 'none' });
+            }
+          });
+        }
+      }
+    });
+  },
+
   onAbout() {
     wx.showModal({
       title: '关于我们',
