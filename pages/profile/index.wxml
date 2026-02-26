@@ -8,9 +8,9 @@
     <view class="user-info flex items-center mb-6">
       <view class="avatar-container relative" bindtap="onEditProfile">
         <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-        <view class="verified-badge" wx:if="{{userInfo.verified}}">
+        <!-- <view class="verified-badge" wx:if="{{userInfo.verified}}">
           <text class="iconfont icon-check-circle"></text> 已认证
-        </view>
+        </view> -->
       </view>
       <view class="flex-1 ml-4" bindtap="onEditProfile">
         <view class="info-content">

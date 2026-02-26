@@ -10,7 +10,7 @@ Page({
       avatarUrl: '', 
       bio: '点击设置个性签名',
       days: 1,
-      verified: false
+      // verified: false
     },
     isLogged: false, 
     stats: {
