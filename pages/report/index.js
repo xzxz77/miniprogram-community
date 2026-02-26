@@ -60,6 +60,71 @@ Page({
     this.setData({ images: newImages });
   },
 
+  async onApplyJudge() {
+    if (this.data.reasonIndex < 0) {
+      wx.showToast({ title: '请选择举报原因', icon: 'none' });
+      return;
+    }
+    if (!this.data.description.trim()) {
+      wx.showToast({ title: '请输入详细描述', icon: 'none' });
+      return;
+    }
+
+    wx.showModal({
+      title: '申请小判官介入',
+      content: '申请后将由社区大众评审进行公投裁决，是否确认？',
+      success: async (res) => {
+        if (res.confirm) {
+          this.submitJudgeCase();
+        }
+      }
+    });
+  },
+
+  async submitJudgeCase() {
+    wx.showLoading({ title: '提交中' });
+    try {
+      // Upload images first
+      const fileIDs = [];
+      for (const filePath of this.data.images) {
+        const cloudPath = `judge-evidence/${Date.now()}-${Math.floor(Math.random() * 1000)}.jpg`;
+        const uploadRes = await wx.cloud.uploadFile({
+          cloudPath,
+          filePath
+        });
+        fileIDs.push(uploadRes.fileID);
+      }
+
+      const { result } = await wx.cloud.callFunction({
+        name: 'create_judge_case',
+        data: {
+          goodId: this.data.goodId,
+          reason: this.data.reasons[this.data.reasonIndex],
+          description: this.data.description,
+          evidence: fileIDs
+        }
+      });
+
+      wx.hideLoading();
+
+      if (result.success) {
+        wx.showToast({ title: '申请成功' });
+        setTimeout(() => {
+          // Redirect to judge detail page so user can see their case
+          wx.redirectTo({
+            url: `/pages/judge-detail/index?id=${result.id}`
+          });
+        }, 1500);
+      } else {
+        wx.showToast({ title: result.msg || '申请失败', icon: 'none' });
+      }
+    } catch (err) {
+      console.error(err);
+      wx.hideLoading();
+      wx.showToast({ title: '网络异常', icon: 'none' });
+    }
+  },
+
   async submit() {
     if (this.data.reasonIndex < 0) {
       wx.showToast({ title: '请选择举报原因', icon: 'none' });
@@ -67,51 +132,6 @@ Page({
     }
     
     const reason = this.data.reasons[this.data.reasonIndex];
-    
-    // Special handling for Judge Case
-    if (reason === '申请小判官介入') {
-        wx.showLoading({ title: '提交中' });
-        try {
-            // Upload images first
-            const fileIDs = [];
-            for (const filePath of this.data.images) {
-                const cloudPath = `judge-evidence/${Date.now()}-${Math.floor(Math.random() * 1000)}.jpg`;
-                const uploadRes = await wx.cloud.uploadFile({
-                    cloudPath,
-                    filePath
-                });
-                fileIDs.push(uploadRes.fileID);
-            }
-
-            const { result } = await wx.cloud.callFunction({
-                name: 'create_judge_case',
-                data: {
-                    goodId: this.data.goodId,
-                    reason: '申请小判官介入', // Or maybe pass description as reason context?
-                    // Actually create_judge_case expects 'reason' and 'description'.
-                    // Let's use the description field for description.
-                    description: this.data.description || '无详细描述',
-                    evidence: fileIDs
-                }
-            });
-
-            wx.hideLoading();
-
-            if (result.success) {
-                wx.showToast({ title: '申请成功' });
-                setTimeout(() => {
-                    wx.navigateBack();
-                }, 1500);
-            } else {
-                wx.showToast({ title: result.msg || '申请失败', icon: 'none' });
-            }
-        } catch (err) {
-            console.error(err);
-            wx.hideLoading();
-            wx.showToast({ title: '网络异常', icon: 'none' });
-        }
-        return;
-    }
     
     wx.showLoading({ title: '提交中' });
 

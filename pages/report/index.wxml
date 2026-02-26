@@ -45,6 +45,17 @@
     </view>
   </view>
 
-  <button class="submit-btn bg-orange-500 text-white w-full py-3 rounded-full font-bold shadow-lg" bindtap="submit">提交举报</button>
-  <view class="text-center text-xs text-gray-400 mt-4">恶意举报可能会导致您的账号被封禁</view>
+  
+  <view class="mt-4 pt-4 border-t border-gray-100">
+  <view class="flex gap-3"> 
+    <button class="submit-btn bg-orange-500 text-white w-full py-3 rounded-full font-bold shadow-lg" bindtap="submit">提交举报</button>
+    <button class="submit-btn bg-orange-500 text-white w-full py-3 rounded-full font-bold shadow-lg" bindtap="onApplyJudge">申请小判官</button>
+  </view>
+
+  <view class="text-center text-xs text-gray-400 mt-2">
+    对结果不满意？申请社区大众评审公投裁决
+  </view>
+</view>
+
+  <view class="text-center text-xs text-gray-400 mt-6">恶意举报可能会导致您的账号被封禁</view>
 </view>
