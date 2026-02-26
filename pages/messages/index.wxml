@@ -49,7 +49,7 @@
         <view class="content-container">
           <view class="row-top">
             <text class="username">{{item.name}}</text>
-            <text class="time">{{item.time}}</text>
+            <!-- <text class="time">{{item.time}}</text> -->
           </view>
           
           <view class="row-bottom">

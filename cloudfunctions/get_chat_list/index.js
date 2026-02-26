@@ -10,27 +10,35 @@ const $ = db.command.aggregate
 // 格式化时间辅助函数
 const formatTime = (date) => {
   if (!date) return ''
+  if (date.toDate) {
+    date = date.toDate()
+  }
   const now = new Date()
   const d = new Date(date)
-  const diff = now - d
-  const oneDay = 24 * 60 * 60 * 1000
   
-  if (diff < oneDay && now.getDate() === d.getDate()) {
-    // 当天：显示 HH:mm
-    const h = d.getHours().toString().padStart(2, '0')
-    const m = d.getMinutes().toString().padStart(2, '0')
+  // Reset time to midnight for accurate day comparison
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  const messageDate = new Date(d.getFullYear(), d.getMonth(), d.getDate())
+  
+  const h = d.getHours().toString().padStart(2, '0')
+  const m = d.getMinutes().toString().padStart(2, '0')
+
+  if (messageDate.getTime() === today.getTime()) {
     return `${h}:${m}`
-  } else if (diff < oneDay * 2) {
-    // 昨天
+  } else if (messageDate.getTime() === yesterday.getTime()) {
     return '昨天'
-  } else if (diff < oneDay * 7) {
-    // 一周内
+  } else if (now.getTime() - d.getTime() < 7 * 24 * 60 * 60 * 1000) {
     const weeks = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
     return weeks[d.getDay()]
   } else {
-    // 早期
     const M = (d.getMonth() + 1).toString().padStart(2, '0')
     const D = d.getDate().toString().padStart(2, '0')
+    // If not this year, show year
+    if (d.getFullYear() !== now.getFullYear()) {
+      return `${d.getFullYear()}-${M}-${D}`
+    }
     return `${M}-${D}`
   }
 }

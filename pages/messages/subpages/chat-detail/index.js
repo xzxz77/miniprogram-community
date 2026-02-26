@@ -166,10 +166,36 @@ Page({
 
   formatTime(date) {
     if (!date) return '';
+    // Handle Firestore Timestamp
+    if (date.toDate) {
+      date = date.toDate();
+    }
     const d = new Date(date);
-    const h = d.getHours().toString().padStart(2, '0');
-    const m = d.getMinutes().toString().padStart(2, '0');
-    return `${h}:${m}`;
+    const now = new Date();
+    
+    const year = d.getFullYear();
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
+    const hour = d.getHours().toString().padStart(2, '0');
+    const minute = d.getMinutes().toString().padStart(2, '0');
+
+    const isToday = d.getDate() === now.getDate() && 
+                    d.getMonth() === now.getMonth() && 
+                    d.getFullYear() === now.getFullYear();
+    
+    const isYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toDateString() === d.toDateString();
+    
+    const isThisYear = d.getFullYear() === now.getFullYear();
+
+    if (isToday) {
+      return `${hour}:${minute}`;
+    } else if (isYesterday) {
+      return `昨天 ${hour}:${minute}`;
+    } else if (isThisYear) {
+      return `${month}-${day} ${hour}:${minute}`;
+    } else {
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    }
   },
 
   // Input Handling
