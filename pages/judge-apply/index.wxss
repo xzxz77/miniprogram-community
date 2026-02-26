@@ -41,6 +41,11 @@
   overflow: hidden;
 }
 
+.image-item image {
+  width: 100%;
+  height: 100%;
+}
+
 .delete-btn {
   position: absolute;
   top: 0;

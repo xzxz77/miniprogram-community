@@ -8,7 +8,7 @@ cloud.init({
 const db = cloud.database();
 
 exports.main = async (event, context) => {
-  const { goodId, reason, description } = event;
+  const { goodId, reason, description, evidence } = event;
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
 
@@ -34,6 +34,7 @@ exports.main = async (event, context) => {
         goodId: goodId,
         reason: reason,
         description: description || '',
+        evidence: evidence || [],
         createTime: db.serverDate(),
         status: 'pending' // pending, processed, rejected
       }

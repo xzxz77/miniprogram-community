@@ -1,0 +1,88 @@
+/* pages/report/index.wxss */
+page {
+  background-color: #f9fafb;
+}
+
+.container {
+  padding: 32rpx;
+}
+
+.bg-white { background-color: white; }
+.bg-gray-50 { background-color: #f9fafb; }
+.bg-gray-100 { background-color: #f3f4f6; }
+.bg-black-50 { background-color: rgba(0, 0, 0, 0.5); }
+
+.text-gray-900 { color: #111827; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-500 { color: #6b7280; }
+.text-gray-400 { color: #9ca3af; }
+.text-gray-300 { color: #d1d5db; }
+.text-red-500 { color: #ef4444; }
+.bg-orange-500 { background-color: #f97316; }
+.text-white { color: white; }
+
+.font-bold { font-weight: 700; }
+.text-sm { font-size: 28rpx; }
+.text-xs { font-size: 24rpx; }
+.text-2xl { font-size: 48rpx; }
+
+.rounded-lg { border-radius: 16rpx; }
+.rounded { border-radius: 8rpx; }
+.rounded-full { border-radius: 9999px; }
+.rounded-bl { border-bottom-left-radius: 8rpx; }
+
+.shadow-sm { box-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.05); }
+.shadow-lg { box-shadow: 0 10rpx 15rpx -3rpx rgba(249, 115, 22, 0.2); }
+
+.flex { display: flex; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-3 { gap: 24rpx; }
+
+.mb-4 { margin-bottom: 32rpx; }
+.mb-3 { margin-bottom: 24rpx; }
+.mb-1 { margin-bottom: 8rpx; }
+.mb-6 { margin-bottom: 48rpx; }
+.mr-3 { margin-right: 24rpx; }
+.mt-2 { margin-top: 16rpx; }
+.mt-4 { margin-top: 32rpx; }
+
+.p-4 { padding: 32rpx; }
+.p-3 { padding: 24rpx; }
+
+.w-16 { width: 128rpx; }
+.h-16 { height: 128rpx; }
+.w-20 { width: 160rpx; }
+.h-20 { height: 160rpx; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.w-5 { width: 40rpx; }
+.h-5 { height: 40rpx; }
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.picker-box {
+  width: 100%;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.textarea {
+  padding: 16rpx 0;
+}
+
+.image-item {
+  border: 1rpx solid #e5e7eb;
+}
+
+.submit-btn {
+  border: none;
+}

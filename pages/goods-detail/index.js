@@ -269,43 +269,8 @@ Page({
       return;
     }
 
-    const reasons = ['申请小判官介入', '诈骗/欺诈', '商品与描述不符', '违禁品', '骚扰/辱骂', '其他'];
-    wx.showActionSheet({
-      itemList: reasons,
-      success: async (res) => {
-        const index = res.tapIndex;
-        
-        if (index === 0) {
-          // 申请小判官介入
-          wx.navigateTo({
-            url: `/pages/judge-apply/index?goodId=${this.data.good._id}`
-          });
-          return;
-        }
-
-        const reason = reasons[index];
-        
-        wx.showLoading({ title: '提交中' });
-        try {
-          const { result } = await wx.cloud.callFunction({
-            name: 'report_item',
-            data: {
-              goodId: this.data.good._id,
-              reason: reason
-            }
-          });
-          
-          wx.hideLoading();
-          if (result.success) {
-            wx.showToast({ title: '举报成功' });
-          } else {
-            wx.showToast({ title: result.msg || '提交失败', icon: 'none' });
-          }
-        } catch (err) {
-          wx.hideLoading();
-          wx.showToast({ title: '网络异常', icon: 'none' });
-        }
-      }
+    wx.navigateTo({
+      url: `/pages/report/index?goodId=${this.data.good._id}`
     });
   },
 
