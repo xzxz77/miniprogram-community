@@ -1,18 +1,18 @@
 <!-- pages/profile/subpages/settings/index.wxml -->
 <view class="container">
   <view class="group bg-white mt-3">
-    <view class="cell flex justify-between items-center p-4 border-b border-gray-50" bindtap="onNotImplemented">
+    <!-- <view class="cell flex justify-between items-center p-4 border-b border-gray-50" bindtap="onNotImplemented">
       <text class="text-gray-800 text-sm">个人资料</text>
       <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
-    </view>
+    </view> -->
     <navigator url="/pages/profile/subpages/account-security/index" class="cell flex justify-between items-center p-4 border-b border-gray-50">
       <text class="text-gray-800 text-sm">账号与安全</text>
       <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
     </navigator>
-    <view class="cell flex justify-between items-center p-4" bindtap="onNotImplemented">
+    <navigator url="/pages/profile/subpages/message-settings/index" class="cell flex justify-between items-center p-4">
       <text class="text-gray-800 text-sm">消息通知设置</text>
       <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
-    </view>
+    </navigator>
   </view>
 
   <view class="group bg-white mt-3">

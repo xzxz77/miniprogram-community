@@ -1,0 +1,25 @@
+<!-- pages/profile/subpages/message-settings/index.wxml -->
+<view class="container">
+  <view class="group bg-white mt-3">
+    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+      <text class="text-gray-800 text-sm">聊天消息通知</text>
+      <switch color="#f97316" checked="{{settings.chat}}" bindchange="onSwitchChange" data-key="chat" />
+    </view>
+    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+      <text class="text-gray-800 text-sm">交易物流通知</text>
+      <switch color="#f97316" checked="{{settings.transaction}}" bindchange="onSwitchChange" data-key="transaction" />
+    </view>
+    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+      <text class="text-gray-800 text-sm">互动消息通知</text>
+      <switch color="#f97316" checked="{{settings.interaction}}" bindchange="onSwitchChange" data-key="interaction" />
+    </view>
+    <view class="cell flex justify-between items-center p-4">
+      <text class="text-gray-800 text-sm">系统公告通知</text>
+      <switch color="#f97316" checked="{{settings.system}}" bindchange="onSwitchChange" data-key="system" />
+    </view>
+  </view>
+  
+  <view class="px-4 mt-2">
+    <text class="text-xs text-gray-400">关闭后，您将不会收到相应的消息推送通知</text>
+  </view>
+</view>

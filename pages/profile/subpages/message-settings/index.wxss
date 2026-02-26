@@ -1,0 +1,23 @@
+/* pages/profile/subpages/message-settings/index.wxss */
+page {
+  background-color: #f9fafb;
+}
+
+.mt-3 { margin-top: 24rpx; }
+.mt-2 { margin-top: 16rpx; }
+.p-4 { padding: 32rpx; }
+.px-4 { padding-left: 32rpx; padding-right: 32rpx; }
+
+.bg-white { background-color: white; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-400 { color: #9ca3af; }
+
+.text-sm { font-size: 28rpx; }
+.text-xs { font-size: 24rpx; }
+
+.flex { display: flex; }
+.justify-between { justify-content: space-between; }
+.items-center { align-items: center; }
+
+.border-b { border-bottom-width: 1rpx; }
+.border-gray-50 { border-color: #f9fafb; }

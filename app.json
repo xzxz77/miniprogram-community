@@ -29,7 +29,8 @@
     "pages/post-detail/index",
     "pages/profile/subpages/privacy-policy/index",
     "pages/judge-apply/index",
-    "pages/profile/subpages/account-security/index"
+    "pages/profile/subpages/account-security/index",
+    "pages/profile/subpages/message-settings/index"
   ],
   "usingComponents": {
     "top-notification": "/components/top-notification/index"
