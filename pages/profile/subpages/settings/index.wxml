@@ -1,32 +1,35 @@
 <!-- pages/profile/subpages/settings/index.wxml -->
 <view class="container">
   <view class="group bg-white mt-3">
-    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+    <view class="cell flex justify-between items-center p-4 border-b border-gray-50" bindtap="onNotImplemented">
       <text class="text-gray-800 text-sm">个人资料</text>
       <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
     </view>
-    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+    <navigator url="/pages/profile/subpages/account-security/index" class="cell flex justify-between items-center p-4 border-b border-gray-50">
       <text class="text-gray-800 text-sm">账号与安全</text>
       <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
-    </view>
-    <view class="cell flex justify-between items-center p-4">
+    </navigator>
+    <view class="cell flex justify-between items-center p-4" bindtap="onNotImplemented">
       <text class="text-gray-800 text-sm">消息通知设置</text>
       <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
     </view>
   </view>
 
   <view class="group bg-white mt-3">
-    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+    <view class="cell flex justify-between items-center p-4 border-b border-gray-50" bindtap="onClearCache">
       <text class="text-gray-800 text-sm">清除缓存</text>
-      <text class="text-gray-400 text-xs">12.5MB</text>
+      <text class="text-gray-400 text-xs">{{cacheSize}}</text>
     </view>
-    <view class="cell flex justify-between items-center p-4">
+    <view class="cell flex justify-between items-center p-4" bindtap="onAbout">
       <text class="text-gray-800 text-sm">关于我们</text>
-      <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+      <view class="flex items-center">
+        <text class="text-gray-400 text-xs mr-2">v{{version}}</text>
+        <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+      </view>
     </view>
   </view>
 
   <view class="mt-6 px-4">
-    <button class="logout-btn w-full bg-white text-red-500 font-bold py-3 rounded-xl shadow-sm">退出登录</button>
+    <button class="logout-btn w-full bg-white text-red-500 font-bold py-3 rounded-xl shadow-sm" bindtap="onLogout">退出登录</button>
   </view>
 </view>

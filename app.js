@@ -97,6 +97,11 @@ App({
   },
 
   async checkUserLogin() {
+    // Check if explicitly logged out
+    if (wx.getStorageSync('isLoggedOut')) {
+        return;
+    }
+
     try {
       // 1. 调用云函数获取 OpenID
       const { result } = await wx.cloud.callFunction({ name: 'login' });

@@ -1,0 +1,18 @@
+<!-- pages/profile/subpages/account-security/index.wxml -->
+<view class="container">
+  <!-- <view class="group bg-white mt-3">
+    <view class="cell flex justify-between items-center p-4 border-b border-gray-50">
+      <text class="text-gray-800 text-sm">修改密码</text>
+      <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+    </view>
+    <view class="cell flex justify-between items-center p-4">
+      <text class="text-gray-800 text-sm">绑定手机号</text>
+      <text class="text-gray-400 text-xs mr-2">138****8888</text>
+    </view>
+  </view> -->
+
+  <view class="mt-6 px-4">
+    <button class="delete-btn w-full bg-white text-red-500 font-bold py-3 rounded-xl shadow-sm" bindtap="onDeleteAccount">注销账号</button>
+    <view class="text-xs text-gray-400 text-center mt-3">注销后无法恢复，请谨慎操作</view>
+  </view>
+</view>

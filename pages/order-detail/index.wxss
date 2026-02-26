@@ -56,6 +56,10 @@ page {
   justify-content: center;
 }
 
+.w-10 { width: 80rpx; }
+.h-10 { height: 80rpx; }
+.bg-gray-100 { background-color: #f3f4f6; }
+
 /* Goods */
 .goods-content {
   display: flex;

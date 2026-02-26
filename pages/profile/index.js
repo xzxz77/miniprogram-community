@@ -53,6 +53,24 @@ Page({
     // Refresh stats when showing page
     if (app.globalData.isLogged) {
       this.loadStats();
+    } else {
+      // Reset UI if logged out
+      this.setData({
+        isLogged: false,
+        userInfo: {
+          nickName: '点击登录/注册',
+          avatarUrl: '', 
+          bio: '点击设置个性签名',
+          days: 1,
+          verified: false
+        },
+        stats: {
+          collection: 0,
+          follow: 0,
+          fans: 0,
+          selling: 0
+        }
+      });
     }
   },
 
@@ -113,6 +131,9 @@ Page({
 
   handleLogin() {
     wx.showLoading({ title: '登录中' });
+    // Clear logout flag when user explicitly tries to login
+    wx.removeStorageSync('isLoggedOut');
+    
     app.checkUserLogin().then(() => {
         wx.hideLoading();
         if (app.globalData.isLogged) {

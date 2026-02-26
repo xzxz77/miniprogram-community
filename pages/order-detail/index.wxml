@@ -14,8 +14,8 @@
   <!-- Address Card -->
   <view class="card address-card">
     <view class="flex items-center">
-      <view class="icon-wrapper bg-orange-100 mr-3">
-        <text class="iconfont icon-location text-orange-600 text-xl"></text>
+      <view class="mr-3">
+        <image src="{{order.buyerInfo.avatarUrl}}" class="w-10 h-10 rounded-full bg-gray-100" mode="aspectFill"></image>
       </view>
       <view>
         <view class="user-info text-gray-900 font-bold mb-1">

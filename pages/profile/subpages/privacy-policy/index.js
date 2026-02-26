@@ -1,7 +1,7 @@
 // pages/profile/subpages/privacy-policy/index.js
 Page({
   data: {
-    title: '社区闲置小程序隐私保护指引',
+    title: '蜗牛集市小程序隐私保护指引',
     updateDate: '2026年2月1日',
     effectiveDate: '2026年2月1日',
     sections: [

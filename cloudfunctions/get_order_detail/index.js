@@ -25,25 +25,29 @@ exports.main = async (event, context) => {
       return { success: false, msg: '无权查看此订单' };
     }
 
-    // Fetch seller info (if buyer is viewing) or buyer info (if seller is viewing)
-    // For now, let's just fetch seller info to display contact
-    let sellerInfo = {};
+    // Fetch buyer info
+    let buyerInfo = {};
     try {
-        // We can reuse get_user_info logic or just fetch from users collection if we have one
-        // Assuming we rely on get_user_info cloud function logic, but here we can just query users collection if accessible
-        // Or just return the openids and let frontend fetch user info.
-        // But to be self-contained, let's try to fetch user info if we have a users collection.
-        // Since I don't recall a users collection being explicitly managed for profiles (it's usually just openid),
-        // I'll stick to returning the order. The frontend can fetch user info if needed, or I can add it here if I had a users table.
-        // Wait, I used 'get_user_info' in 'pay/index.js'. Let's see what that does.
-        // It likely fetches from a 'users' collection or similar.
+      const userRes = await db.collection('users').where({
+        _openid: order._openid
+      }).get();
+      
+      if (userRes.data.length > 0) {
+        buyerInfo = userRes.data[0];
+      }
     } catch (e) {
-        // ignore
+      console.error('Fetch buyer info failed', e);
     }
 
     return {
       success: true,
-      data: order
+      data: {
+        ...order,
+        buyerInfo: {
+            nickName: buyerInfo.nickName || '买家',
+            avatarUrl: buyerInfo.avatarUrl || '/assets/icons/profile.png'
+        }
+      }
     };
 
   } catch (err) {

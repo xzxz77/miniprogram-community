@@ -242,7 +242,7 @@ Page({
   // Upload
   async uploadImages() {
     
-    const uploads = this.data.images.map(async (filePath) => {
+    const uploads = this.data.images.map(async (filePath, index) => {
       // Check if it's already a cloud ID
       if (filePath.startsWith('cloud://')) return filePath;
 
@@ -252,7 +252,8 @@ Page({
           ext = match[0];
       }
       
-      const cloudPath = `goods/${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
+      // Add index to prevent collision when uploading multiple images simultaneously
+      const cloudPath = `goods/${Date.now()}-${index}-${Math.floor(Math.random() * 1000)}${ext}`;
       
       try {
         const res = await wx.cloud.uploadFile({
@@ -260,7 +261,7 @@ Page({
           filePath,
         });
         
-        return res.fileID; // FIXED: Return ID directly, Promise.all will collect them
+        return res.fileID; 
       } catch (e) {
         console.error('Upload failed for path:', filePath, e);
         throw e;
@@ -283,6 +284,9 @@ Page({
     try {
       // 1. Upload Images
       const fileIDs = await this.uploadImages();
+      
+      // Update local images to cloud IDs to prevent re-upload on retry
+      this.setData({ images: fileIDs });
       
       // 2. Call Cloud Function
       const goodData = {

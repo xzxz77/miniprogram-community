@@ -1,0 +1,36 @@
+/* pages/profile/subpages/account-security/index.wxss */
+page {
+  background-color: #f9fafb;
+}
+
+.mt-3 { margin-top: 24rpx; }
+.mt-6 { margin-top: 48rpx; }
+.p-4 { padding: 32rpx; }
+.px-4 { padding-left: 32rpx; padding-right: 32rpx; }
+
+.bg-white { background-color: white; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-400 { color: #9ca3af; }
+.text-gray-300 { color: #d1d5db; }
+.text-red-500 { color: #ef4444; }
+
+.text-sm { font-size: 28rpx; }
+.text-xs { font-size: 24rpx; }
+.font-bold { font-weight: 700; }
+
+.flex { display: flex; }
+.justify-between { justify-content: space-between; }
+.items-center { align-items: center; }
+.text-center { text-align: center; }
+
+.border-b { border-bottom-width: 1rpx; }
+.border-gray-50 { border-color: #f9fafb; }
+
+.rounded-xl { border-radius: 24rpx; }
+.shadow-sm { box-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.05); }
+
+.delete-btn {
+  border: none;
+}
+
+.mr-2 { margin-right: 16rpx; }
