@@ -35,7 +35,9 @@
   <!-- Content -->
   <view class="p-4">
     <block wx:if="{{isLoading && posts.length === 0}}">
-       <view class="text-center text-gray-400 py-10">加载中...</view>
+      <view class="flex flex-col items-center justify-center py-20 min-h-[50vh]">
+        <view class="text-gray-400 text-sm">加载中...</view>
+      </view>
     </block>
     <block wx:elif="{{posts.length === 0}}">
        <view class="text-center text-gray-400 py-20 flex flex-col items-center">
@@ -94,7 +96,9 @@
         </view>
       </block>
       
-      <view wx:if="{{!hasMore}}" class="text-center text-gray-300 text-xs py-4">没有更多了</view>
+      <view wx:if="{{!hasMore}}" class="flex justify-center items-center text-gray-300 text-xs py-6">
+        <text>没有更多了</text>
+      </view>
     </block>
   </view>
   
