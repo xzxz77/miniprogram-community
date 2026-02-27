@@ -28,7 +28,7 @@
       <!-- Message Item -->
       <view class="message-item {{item.isMy ? 'my-message' : 'other-message'}}" id="msg-{{item.id}}">
         <!-- Avatar -->
-        <image class="avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+        <image class="avatar" src="{{item.isMy ? (myUserInfo.avatarUrl || 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwBHdR3X0x5yWc8X6w3y3y3y3y3y3y3y3y3y3y3y3y3/0') : (targetUserInfo.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150')}}" mode="aspectFill"></image>
 
         <!-- Content Bubble -->
         <view class="content-wrapper">
