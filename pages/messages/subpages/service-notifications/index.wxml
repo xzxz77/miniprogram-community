@@ -10,5 +10,5 @@
       </view>
     </view>
   </block>
-  <view wx:if="{{notifications.length === 0}}" class="text-center text-gray-400 py-10">暂无通知</view>
+  <view wx:if="{{notifications.length === 0}}" class="text-center text-gray-400 py-10 flex flex-col items-center">暂无通知</view>
 </view>

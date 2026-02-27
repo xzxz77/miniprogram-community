@@ -1,6 +1,6 @@
 <view class="container bg-gray-50 min-h-screen p-4">
   <block wx:if="{{isLoading}}">
-    <view class="text-center text-gray-400 py-10">加载中...</view>
+    <view class="text-center text-gray-400 py-10 flex flex-col items-center">加载中...</view>
   </block>
   <block wx:elif="{{updates.length === 0}}">
     <view class="text-center text-gray-400 py-10 flex flex-col items-center">
