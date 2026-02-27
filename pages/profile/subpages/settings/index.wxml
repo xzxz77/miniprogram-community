@@ -29,6 +29,13 @@
     </view>
   </view>
 
+  <view class="group bg-white mt-3">
+    <view class="cell flex justify-between items-center p-4" bindtap="onAdminEntry">
+      <text class="text-gray-800 text-sm">管理员入口</text>
+      <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+    </view>
+  </view>
+
   <view class="mt-6 px-4">
     <button class="logout-btn w-full bg-white text-red-500 font-bold py-3 rounded-xl shadow-sm" bindtap="onLogout">退出登录</button>
   </view>

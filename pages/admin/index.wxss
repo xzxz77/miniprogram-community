@@ -1,0 +1,4 @@
+/* pages/admin/index.wxss */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}

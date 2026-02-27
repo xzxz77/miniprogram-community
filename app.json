@@ -31,7 +31,8 @@
     "pages/judge-apply/index",
     "pages/profile/subpages/account-security/index",
     "pages/profile/subpages/message-settings/index",
-    "pages/report/index"
+    "pages/report/index",
+    "pages/admin/index"
   ],
   "usingComponents": {
     "top-notification": "/components/top-notification/index"

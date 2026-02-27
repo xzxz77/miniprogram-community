@@ -74,6 +74,41 @@ Page({
     });
   },
 
+  onAdminEntry() {
+    // 1. Verify Admin ID
+    const openid = app.globalData.openid;
+    if (!openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      return;
+    }
+
+    // TODO: Replace with real admin OpenIDs
+    // For testing, we allow the current user. In production, remove `openid` from this array.
+    const ADMIN_IDS = [openid, 'oFdj-5HmFHCEzSKopFVPBIjF8FfM']; 
+    
+    if (!ADMIN_IDS.includes(openid)) {
+      wx.showToast({ title: '无权限访问', icon: 'none' });
+      return;
+    }
+
+    // 2. Enter Password
+    wx.showModal({
+      title: '管理员验证',
+      content: '',
+      editable: true,
+      placeholderText: '请输入管理员密码',
+      success: (res) => {
+        if (res.confirm) {
+          if (res.content === 'admin123') {
+            wx.navigateTo({ url: '/pages/admin/index' });
+          } else {
+            wx.showToast({ title: '密码错误', icon: 'none' });
+          }
+        }
+      }
+    });
+  },
+
   onLogout() {
     wx.showModal({
       title: '提示',
