@@ -65,6 +65,11 @@ exports.main = async (event, context) => {
     myPlaintiffCases.forEach(c => c.goodId && goodIds.add(c.goodId));
     myDefendantCases.forEach(c => c.goodId && goodIds.add(c.goodId));
 
+    // Identify goods that have an active judge case (where I am plaintiff)
+    // If I have a judge case for a good, I don't need to see the simple report for it.
+    const plaintiffCaseGoodIds = new Set();
+    myPlaintiffCases.forEach(c => c.goodId && plaintiffCaseGoodIds.add(c.goodId));
+
     let goodsMap = {};
     if (goodIds.size > 0) {
       try {
@@ -99,6 +104,11 @@ exports.main = async (event, context) => {
 
     // Process Reports (Reporter)
     myReports.forEach(report => {
+      // Skip if there is a judge case for this good (as plaintiff)
+      if (report.goodId && plaintiffCaseGoodIds.has(report.goodId)) {
+          return;
+      }
+
       const good = goodsMap[report.goodId] || {};
       const goodName = good.title || '未知商品';
       
@@ -160,17 +170,42 @@ exports.main = async (event, context) => {
     notifications.sort((a, b) => b.timestamp - a.timestamp);
 
     // Format time string
-    const formattedNotifications = notifications.map(n => {
-      const date = new Date(n.timestamp);
+    const formatTime = (timeVal) => {
+      if (!timeVal) return '';
+      const now = new Date();
+      const date = new Date(timeVal instanceof Date ? timeVal : (timeVal.toDate ? timeVal.toDate() : timeVal));
+      
+      // Basic formatting
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const day = date.getDate().toString().padStart(2, '0');
       const hour = date.getHours().toString().padStart(2, '0');
       const minute = date.getMinutes().toString().padStart(2, '0');
+
+      // Check if it's today
+      if (date.toDateString() === now.toDateString()) {
+        return `${hour}:${minute}`;
+      }
       
+      // Check if it's yesterday
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      if (date.toDateString() === yesterday.toDateString()) {
+        return `昨天 ${hour}:${minute}`;
+      }
+
+      // Check if it's this year
+      if (year === now.getFullYear()) {
+        return `${month}-${day} ${hour}:${minute}`;
+      }
+
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    };
+
+    const formattedNotifications = notifications.map(n => {
       return {
         ...n,
-        time: `${year}-${month}-${day} ${hour}:${minute}`
+        time: formatTime(new Date(n.timestamp))
       };
     });
 
