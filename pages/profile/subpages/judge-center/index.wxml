@@ -14,7 +14,7 @@
       <view class="case-card bg-white rounded-xl shadow-sm overflow-hidden mb-4" bindtap="onCaseTap" data-id="{{item._id}}">
         <view class="card-header bg-gray-800 text-white px-4 py-2 text-sm flex justify-between items-center">
           <text>案件 #{{item._id}}</text>
-          <view class="status-badge bg-white-20 px-2 py-0.5 rounded text-xs">投票进行中</view>
+          <!-- <view class="status-badge bg-white-20 px-2 py-0.5 rounded text-xs">进行中</view> -->
         </view>
         <view class="p-4">
           <view class="flex justify-between items-start mb-3">

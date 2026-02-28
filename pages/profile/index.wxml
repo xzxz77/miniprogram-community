@@ -140,7 +140,7 @@
         <text class="menu-text">社区小判官</text>
       </view>
       <view class="flex items-center">
-        <text class="menu-extra">参与 3 次调解</text>
+        <text class="menu-extra">参与调解</text>
         <text class="iconfont icon-arrow-right text-gray-300"></text>
       </view>
     </navigator>

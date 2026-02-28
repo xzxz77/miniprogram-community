@@ -39,12 +39,29 @@ exports.main = async (event, context) => {
       }
     } else if (type === 'judge_case') {
       if (action === 'resolve') {
+        // Admin Force Resolve: Determine winner based on current votes
+        const caseRes = await db.collection('judge_cases').doc(id).get();
+        const c = caseRes.data;
+        const pVotes = c.votes?.support_plaintiff || 0;
+        const dVotes = c.votes?.support_defendant || 0;
+        const result = pVotes > dVotes ? 'plaintiff_win' : 'defendant_win';
+
         await db.collection('judge_cases').doc(id).update({
-          data: { status: 'resolved', resolveTime: db.serverDate() }
+          data: { 
+            status: 'resolved', 
+            result: result,
+            resolveTime: db.serverDate(),
+            adminForced: true
+          }
         });
       } else if (action === 'reject') {
         await db.collection('judge_cases').doc(id).update({
           data: { status: 'rejected', resolveTime: db.serverDate() }
+        });
+      } else if (action === 'approve') {
+        // Approve pending review case -> voting
+        await db.collection('judge_cases').doc(id).update({
+          data: { status: 'voting', approveTime: db.serverDate() }
         });
       }
     }

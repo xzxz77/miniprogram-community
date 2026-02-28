@@ -24,6 +24,17 @@ exports.main = async (event, context) => {
     if (caseData.status !== 'voting') {
       return { success: false, msg: '案件已结束或未开始投票' };
     }
+    
+    // Check Time Limit (24 hours from approveTime)
+    if (caseData.approveTime) {
+        const now = new Date();
+        const approveTime = new Date(caseData.approveTime);
+        const diff = now - approveTime;
+        if (diff > 24 * 60 * 60 * 1000) {
+            return { success: false, msg: '投票已截止' };
+        }
+    }
+
     if (caseData.plaintiffId === openid || caseData.defendantId === openid) {
       return { success: false, msg: '当事人不能参与投票' };
     }

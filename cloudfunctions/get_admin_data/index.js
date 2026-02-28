@@ -32,7 +32,7 @@ exports.main = async (event, context) => {
       .limit(50)
       .get();
 
-    // 2. Fetch Active Judge Cases
+    // 2. Fetch Active Judge Cases (Voting)
     const casesRes = await db.collection('judge_cases')
       .where({
         status: 'voting'
@@ -41,13 +41,24 @@ exports.main = async (event, context) => {
       .limit(50)
       .get();
 
+    // 3. Fetch Pending Review Cases (New)
+    const auditCasesRes = await db.collection('judge_cases')
+      .where({
+        status: 'pending_review'
+      })
+      .orderBy('createTime', 'desc')
+      .limit(50)
+      .get();
+
     const reports = reportsRes.data;
     const cases = casesRes.data;
+    const auditCases = auditCasesRes.data;
 
-    // 3. Fetch related Goods info
+    // 4. Fetch related Goods info
     const goodIds = new Set();
     reports.forEach(r => r.goodId && goodIds.add(r.goodId));
     cases.forEach(c => c.goodId && goodIds.add(c.goodId));
+    auditCases.forEach(c => c.goodId && goodIds.add(c.goodId));
 
     let goodsMap = {};
     if (goodIds.size > 0) {
@@ -63,7 +74,7 @@ exports.main = async (event, context) => {
       }
     }
 
-    // 4. Format Data
+    // 5. Format Data
     const formattedReports = reports.map(r => ({
       ...r,
       goodTitle: goodsMap[r.goodId]?.title || '未知商品',
@@ -78,10 +89,18 @@ exports.main = async (event, context) => {
       time: formatTime(c.createTime)
     }));
 
+    const formattedAuditCases = auditCases.map(c => ({
+      ...c,
+      goodTitle: goodsMap[c.goodId]?.title || '未知商品',
+      goodImage: goodsMap[c.goodId]?.images?.[0] || '',
+      time: formatTime(c.createTime)
+    }));
+
     return {
       success: true,
       reports: formattedReports,
-      cases: formattedCases
+      cases: formattedCases,
+      auditCases: formattedAuditCases
     };
 
   } catch (err) {

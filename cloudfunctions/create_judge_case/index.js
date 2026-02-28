@@ -51,7 +51,7 @@ exports.main = async (event, context) => {
         reason,
         description,
         evidence: evidence || [],
-        status: 'voting', // voting, resolved, rejected
+        status: 'pending_defendant', // Initial status: waiting for defendant
         votes: {
           support_plaintiff: 0,
           support_defendant: 0

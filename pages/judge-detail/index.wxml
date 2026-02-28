@@ -8,13 +8,18 @@
   
   <block wx:elif="{{caseInfo}}">
     <!-- Status Banner -->
-    <view class="bg-orange-500 text-white p-4">
-      <view class="text-lg font-bold mb-1">
-        {{caseInfo.status === 'voting' ? '案件审理中' : (caseInfo.status === 'resolved' ? '案件已裁决' : '案件已驳回')}}
+    <view class="status-banner {{caseInfo.status === 'voting' ? 'bg-orange-500' : (caseInfo.status === 'resolved' ? 'bg-blue-500' : (caseInfo.status === 'pending_defendant' || caseInfo.status === 'pending_review' ? 'bg-blue-500' : 'bg-blue-500'))}} text-white p-6 shadow-md relative overflow-hidden">
+      <view class="relative z-10">
+        <view class="text-2xl font-bold mb-2 flex items-center">
+          <text class="iconfont {{caseInfo.status === 'voting' ? 'icon-time' : (caseInfo.status === 'resolved' ? 'icon-check' : (caseInfo.status === 'pending_defendant' || caseInfo.status === 'pending_review' ? 'icon-wait' : 'icon-close'))}} mr-2"></text>
+          {{caseInfo.status === 'voting' ? '案件审理中' : (caseInfo.status === 'resolved' ? (caseInfo.result === 'plaintiff_win' ? '原告胜诉' : '被告胜诉') : (caseInfo.status === 'pending_defendant' ? '等待被告申辩' : (caseInfo.status === 'pending_review' ? '等待管理员审核' : '案件已驳回')))}}
+        </view>
+        <view class="text-sm opacity-90">
+          {{caseInfo.status === 'voting' ? ('投票倒计时: ' + (timeLeft || '计算中...')) : (caseInfo.status === 'pending_defendant' ? '等待被告提交证据' : (caseInfo.status === 'pending_review' ? '双方已举证，等待管理员审核通过' : '案件已结束'))}}
+        </view>
       </view>
-      <view class="text-xs opacity-80">
-        {{caseInfo.status === 'voting' ? '双方举证阶段，大众评审投票中' : '案件已结束'}}
-      </view>
+      <!-- Decorative Circle -->
+      <view class="absolute -right-4 -bottom-4 w-24 h-24 bg-white opacity-10 rounded-full"></view>
     </view>
 
     <!-- Case Info -->
@@ -50,10 +55,17 @@
         </view>
 
         <!-- Evidence -->
-        <view class="grid grid-cols-3 gap-2" wx:if="{{caseInfo.evidence && caseInfo.evidence.length > 0}}">
+        <view class="grid grid-cols-3 gap-2 mb-3" wx:if="{{caseInfo.evidence && caseInfo.evidence.length > 0}}">
           <block wx:for="{{caseInfo.evidence}}" wx:key="*this">
             <image class="w-full h-24 rounded bg-gray-100" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-urls="{{caseInfo.evidence}}" data-current="{{item}}"></image>
           </block>
+        </view>
+
+        <!-- Cancel Button for Plaintiff -->
+        <view wx:if="{{caseInfo.userRole === 'plaintiff' && caseInfo.status !== 'resolved' && caseInfo.status !== 'rejected' && caseInfo.status !== 'cancelled'}}" class="border-t border-gray-50 pt-3 mt-2 flex justify-end">
+          <view class="text-gray-400 text-xs flex items-center" bindtap="onCancelCase">
+            <text class="iconfont icon-delete mr-1"></text> 撤销申请
+          </view>
         </view>
       </view>
 
@@ -90,7 +102,7 @@
       </view>
 
       <!-- Defendant Action Area (Only visible to defendant if not responded) -->
-      <block wx:if="{{caseInfo.userRole === 'defendant' && !caseInfo.defendantResponse && caseInfo.status === 'voting'}}">
+      <block wx:if="{{caseInfo.userRole === 'defendant' && !caseInfo.defendantResponse && caseInfo.status === 'pending_defendant'}}">
         <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
           <view class="font-bold text-gray-800 mb-3">我要申辩</view>
           

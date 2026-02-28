@@ -4,8 +4,9 @@ const app = getApp();
 Page({
   data: {
     activeTab: 0,
-    tabs: ['举报审核', '小判官案件'],
+    tabs: ['举报审核', '案件审核', '进行中案件'],
     reports: [],
+    auditCases: [],
     cases: [],
     isLoading: true
   },
@@ -32,6 +33,7 @@ Page({
         this.setData({
           reports: result.reports,
           cases: result.cases,
+          auditCases: result.auditCases || [],
           isLoading: false
         });
       } else {

@@ -36,6 +36,11 @@ Page({
           caseInfo: result.data,
           isLoading: false
         });
+        
+        // Start countdown if voting
+        if (result.data.status === 'voting' && result.data.approveTime) {
+            this.startCountdown(result.data.approveTime);
+        }
       } else {
         wx.showToast({ title: result.msg || '加载失败', icon: 'none' });
       }
@@ -44,6 +49,34 @@ Page({
       wx.showToast({ title: '网络异常', icon: 'none' });
       this.setData({ isLoading: false });
     }
+  },
+
+  startCountdown(startTimeStr) {
+    if (this.timer) clearInterval(this.timer);
+    
+    const update = () => {
+        const now = new Date().getTime();
+        const start = new Date(startTimeStr).getTime();
+        const end = start + 24 * 60 * 60 * 1000;
+        const diff = end - now;
+        
+        if (diff <= 0) {
+            this.setData({ timeLeft: '投票已截止' });
+            clearInterval(this.timer);
+            // Optionally reload to check if status changed
+        } else {
+            const h = Math.floor(diff / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            this.setData({ timeLeft: `${h}小时${m}分` });
+        }
+    };
+    
+    update();
+    this.timer = setInterval(update, 60000);
+  },
+
+  onUnload() {
+    if (this.timer) clearInterval(this.timer);
   },
 
   onResponseInput(e) {
@@ -128,6 +161,35 @@ Page({
     }
   },
 
+  async onCancelCase() {
+    wx.showModal({
+      title: '确认撤销',
+      content: '撤销后案件将关闭，确定要撤销吗？',
+      success: async (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '撤销中' });
+          try {
+            const { result } = await wx.cloud.callFunction({
+              name: 'cancel_judge_case',
+              data: { caseId: this.data.caseId }
+            });
+
+            wx.hideLoading();
+            if (result.success) {
+              wx.showToast({ title: '已撤销' });
+              this.loadCaseDetail();
+            } else {
+              wx.showToast({ title: result.msg || '撤销失败', icon: 'none' });
+            }
+          } catch (err) {
+            wx.hideLoading();
+            wx.showToast({ title: '网络异常', icon: 'none' });
+          }
+        }
+      }
+    });
+  },
+
   async onVote(e) {
     const support = e.currentTarget.dataset.support;
     
@@ -159,6 +221,35 @@ Page({
               this.loadCaseDetail();
             } else {
               wx.showToast({ title: result.msg || '投票失败', icon: 'none' });
+            }
+          } catch (err) {
+            wx.hideLoading();
+            wx.showToast({ title: '网络异常', icon: 'none' });
+          }
+        }
+      }
+    });
+  },
+
+  onCancelCase() {
+    wx.showModal({
+      title: '撤销申请',
+      content: '确定要撤销本次小判官介入申请吗？撤销后案件将关闭。',
+      success: async (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '撤销中' });
+          try {
+            const { result } = await wx.cloud.callFunction({
+              name: 'cancel_judge_case',
+              data: { caseId: this.data.caseId }
+            });
+            
+            wx.hideLoading();
+            if (result.success) {
+              wx.showToast({ title: '撤销成功' });
+              this.loadCaseDetail();
+            } else {
+              wx.showToast({ title: result.msg || '撤销失败', icon: 'none' });
             }
           } catch (err) {
             wx.hideLoading();

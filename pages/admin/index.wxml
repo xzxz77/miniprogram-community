@@ -46,8 +46,41 @@
       </block>
     </block>
 
-    <!-- Judge Cases Tab -->
+    <!-- Audit Cases Tab (New) -->
     <block wx:elif="{{activeTab === 1}}">
+      <block wx:if="{{auditCases.length === 0}}">
+        <view class="text-center text-gray-400 py-10">暂无待审核案件</view>
+      </block>
+      <block wx:else>
+        <block wx:for="{{auditCases}}" wx:key="_id">
+          <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
+            <view class="flex justify-between items-start mb-2">
+              <view class="text-sm font-bold text-gray-800">案件: {{item.reason}}</view>
+              <view class="text-xs text-orange-500 font-bold">待审核</view>
+            </view>
+            <view class="text-sm text-gray-600 mb-2">商品: {{item.goodTitle}}</view>
+            
+            <view class="bg-blue-50 p-2 rounded mb-2">
+              <view class="text-xs text-blue-500 font-bold mb-1">原告描述:</view>
+              <view class="text-xs text-gray-700">{{item.description}}</view>
+            </view>
+
+            <view class="bg-orange-50 p-2 rounded mb-2">
+              <view class="text-xs text-orange-500 font-bold mb-1">被告申辩:</view>
+              <view class="text-xs text-gray-700">{{item.defendantResponse}}</view>
+            </view>
+
+            <view class="flex justify-end gap-2 border-t border-gray-50 pt-3">
+              <button class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded" bindtap="handleCase" data-id="{{item._id}}" data-action="reject">驳回</button>
+              <button class="bg-green-50 text-green-600 text-xs px-3 py-1 rounded" bindtap="handleCase" data-id="{{item._id}}" data-action="approve">通过审核</button>
+            </view>
+          </view>
+        </block>
+      </block>
+    </block>
+
+    <!-- Judge Cases Tab -->
+    <block wx:elif="{{activeTab === 2}}">
       <block wx:if="{{cases.length === 0}}">
         <view class="text-center text-gray-400 py-10">暂无进行中案件</view>
       </block>
@@ -56,7 +89,7 @@
           <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
             <view class="flex justify-between items-start mb-2">
               <view class="text-sm font-bold text-gray-800">案件: {{item.reason}}</view>
-              <view class="text-xs text-orange-500 font-bold">投票中</view>
+              <view class="text-xs text-blue-500 font-bold">投票中</view>
             </view>
             <view class="text-sm text-gray-600 mb-2">商品: {{item.goodTitle}}</view>
             <view class="text-sm text-gray-600 mb-2">原告描述: {{item.description}}</view>

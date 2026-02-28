@@ -32,7 +32,8 @@ exports.main = async (event, context) => {
       data: {
         defendantResponse: response,
         defendantEvidence: evidence || [],
-        defendantResponseTime: db.serverDate()
+        defendantResponseTime: db.serverDate(),
+        status: 'pending_review' // Move to admin review
       }
     });
 
