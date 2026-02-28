@@ -16,6 +16,17 @@ Page({
     });
   },
 
+  onNotificationTap(e) {
+    const { id, type } = e.currentTarget.dataset;
+    if (type === 'judge_case_plaintiff' || type === 'judge_case_defendant') {
+      wx.navigateTo({
+        url: `/pages/judge-detail/index?id=${id}`
+      });
+    } else if (type === 'report') {
+      wx.showToast({ title: '举报处理结果', icon: 'none' });
+    }
+  },
+
   async loadNotifications() {
     this.setData({ isLoading: true });
     try {

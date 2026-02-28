@@ -1,0 +1,156 @@
+<!-- pages/judge-detail/index.wxml -->
+<view class="container bg-gray-50 min-h-screen pb-safe">
+  <block wx:if="{{isLoading}}">
+    <view class="flex justify-center items-center h-screen">
+      <view class="text-gray-400 text-sm">加载中...</view>
+    </view>
+  </block>
+  
+  <block wx:elif="{{caseInfo}}">
+    <!-- Status Banner -->
+    <view class="bg-orange-500 text-white p-4">
+      <view class="text-lg font-bold mb-1">
+        {{caseInfo.status === 'voting' ? '案件审理中' : (caseInfo.status === 'resolved' ? '案件已裁决' : '案件已驳回')}}
+      </view>
+      <view class="text-xs opacity-80">
+        {{caseInfo.status === 'voting' ? '双方举证阶段，大众评审投票中' : '案件已结束'}}
+      </view>
+    </view>
+
+    <!-- Case Info -->
+    <view class="p-4">
+      
+      <!-- Product Card -->
+      <view class="bg-white rounded-xl p-3 shadow-sm mb-4 flex">
+        <image class="w-20 h-20 rounded bg-gray-100 flex-shrink-0" src="{{caseInfo.goodInfo.images[0]}}" mode="aspectFill"></image>
+        <view class="ml-3 flex-1 flex flex-col justify-between">
+          <view class="text-sm font-bold text-gray-800 line-clamp-2">{{caseInfo.goodInfo.title}}</view>
+          <view class="text-red-500 font-bold text-sm">¥{{caseInfo.goodInfo.price}}</view>
+        </view>
+      </view>
+
+      <!-- Plaintiff Section -->
+      <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
+        <view class="flex items-center mb-3 pb-3 border-b border-gray-50">
+          <view class="w-1 h-4 bg-blue-500 rounded-full mr-2"></view>
+          <text class="font-bold text-gray-800">原告主张 (买家)</text>
+        </view>
+        
+        <view class="flex items-center mb-3">
+          <image class="w-8 h-8 rounded-full bg-gray-100 mr-2" src="{{caseInfo.plaintiffInfo.avatarUrl}}"></image>
+          <text class="text-sm text-gray-600">{{caseInfo.plaintiffInfo.nickName}}</text>
+        </view>
+
+        <view class="mb-2">
+          <text class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">举报原因：{{caseInfo.reason}}</text>
+        </view>
+        
+        <view class="text-gray-800 text-sm leading-relaxed mb-3">
+          {{caseInfo.description}}
+        </view>
+
+        <!-- Evidence -->
+        <view class="grid grid-cols-3 gap-2" wx:if="{{caseInfo.evidence && caseInfo.evidence.length > 0}}">
+          <block wx:for="{{caseInfo.evidence}}" wx:key="*this">
+            <image class="w-full h-24 rounded bg-gray-100" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-urls="{{caseInfo.evidence}}" data-current="{{item}}"></image>
+          </block>
+        </view>
+      </view>
+
+      <!-- Defendant Section -->
+      <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
+        <view class="flex items-center mb-3 pb-3 border-b border-gray-50">
+          <view class="w-1 h-4 bg-orange-500 rounded-full mr-2"></view>
+          <text class="font-bold text-gray-800">被告申辩 (卖家)</text>
+        </view>
+
+        <view class="flex items-center mb-3">
+          <image class="w-8 h-8 rounded-full bg-gray-100 mr-2" src="{{caseInfo.defendantInfo.avatarUrl}}"></image>
+          <text class="text-sm text-gray-600">{{caseInfo.defendantInfo.nickName}}</text>
+        </view>
+
+        <!-- If response exists -->
+        <block wx:if="{{caseInfo.defendantResponse}}">
+          <view class="text-gray-800 text-sm leading-relaxed mb-3">
+            {{caseInfo.defendantResponse}}
+          </view>
+          <view class="grid grid-cols-3 gap-2" wx:if="{{caseInfo.defendantEvidence && caseInfo.defendantEvidence.length > 0}}">
+            <block wx:for="{{caseInfo.defendantEvidence}}" wx:key="*this">
+              <image class="w-full h-24 rounded bg-gray-100" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-urls="{{caseInfo.defendantEvidence}}" data-current="{{item}}"></image>
+            </block>
+          </view>
+        </block>
+
+        <!-- If no response yet -->
+        <block wx:else>
+          <view class="text-gray-400 text-sm text-center py-4 bg-gray-50 rounded">
+            暂无申辩内容
+          </view>
+        </block>
+      </view>
+
+      <!-- Defendant Action Area (Only visible to defendant if not responded) -->
+      <block wx:if="{{caseInfo.userRole === 'defendant' && !caseInfo.defendantResponse && caseInfo.status === 'voting'}}">
+        <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
+          <view class="font-bold text-gray-800 mb-3">我要申辩</view>
+          
+          <textarea 
+            class="w-full bg-gray-50 p-3 rounded-lg text-sm mb-3" 
+            placeholder="请详细描述您的申辩理由..." 
+            placeholder-class="text-gray-400"
+            maxlength="500"
+            bindinput="onResponseInput"
+            value="{{response}}"
+          ></textarea>
+
+          <view class="mb-2 text-sm text-gray-600">上传证据 ({{images.length}}/{{maxImages}})</view>
+          <view class="grid grid-cols-3 gap-2 mb-4">
+            <block wx:for="{{images}}" wx:key="*this">
+              <view class="relative w-full h-24">
+                <image class="w-full h-full rounded bg-gray-100" src="{{item}}" mode="aspectFill"></image>
+                <view class="absolute -top-2 -right-2 bg-gray-200 rounded-full p-1" catchtap="deleteImage" data-index="{{index}}">
+                  <text class="iconfont icon-close text-xs text-gray-500">X</text>
+                </view>
+              </view>
+            </block>
+            <view class="w-full h-24 bg-gray-50 rounded flex flex-col items-center justify-center" bindtap="chooseImage" wx:if="{{images.length < maxImages}}">
+              <text class="iconfont icon-camera text-2xl text-gray-300">+</text>
+              <text class="text-xs text-gray-400 mt-1">添加图片</text>
+            </view>
+          </view>
+
+          <button class="w-full bg-orange-500 text-white rounded-full py-2 font-bold" bindtap="submitResponse" disabled="{{isSubmitting}}">提交申辩</button>
+        </view>
+      </block>
+
+      <!-- Voting Stats (Visible to all) -->
+      <view class="bg-white rounded-xl p-4 shadow-sm mb-20">
+        <view class="font-bold text-gray-800 mb-4 text-center">当前票数</view>
+        <view class="flex justify-between items-center px-4 mb-4">
+          <view class="text-center">
+            <view class="text-2xl font-bold text-blue-500">{{caseInfo.votes.support_plaintiff || 0}}</view>
+            <view class="text-xs text-gray-500 mt-1">支持原告</view>
+          </view>
+          <view class="text-gray-300 font-bold text-xl">VS</view>
+          <view class="text-center">
+            <view class="text-2xl font-bold text-orange-500">{{caseInfo.votes.support_defendant || 0}}</view>
+            <view class="text-xs text-gray-500 mt-1">支持被告</view>
+          </view>
+        </view>
+
+        <!-- Voting Buttons (Only for visitors who haven't voted and case is active) -->
+        <block wx:if="{{caseInfo.status === 'voting' && caseInfo.userRole === 'visitor' && !caseInfo.hasVoted}}">
+          <view class="flex gap-4 mt-4">
+            <button class="flex-1 bg-blue-50 text-blue-600 font-bold py-2 rounded-lg text-sm" bindtap="onVote" data-support="plaintiff">支持原告</button>
+            <button class="flex-1 bg-orange-50 text-orange-600 font-bold py-2 rounded-lg text-sm" bindtap="onVote" data-support="defendant">支持被告</button>
+          </view>
+        </block>
+        
+        <block wx:if="{{caseInfo.hasVoted}}">
+           <view class="text-center text-xs text-gray-400 mt-2">您已参与投票</view>
+        </block>
+      </view>
+
+    </view>
+  </block>
+</view>

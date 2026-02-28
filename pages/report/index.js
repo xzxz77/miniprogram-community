@@ -161,10 +161,21 @@ Page({
       wx.hideLoading();
 
       if (result.success) {
-        wx.showToast({ title: '举报成功' });
-        setTimeout(() => {
-          wx.navigateBack();
-        }, 1500);
+        wx.showModal({
+          title: '举报成功',
+          content: '我们会尽快审核您的举报。您可以在“消息-服务通知”中查看处理进度。',
+          showCancel: false,
+          confirmText: '我知道了',
+          success: () => {
+            // Check page stack
+            const pages = getCurrentPages();
+            if (pages.length > 1) {
+              wx.navigateBack();
+            } else {
+              wx.switchTab({ url: '/pages/home/index' });
+            }
+          }
+        });
       } else {
         wx.showToast({ title: result.msg || '提交失败', icon: 'none' });
       }

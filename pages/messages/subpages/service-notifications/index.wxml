@@ -1,12 +1,15 @@
 <view class="container bg-gray-50 min-h-screen p-4">
   <block wx:for="{{notifications}}" wx:key="id">
-    <view class="bg-white p-4 rounded-xl mb-3 shadow-sm">
+    <view class="bg-white p-4 rounded-xl mb-3 shadow-sm active:bg-gray-50 transition-colors" bindtap="onNotificationTap" data-id="{{item.id}}" data-type="{{item.type}}">
       <view class="flex justify-between items-center mb-2">
         <text class="font-bold text-gray-800 text-lg">{{item.title}}</text>
         <text class="text-xs text-gray-400">{{item.time}}</text>
       </view>
-      <view class="text-gray-600 text-sm leading-relaxed">
+      <view class="text-gray-600 text-sm leading-relaxed mb-2">
         {{item.content}}
+      </view>
+      <view class="flex justify-end" wx:if="{{item.type === 'judge_case_defendant' || item.type === 'judge_case_plaintiff'}}">
+        <text class="text-xs text-orange-500 border border-orange-500 px-2 py-0.5 rounded">查看详情</text>
       </view>
     </view>
   </block>
