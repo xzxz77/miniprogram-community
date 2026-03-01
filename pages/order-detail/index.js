@@ -130,6 +130,18 @@ Page({
     });
   },
 
+  onCancelOrder() {
+    wx.showModal({
+      title: '取消订单',
+      content: '确定要取消该订单吗？取消后款项将原路退回（模拟）。',
+      success: (res) => {
+        if (res.confirm) {
+          this.updateOrderStatus('cancel');
+        }
+      }
+    });
+  },
+
   updateOrderStatus(action) {
     wx.showLoading({ title: '处理中' });
     wx.cloud.callFunction({

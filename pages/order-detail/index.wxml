@@ -68,6 +68,7 @@
   <view class="bottom-bar">
     <block wx:if="{{isBuyer}}">
       <button class="btn secondary" bindtap="onContactSeller">联系卖家</button>
+      <button class="btn secondary" wx:if="{{order.status === 'paid'}}" bindtap="onCancelOrder">取消订单</button>
       <button class="btn primary" wx:if="{{order.status === 'shipped'}}" bindtap="onReceive">确认收货</button>
       <button class="btn primary" wx:elif="{{order.status === 'completed'}}" bindtap="onBackHome">返回首页</button>
       <button class="btn primary" wx:else bindtap="onBackHome">返回首页</button>

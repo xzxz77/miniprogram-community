@@ -3,12 +3,26 @@ Page({
   data: {
     currentTab: 0, // 0: Bought, 1: Sold
     orderList: [],
-    isLoading: false
+    isLoading: false,
+    statusFilter: '' // To store the status filter
   },
 
   onLoad: function (options) {
     if (options.type === 'sold') {
       this.setData({ currentTab: 1 });
+    }
+    if (options.status) {
+        this.setData({ statusFilter: options.status });
+        const titles = {
+            'pending': '待付款订单',
+            'paid': '待发货订单',
+            'shipped': '待收货订单',
+            'completed': '已完成订单',
+            'cancelled': '退款/售后'
+        };
+        if (titles[options.status]) {
+            wx.setNavigationBarTitle({ title: titles[options.status] });
+        }
     }
     this.loadOrders();
   },
@@ -31,10 +45,11 @@ Page({
   loadOrders() {
       this.setData({ isLoading: true });
       const type = this.data.currentTab === 1 ? 'sold' : 'bought';
+      const status = this.data.statusFilter;
       
       wx.cloud.callFunction({
           name: 'get_my_orders',
-          data: { type }
+          data: { type, status }
       }).then(res => {
           this.setData({ isLoading: false });
           if (res.result.success) {

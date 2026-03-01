@@ -58,6 +58,36 @@ exports.main = async (event, context) => {
 
       // When completed, we might want to update good status to 'completed' too if needed, 
       // but 'sold' is already fine. Maybe 'completed' implies transaction closed.
+    } else if (action === 'cancel') {
+      // Cancel Order: Buyer can cancel if pending_payment or paid (refund request?)
+      // For simplicity, let's allow cancellation if 'paid' (assuming instant refund or manual) or 'pending_payment'.
+      // But usually 'paid' requires seller approval for refund.
+      // Let's assume 'pending_payment' is not really used here since we go straight to 'paid' in mock pay.
+      // If status is 'paid', buyer can cancel -> 'cancelled'.
+      // In real world, this needs refund logic. Here we just mark as cancelled.
+      
+      if (order._openid !== openid) {
+        return { success: false, msg: '无权操作' };
+      }
+      if (order.status !== 'paid' && order.status !== 'pending_payment') {
+        return { success: false, msg: '当前状态不可取消' };
+      }
+      
+      newStatus = 'cancelled';
+      updateData = {
+        status: newStatus,
+        updateTime: db.serverDate(),
+        cancelTime: db.serverDate()
+      };
+      
+      // Also restore good status to 'active' so others can buy?
+      // Yes, if order is cancelled, good should be available again.
+      if (order.goodId) {
+          await db.collection('goods').doc(order.goodId).update({
+              data: { status: 'active' }
+          });
+      }
+
     } else {
       return { success: false, msg: '未知操作' };
     }

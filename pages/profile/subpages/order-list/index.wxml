@@ -1,7 +1,7 @@
 <!-- pages/profile/subpages/order-list/index.wxml -->
 <view class="container">
-  <!-- Tabs -->
-  <view class="tabs bg-white sticky top-0 z-10">
+  <!-- Tabs (Hidden if status filter is active) -->
+  <view class="tabs bg-white sticky top-0 z-10" wx:if="{{!statusFilter}}">
     <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="{{0}}">我买到的</view>
     <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="{{1}}">我卖出的</view>
   </view>

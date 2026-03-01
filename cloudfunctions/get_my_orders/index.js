@@ -11,7 +11,7 @@ const _ = db.command;
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
-  const { type } = event; // 'bought' or 'sold'
+  const { type, status } = event; // 'bought' or 'sold', status filter
 
   try {
     let matchCondition = {};
@@ -21,6 +21,10 @@ exports.main = async (event, context) => {
     } else {
       // Default to bought
       matchCondition._openid = openid;
+    }
+
+    if (status) {
+        matchCondition.status = status;
     }
 
     // Aggregate to join user info if needed, but for now simple query
