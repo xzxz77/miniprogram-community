@@ -64,6 +64,34 @@ exports.main = async (event, context) => {
           data: { status: 'voting', approveTime: db.serverDate() }
         });
       }
+    } else if (type === 'refund') {
+      if (action === 'approve') {
+        // Approve refund -> refunded
+        await db.collection('orders').doc(id).update({
+          data: { 
+            status: 'refunded', 
+            refundTime: db.serverDate(),
+            refundStatus: 'approved'
+          }
+        });
+        // Restore good status? Usually yes if returned.
+        // Let's fetch order to get goodId
+        const order = await db.collection('orders').doc(id).get();
+        if (order.data && order.data.goodId) {
+            await db.collection('goods').doc(order.data.goodId).update({
+                data: { status: 'active' }
+            });
+        }
+      } else if (action === 'reject') {
+        // Reject refund -> completed (revert to previous state)
+        await db.collection('orders').doc(id).update({
+          data: { 
+            status: 'completed', 
+            refundStatus: 'rejected',
+            refundRejectTime: db.serverDate()
+          }
+        });
+      }
     }
 
     return { success: true };

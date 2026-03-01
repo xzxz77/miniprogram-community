@@ -33,7 +33,8 @@
     "pages/profile/subpages/message-settings/index",
     "pages/report/index",
     "pages/admin/index",
-    "pages/judge-detail/index"
+    "pages/judge-detail/index",
+    "pages/refund-apply/index"
   ],
   "usingComponents": {
     "top-notification": "/components/top-notification/index"

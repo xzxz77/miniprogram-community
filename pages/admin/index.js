@@ -4,9 +4,10 @@ const app = getApp();
 Page({
   data: {
     activeTab: 0,
-    tabs: ['举报审核', '案件审核', '进行中案件'],
+    tabs: ['举报审核', '案件审核', '退款审核', '进行中案件'],
     reports: [],
     auditCases: [],
+    refunds: [],
     cases: [],
     isLoading: true
   },
@@ -34,6 +35,7 @@ Page({
           reports: result.reports,
           cases: result.cases,
           auditCases: result.auditCases || [],
+          refunds: result.refunds || [],
           isLoading: false
         });
       } else {
@@ -86,6 +88,35 @@ Page({
         name: 'admin_action',
         data: {
           type: 'judge_case',
+          id,
+          action
+        }
+      });
+
+      wx.hideLoading();
+
+      if (result.success) {
+        wx.showToast({ title: '处理成功' });
+        this.loadData(); // Reload
+      } else {
+        wx.showToast({ title: '处理失败', icon: 'none' });
+      }
+    } catch (err) {
+      wx.hideLoading();
+      wx.showToast({ title: '网络异常', icon: 'none' });
+    }
+  },
+
+  // Refund Actions
+  async handleRefund(e) {
+    const { id, action } = e.currentTarget.dataset;
+    wx.showLoading({ title: '处理中' });
+
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'admin_action',
+        data: {
+          type: 'refund',
           id,
           action
         }

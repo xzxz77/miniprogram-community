@@ -1,0 +1,42 @@
+<!-- pages/refund-apply/index.wxml -->
+<view class="container p-4">
+  <view class="text-lg font-bold text-gray-800 mb-4">申请退款</view>
+
+  <!-- Reason -->
+  <view class="form-group mb-4 bg-white p-4 rounded-lg shadow-sm">
+    <view class="label mb-3 font-bold text-gray-800 text-sm">退款原因 <text class="text-red-500">*</text></view>
+    <picker range="{{reasons}}" bindchange="onReasonChange" value="{{reasonIndex}}">
+      <view class="picker-box flex justify-between items-center">
+        <text class="{{reasonIndex >= 0 ? 'text-gray-900' : 'text-gray-400'}} text-sm">
+          {{reasonIndex >= 0 ? reasons[reasonIndex] : '请选择退款原因'}}
+        </text>
+        <text class="iconfont icon-arrow-right text-gray-300 text-xs"></text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- Description -->
+  <view class="form-group mb-4 bg-white p-4 rounded-lg shadow-sm">
+    <view class="label mb-3 font-bold text-gray-800 text-sm">详细说明</view>
+    <textarea class="textarea w-full h-32 text-sm text-gray-800" placeholder="请描述退款的具体原因..." value="{{description}}" bindinput="onDescriptionInput" maxlength="200"></textarea>
+    <view class="text-right text-xs text-gray-400 mt-2">{{description.length}}/200</view>
+  </view>
+
+  <!-- Evidence -->
+  <view class="form-group mb-6 bg-white p-4 rounded-lg shadow-sm">
+    <view class="label mb-3 font-bold text-gray-800 text-sm">凭证图片 ({{images.length}}/{{maxImages}})</view>
+    <view class="image-grid flex flex-wrap gap-3">
+      <block wx:for="{{images}}" wx:key="*this">
+        <view class="image-item relative w-20 h-20 bg-gray-50 rounded overflow-hidden">
+          <view class="delete-btn absolute top-0 right-0 bg-black-50 text-white w-5 h-5 flex items-center justify-center rounded-bl text-xs" catchtap="deleteImage" data-index="{{index}}">×</view>
+          <image src="{{item}}" mode="aspectFill" class="w-full h-full"></image>
+        </view>
+      </block>
+      <view class="add-btn w-20 h-20 bg-gray-50 rounded flex items-center justify-center border border-dashed border-gray-300" bindtap="chooseImage" wx:if="{{images.length < maxImages}}">
+        <text class="iconfont icon-camera text-gray-400 text-2xl"></text>
+      </view>
+    </view>
+  </view>
+
+  <button class="submit-btn bg-orange-500 text-white w-full py-3 rounded-full font-bold shadow-lg" bindtap="submit">提交申请</button>
+</view>

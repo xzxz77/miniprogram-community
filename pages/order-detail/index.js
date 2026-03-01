@@ -142,6 +142,12 @@ Page({
     });
   },
 
+  onApplyRefund() {
+    wx.navigateTo({
+      url: `/pages/refund-apply/index?orderId=${this.data.order._id}`
+    });
+  },
+
   updateOrderStatus(action) {
     wx.showLoading({ title: '处理中' });
     wx.cloud.callFunction({

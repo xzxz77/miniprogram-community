@@ -50,15 +50,26 @@ exports.main = async (event, context) => {
       .limit(50)
       .get();
 
+    // 4. Fetch Pending Refunds (New)
+    const refundsRes = await db.collection('orders')
+      .where({
+        status: 'refund_pending'
+      })
+      .orderBy('refundApplyTime', 'desc')
+      .limit(50)
+      .get();
+
     const reports = reportsRes.data;
     const cases = casesRes.data;
     const auditCases = auditCasesRes.data;
+    const refunds = refundsRes.data;
 
-    // 4. Fetch related Goods info
+    // 5. Fetch related Goods info
     const goodIds = new Set();
     reports.forEach(r => r.goodId && goodIds.add(r.goodId));
     cases.forEach(c => c.goodId && goodIds.add(c.goodId));
     auditCases.forEach(c => c.goodId && goodIds.add(c.goodId));
+    refunds.forEach(r => r.goodId && goodIds.add(r.goodId));
 
     let goodsMap = {};
     if (goodIds.size > 0) {
@@ -74,7 +85,7 @@ exports.main = async (event, context) => {
       }
     }
 
-    // 5. Format Data
+    // 6. Format Data
     const formattedReports = reports.map(r => ({
       ...r,
       goodTitle: goodsMap[r.goodId]?.title || '未知商品',
@@ -96,11 +107,23 @@ exports.main = async (event, context) => {
       time: formatTime(c.createTime)
     }));
 
+    const formattedRefunds = refunds.map(r => ({
+      _id: r._id,
+      goodTitle: goodsMap[r.goodId]?.title || '未知商品',
+      goodImage: goodsMap[r.goodId]?.images?.[0] || '',
+      reason: r.refundReason,
+      description: r.refundDescription,
+      evidence: r.refundEvidence,
+      amount: r.totalPrice,
+      time: formatTime(r.refundApplyTime)
+    }));
+
     return {
       success: true,
       reports: formattedReports,
       cases: formattedCases,
-      auditCases: formattedAuditCases
+      auditCases: formattedAuditCases,
+      refunds: formattedRefunds
     };
 
   } catch (err) {
