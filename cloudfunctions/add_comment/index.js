@@ -8,9 +8,9 @@ const _ = db.command
 
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
-  const { goodId, postId, content, replyToId } = event
+  const { goodId, postId, caseId, content, replyToId } = event
 
-  if ((!goodId && !postId) || !content) {
+  if ((!goodId && !postId && !caseId) || !content) {
     return { success: false, msg: '缺少参数' }
   }
 
@@ -24,6 +24,10 @@ exports.main = async (event, context) => {
     } else if (postId) {
         const postRes = await db.collection('posts').doc(postId).get()
         receiverId = postRes.data._openid
+    } else if (caseId) {
+        // For cases, maybe notify plaintiff? Or just leave empty for now.
+        // Let's fetch case to ensure it exists
+        await db.collection('judge_cases').doc(caseId).get()
     }
 
     // 2. Add Comment
@@ -39,6 +43,7 @@ exports.main = async (event, context) => {
     
     if (goodId) data.goodId = goodId;
     if (postId) data.postId = postId;
+    if (caseId) data.caseId = caseId;
 
     const res = await db.collection('comments').add({ data })
     

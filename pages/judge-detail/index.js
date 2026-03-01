@@ -10,16 +10,70 @@ Page({
     response: '',
     images: [],
     maxImages: 3,
-    isSubmitting: false
+    isSubmitting: false,
+    
+    // Comments
+    comments: [],
+    commentContent: ''
   },
 
   onLoad(options) {
     if (options.id) {
       this.setData({ caseId: options.id });
       this.loadCaseDetail();
+      this.loadComments();
     } else {
       wx.showToast({ title: '参数错误', icon: 'none' });
       setTimeout(() => wx.navigateBack(), 1500);
+    }
+  },
+
+  async loadComments() {
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'get_comments',
+        data: { caseId: this.data.caseId }
+      });
+      
+      if (result.success) {
+        this.setData({ comments: result.data });
+      }
+    } catch (err) {
+      console.error('加载评论失败', err);
+    }
+  },
+
+  onCommentInput(e) {
+    this.setData({ commentContent: e.detail.value });
+  },
+
+  async submitComment() {
+    if (!this.data.commentContent.trim()) {
+      wx.showToast({ title: '请输入评论内容', icon: 'none' });
+      return;
+    }
+
+    wx.showLoading({ title: '提交中' });
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'add_comment',
+        data: {
+          caseId: this.data.caseId,
+          content: this.data.commentContent
+        }
+      });
+
+      wx.hideLoading();
+      if (result.success) {
+        wx.showToast({ title: '评论成功' });
+        this.setData({ commentContent: '' });
+        this.loadComments();
+      } else {
+        wx.showToast({ title: '评论失败', icon: 'none' });
+      }
+    } catch (err) {
+      wx.hideLoading();
+      wx.showToast({ title: '网络异常', icon: 'none' });
     }
   },
 

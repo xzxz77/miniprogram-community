@@ -136,7 +136,7 @@
       </block>
 
       <!-- Voting Stats (Visible to all) -->
-      <view class="bg-white rounded-xl p-4 shadow-sm mb-20">
+      <view class="bg-white rounded-xl p-4 shadow-sm mb-4">
         <view class="font-bold text-gray-800 mb-4 text-center">当前票数</view>
         <view class="flex justify-between items-center px-4 mb-4">
           <view class="text-center">
@@ -163,6 +163,36 @@
         </block>
       </view>
 
+      <!-- Comments Section -->
+      <view class="bg-white rounded-xl p-4 shadow-sm mb-20">
+        <view class="font-bold text-gray-800 mb-4">大众评审讨论 ({{comments.length}})</view>
+        
+        <block wx:if="{{comments.length === 0}}">
+          <view class="text-center text-gray-400 py-6 text-sm">暂无讨论，快来发表看法吧~</view>
+        </block>
+        
+        <block wx:else>
+          <block wx:for="{{comments}}" wx:key="_id">
+            <view class="flex items-start mb-4 border-b border-gray-50 pb-3 last:border-0">
+              <image class="w-8 h-8 rounded-full bg-gray-100 mr-2 flex-shrink-0" src="{{item.user.avatarUrl}}"></image>
+              <view class="flex-1">
+                <view class="flex justify-between items-center mb-1">
+                  <text class="text-sm font-bold text-gray-600">{{item.user.nickName}}</text>
+                  <text class="text-xs text-gray-400">{{item.timeAgo}}</text>
+                </view>
+                <view class="text-sm text-gray-800">{{item.content}}</view>
+              </view>
+            </view>
+          </block>
+        </block>
+      </view>
+
     </view>
   </block>
+
+  <!-- Comment Input Bar -->
+  <view class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 p-3 pb-safe flex items-center z-50">
+    <input class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm mr-3" placeholder="发表你的看法..." value="{{commentContent}}" bindinput="onCommentInput" confirm-type="send" bindconfirm="submitComment" style="position: relative; left: -23rpx; top: 0rpx"></input>
+    <button class="bg-blue-500 text-white text-sm px-4 py-2 rounded-full font-bold" bindtap="submitComment" style="width: auto; margin: 0; position: relative; left: -23rpx; top: -1rpx">发送</button>
+  </view>
 </view>

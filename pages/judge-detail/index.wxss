@@ -65,3 +65,16 @@
 .h-4 { height: 32rpx; }
 .h-24 { height: 192rpx; }
 .h-screen { height: 100vh; }
+
+.last:border-0:last-child {
+  border-bottom-width: 0;
+}
+
+.fixed { position: fixed; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+.z-50 { z-index: 50; }
+.bg-gray-100 { background-color: #f3f4f6; }
+.rounded-full { border-radius: 9999px; }
+.border-t { border-top-width: 1rpx; }
+.border-gray-100 { border-color: #f3f4f6; }

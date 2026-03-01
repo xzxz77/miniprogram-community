@@ -8,9 +8,9 @@ const _ = db.command
 const $ = db.command.aggregate
 
 exports.main = async (event, context) => {
-  const { goodId, postId } = event
+  const { goodId, postId, caseId } = event
 
-  if (!goodId && !postId) {
+  if (!goodId && !postId && !caseId) {
     return { success: false, msg: 'Missing target id' }
   }
 
@@ -19,6 +19,7 @@ exports.main = async (event, context) => {
   };
   if (goodId) match.goodId = goodId;
   if (postId) match.postId = postId;
+  if (caseId) match.caseId = caseId;
 
   try {
     const res = await db.collection('comments').aggregate()
