@@ -14,6 +14,7 @@ Page({
     if (options.status) {
         this.setData({ statusFilter: options.status });
         const titles = {
+            'all': '全部订单',
             'pending': '待付款订单',
             'paid': '待发货订单',
             'shipped': '待收货订单',
@@ -45,7 +46,12 @@ Page({
   loadOrders() {
       this.setData({ isLoading: true });
       const type = this.data.currentTab === 1 ? 'sold' : 'bought';
-      const status = this.data.statusFilter;
+      let status = this.data.statusFilter;
+      
+      // If status is 'all', we don't send it to cloud function to fetch all
+      if (status === 'all') {
+          status = '';
+      }
       
       wx.cloud.callFunction({
           name: 'get_my_orders',
@@ -83,7 +89,9 @@ Page({
         'shipped': '卖家已发货',
         'completed': '交易完成',
         'cancelled': '交易取消',
-        'sold': '已售出' // Sometimes used
+        'sold': '已售出',
+        'refund_pending': '退款审核中',
+        'refunded': '已退款'
       };
       return map[status] || '未知状态';
   },

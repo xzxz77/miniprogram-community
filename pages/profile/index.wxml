@@ -83,7 +83,7 @@
   <view class="card-box mt-4 bg-white">
     <view class="card-header flex justify-between items-center mb-4">
       <text class="card-title">我的交易</text>
-      <navigator url="/pages/profile/subpages/order-list/index?status=0" class="more-link" hover-class="none">
+      <navigator url="/pages/profile/subpages/order-list/index?status=all" class="more-link" hover-class="none">
         查看全部 <text class="iconfont icon-arrow-right"></text>
       </navigator>
     </view>

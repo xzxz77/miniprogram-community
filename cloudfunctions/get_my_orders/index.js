@@ -23,7 +23,7 @@ exports.main = async (event, context) => {
       matchCondition._openid = openid;
     }
 
-    if (status) {
+    if (status && status !== 'all') {
         matchCondition.status = status;
     }
 
