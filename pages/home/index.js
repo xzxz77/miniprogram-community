@@ -13,6 +13,7 @@ Page({
     isLoading: false,
     currentSort: 'newest', // newest or hot
     currentLocation: '请选择地址', // Default location
+    fullLocation: '幸福小区', // Full location name for API
     searchKeyword: ''
   },
 
@@ -36,13 +37,23 @@ Page({
     const selectedAddress = wx.getStorageSync('selectedAddress');
     if (selectedAddress) {
         // If locationName exists use it, otherwise use truncated address or default
-        let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园小区';
+        let fullLoc = selectedAddress.locationName || selectedAddress.address || '幸福小区';
+        let displayLoc = fullLoc;
         if (displayLoc.length > 8) {
              displayLoc = displayLoc.substring(0, 8) + '...';
         }
-        this.setData({ currentLocation: displayLoc });
+        this.setData({ 
+            currentLocation: displayLoc,
+            fullLocation: fullLoc 
+        });
         // Optional: clear storage if you only want it to update once per selection
         // wx.removeStorageSync('selectedAddress');
+    } else if (this.data.currentLocation === '请选择地址') {
+        // If no address selected and currently default, set to test default
+        this.setData({ 
+            currentLocation: '幸福小区',
+            fullLocation: '幸福小区'
+        });
     }
   },
 
@@ -114,7 +125,8 @@ Page({
         data: {
           page: this.data.page,
           pageSize: this.data.pageSize,
-          sortBy: this.data.currentSort
+          sortBy: this.data.currentSort,
+          userLocation: this.data.fullLocation
         }
       });
 

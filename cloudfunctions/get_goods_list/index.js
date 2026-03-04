@@ -11,12 +11,20 @@ exports.main = async (event, context) => {
   const page = event.page || 1
   const pageSize = event.pageSize || 10
   const sortBy = event.sortBy || 'newest' // newest or hot
+  const userLocation = event.userLocation
   
   try {
     // 构建查询条件
     let matchCondition = {
       status: _.in(['active']) // 仅显示在售
     };
+
+    // Location Filtering
+    // 测试阶段：默认地区 "幸福小区" 可以看到所有商品
+    // 其他地区只能看到同地区的商品
+    if (userLocation && userLocation !== '幸福小区' && userLocation !== '请选择地址') {
+       matchCondition.location = userLocation;
+    }
     
     if (event.category && event.category !== '全部') {
       // 确保是字符串且去除空格
