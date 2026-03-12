@@ -11,7 +11,10 @@ exports.main = async (event, context) => {
   const page = event.page || 1
   const pageSize = event.pageSize || 10
   const sortBy = event.sortBy || 'newest' // newest or hot
-  const userLocation = event.userLocation
+    const userLocation = event.userLocation
+    const latitude = event.latitude
+    const longitude = event.longitude
+    const maxDistance = event.maxDistance || 3000 // Default 3km
   
   try {
     // 构建查询条件
@@ -20,10 +23,14 @@ exports.main = async (event, context) => {
     };
 
     // Location Filtering
-    // 测试阶段：默认地区 "幸福小区" 可以看到所有商品
-    // 其他地区只能看到同地区的商品
-    if (userLocation && userLocation !== '幸福小区' && userLocation !== '请选择地址') {
-       matchCondition.location = userLocation;
+    // If coordinates provided, use geo-query (handled later in pipeline)
+    // If NO coordinates, use string matching
+    if (!latitude || !longitude) {
+        // 测试阶段：默认地区 "幸福小区" 可以看到所有商品
+        // 其他地区只能看到同地区的商品
+        if (userLocation && userLocation !== '幸福小区' && userLocation !== '请选择地址') {
+           matchCondition.location = userLocation;
+        }
     }
     
     if (event.category && event.category !== '全部') {
@@ -44,9 +51,22 @@ exports.main = async (event, context) => {
     }
 
     // 聚合查询
-    let aggregate = db.collection('goods').aggregate()
-      .match(matchCondition)
+    let aggregate = db.collection('goods').aggregate();
 
+    // If coordinates provided, use $geoNear as the first stage
+    if (latitude && longitude) {
+        aggregate = aggregate.geoNear({
+            near: db.Geo.Point(longitude, latitude),
+            distanceField: 'distance',
+            maxDistance: maxDistance,
+            query: matchCondition,
+            spherical: true
+        });
+    } else {
+        // Otherwise start with match
+        aggregate = aggregate.match(matchCondition);
+    }
+    
     // 根据排序方式处理
     if (sortBy === 'hot') {
       // 综合排序：浏览量 * 1 + 收藏量 * 5 (假设权重)
@@ -92,7 +112,8 @@ exports.main = async (event, context) => {
         favorites: 1,
         score: 1, // 调试用
         // 提取 sellerInfo 中的必要字段
-        seller: $.arrayElemAt(['$sellerInfo', 0])
+        seller: $.arrayElemAt(['$sellerInfo', 0]),
+        distance: 1 // Return distance if available
       })
       .end()
       

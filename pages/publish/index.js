@@ -6,6 +6,8 @@ Page({
     description: '',
     price: '',
     location: '请选择发货地址',
+    latitude: null,
+    longitude: null,
     
     categories: ['家具', '数码', '衣物', '图书', '其他'],
     categoryIndex: -1, 
@@ -76,6 +78,9 @@ Page({
   },
 
   onShow() {
+    if (this.data.choosingLocation) {
+        return;
+    }
     // Restore draft if exists
     const draft = wx.getStorageSync('publish_draft');
     if (draft) {
@@ -83,24 +88,41 @@ Page({
         ...draft
       });
     }
-
-    // Check for updated location from Address Page
-    const selectedAddress = wx.getStorageSync('selectedAddress');
-    if (selectedAddress) {
-        let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园小区';
-        // Optional: truncate if too long
-        // if (displayLoc.length > 12) displayLoc = displayLoc.substring(0, 12) + '...';
-        this.setData({ location: displayLoc });
-        // Don't clear storage, so other pages can use it too, or clear if unique to this flow
-    }
     
     // Re-check validity after restoring/updating
     this.checkValidity();
   },
 
   onLocationTap() {
-    wx.navigateTo({
-      url: '/pages/profile/subpages/address-list/index'
+    this.setData({ choosingLocation: true });
+    wx.chooseLocation({
+      success: (res) => {
+        console.log('Chosen location:', res);
+        this.setData({
+          location: res.name || res.address,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          choosingLocation: false
+        });
+        this.saveDraft();
+      },
+      fail: (err) => {
+        this.setData({ choosingLocation: false });
+        // console.error('Choose location failed', err);
+        // Fallback to address list if chooseLocation fails or cancelled? 
+        // Or just let user try again.
+        if (err.errMsg.indexOf('auth') !== -1) {
+             wx.showModal({
+                title: '提示',
+                content: '需要获取您的地理位置授权，请在设置中打开',
+                success: (res) => {
+                    if (res.confirm) {
+                        wx.openSetting();
+                    }
+                }
+            });
+        }
+      }
     });
   },
 
@@ -115,11 +137,11 @@ Page({
   },
 
   saveDraft() {
-    const { title, description, price, images, categoryIndex, deliveryIndex, location, agreed } = this.data;
+    const { title, description, price, images, categoryIndex, deliveryIndex, location, latitude, longitude, agreed } = this.data;
     // Only save if there's some content
     if (title || description || images.length > 0) {
       wx.setStorageSync('publish_draft', {
-        title, description, price, images, categoryIndex, deliveryIndex, location, agreed
+        title, description, price, images, categoryIndex, deliveryIndex, location, latitude, longitude, agreed
       });
     }
   },
@@ -277,7 +299,7 @@ Page({
   async onPublish() {
     if (!this.data.canPublish) return;
 
-    const { title, description, price, images, categoryIndex, categories, deliveryIndex, deliveryMethods, location } = this.data;
+    const { title, description, price, images, categoryIndex, categories, deliveryIndex, deliveryMethods, location, latitude, longitude } = this.data;
 
     wx.showLoading({ title: '发布中...' });
 
@@ -297,6 +319,8 @@ Page({
         category: categories[categoryIndex],
         deliveryMethod: deliveryMethods[deliveryIndex],
         location,
+        latitude,
+        longitude,
         favorites: 0,
         views: 0
       };

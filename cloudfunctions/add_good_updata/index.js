@@ -21,6 +21,11 @@ exports.main = async (event, context) => {
       }
     }
 
+    // Construct Geo Point if coordinates exist
+    if (goodData.latitude && goodData.longitude) {
+      goodData.locationPoint = db.Geo.Point(goodData.longitude, goodData.latitude);
+    }
+
     // 如果传入了 _id，则是更新操作
     if (goodData._id) {
       const docId = goodData._id

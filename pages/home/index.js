@@ -22,6 +22,11 @@ Page({
     this.setData({
       statusBarHeight: sysInfo.statusBarHeight
     });
+    
+    // Initialize location from storage immediately
+    this.updateLocationFromStorage();
+    
+    // Load data
     this.getGoodsList();
   },
 
@@ -33,7 +38,41 @@ Page({
       wx.showTabBar(); // Force show system TabBar
     }
     
-    // Check for updated location from Address Page
+    // Check for updated location from Storage (Home Location or Address Page)
+    const oldLocation = this.data.fullLocation;
+    this.updateLocationFromStorage();
+    const newLocation = this.data.fullLocation;
+    
+    if (oldLocation !== newLocation) {
+        this.setData({
+            page: 1,
+            goodsList: [],
+            leftList: [],
+            rightList: [],
+            hasMore: true
+        }, () => {
+            this.getGoodsList();
+        });
+    }
+  },
+
+  updateLocationFromStorage() {
+    // Priority: homeLocation (set via map) -> selectedAddress (shipping) -> Default
+    const homeLocation = wx.getStorageSync('homeLocation');
+    
+    if (homeLocation) {
+        let fullLoc = homeLocation;
+        let displayLoc = fullLoc;
+        if (displayLoc.length > 8) {
+             displayLoc = displayLoc.substring(0, 8) + '...';
+        }
+        this.setData({ 
+            currentLocation: displayLoc,
+            fullLocation: fullLoc 
+        });
+        return;
+    }
+
     const selectedAddress = wx.getStorageSync('selectedAddress');
     if (selectedAddress) {
         // If locationName exists use it, otherwise use truncated address or default
@@ -46,9 +85,7 @@ Page({
             currentLocation: displayLoc,
             fullLocation: fullLoc 
         });
-        // Optional: clear storage if you only want it to update once per selection
-        // wx.removeStorageSync('selectedAddress');
-    } else if (this.data.currentLocation === '请选择地址') {
+    } else {
         // If no address selected and currently default, set to test default
         this.setData({ 
             currentLocation: '幸福小区',
@@ -82,8 +119,50 @@ Page({
   },
 
   onLocationTap() {
-    wx.navigateTo({
-      url: '/pages/profile/subpages/address-list/index'
+    wx.chooseLocation({
+      success: (res) => {
+        // res.name is usually the POI name (e.g., "Happy Garden")
+        // res.address is the full address
+        console.log('Chosen location:', res);
+        
+        let fullLoc = res.name || res.address;
+        if (!fullLoc) return;
+
+        // Save to storage as 'homeLocation' to distinguish from shipping address
+        wx.setStorageSync('homeLocation', fullLoc);
+
+        let displayLoc = fullLoc;
+        if (displayLoc.length > 8) {
+             displayLoc = displayLoc.substring(0, 8) + '...';
+        }
+
+        this.setData({ 
+            currentLocation: displayLoc,
+            fullLocation: fullLoc,
+            // Reset list to trigger reload
+            page: 1,
+            goodsList: [],
+            leftList: [],
+            rightList: [],
+            hasMore: true
+        }, () => {
+            this.getGoodsList();
+        });
+      },
+      fail: (err) => {
+        // console.error('Choose location failed', err);
+        if (err.errMsg.indexOf('auth') !== -1) {
+            wx.showModal({
+                title: '提示',
+                content: '需要获取您的地理位置授权，请在设置中打开',
+                success: (res) => {
+                    if (res.confirm) {
+                        wx.openSetting();
+                    }
+                }
+            });
+        }
+      }
     });
   },
 
