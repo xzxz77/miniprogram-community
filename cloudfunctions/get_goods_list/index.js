@@ -55,19 +55,126 @@ exports.main = async (event, context) => {
 
     // If coordinates provided, use $geoNear as the first stage
     if (latitude && longitude) {
-        aggregate = aggregate.geoNear({
-            near: db.Geo.Point(longitude, latitude),
-            distanceField: 'distance',
-            maxDistance: maxDistance,
-            query: matchCondition,
-            spherical: true
+        // Query 1: Geo Search
+        // Note: geoNear must be the first stage.
+        // We need to build the pipeline carefully.
+        
+        const geoPipeline = db.collection('goods').aggregate()
+            .geoNear({
+                near: db.Geo.Point(Number(longitude), Number(latitude)),
+                distanceField: 'distance',
+                maxDistance: Number(maxDistance),
+                query: matchCondition,
+                spherical: true
+            });
+            
+        // Sorting for Geo Query
+        // geoNear sorts by distance by default.
+        // If user wants 'newest', we should sort by createTime.
+        if (sortBy === 'newest') {
+             geoPipeline.sort({ createTime: -1 });
+        } else if (sortBy === 'hot') {
+             // For hot sort, we need to calculate score first
+             geoPipeline.addFields({
+                score: $.add([
+                  $.ifNull(['$views', 0]), 
+                  $.multiply([$.ifNull(['$favorites', 0]), 5])
+                ])
+             }).sort({ score: -1 });
+        }
+        
+        const geoPromise = geoPipeline
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .lookup({
+                from: 'users',
+                localField: '_openid',
+                foreignField: '_openid',
+                as: 'sellerInfo'
+            })
+            .project({
+                title: 1, price: 1, images: 1, createTime: 1, deliveryMethod: 1, location: 1, _openid: 1, status: 1, views: 1, favorites: 1, score: 1,
+                seller: $.arrayElemAt(['$sellerInfo', 0]),
+                distance: 1
+            })
+            .end();
+
+        // Query 2: String Match (Legacy or fallback)
+        let stringMatchCond = { ...matchCondition };
+        // Only apply location filter if it's not default/empty
+        if (userLocation && userLocation !== '幸福小区' && userLocation !== '请选择地址') {
+             stringMatchCond.location = userLocation;
+        } else {
+             // If default location, string match returns everything (which is fine, but maybe redundant if geo covers it)
+             // But if geo returns 0, we want everything?
+             // No, if user selected a point, userLocation is that point's name.
+             // If userLocation is "Happy Garden", we want goods with location="Happy Garden".
+        }
+        
+        let stringPipeline = db.collection('goods').aggregate().match(stringMatchCond);
+        
+        if (sortBy === 'hot') {
+             stringPipeline = stringPipeline.addFields({
+                score: $.add([
+                  $.ifNull(['$views', 0]), 
+                  $.multiply([$.ifNull(['$favorites', 0]), 5])
+                ])
+             }).sort({ score: -1 });
+        } else {
+             stringPipeline = stringPipeline.sort({ createTime: -1 });
+        }
+
+        const stringPromise = stringPipeline
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .lookup({
+                from: 'users',
+                localField: '_openid',
+                foreignField: '_openid',
+                as: 'sellerInfo'
+            })
+            .project({
+                title: 1, price: 1, images: 1, createTime: 1, deliveryMethod: 1, location: 1, _openid: 1, status: 1, views: 1, favorites: 1, score: 1,
+                seller: $.arrayElemAt(['$sellerInfo', 0]),
+                distance: 1 // Will be null/missing
+            })
+            .end();
+
+        const [geoRes, stringRes] = await Promise.all([geoPromise, stringPromise]);
+        
+        // Merge and Dedup
+        const geoList = geoRes.list;
+        const stringList = stringRes.list;
+        
+        const combined = new Map();
+        // Add geo results first (higher priority?)
+        geoList.forEach(item => combined.set(item._id, item));
+        // Add string results if not present
+        stringList.forEach(item => {
+            if (!combined.has(item._id)) {
+                combined.set(item._id, item);
+            }
         });
+        
+        let finalList = Array.from(combined.values());
+        
+        // Re-sort combined list
+        if (sortBy === 'newest') {
+            finalList.sort((a, b) => new Date(b.createTime) - new Date(a.createTime));
+        } else if (sortBy === 'hot') {
+             finalList.sort((a, b) => (b.score || 0) - (a.score || 0));
+        }
+        
+        return {
+            success: true,
+            data: finalList
+        };
+
     } else {
-        // Otherwise start with match
+        // Otherwise start with match (Original logic)
         aggregate = aggregate.match(matchCondition);
     }
     
-    // 根据排序方式处理
     if (sortBy === 'hot') {
       // 综合排序：浏览量 * 1 + 收藏量 * 5 (假设权重)
       // 注意：favorites 字段可能不存在或为 0，views 同理

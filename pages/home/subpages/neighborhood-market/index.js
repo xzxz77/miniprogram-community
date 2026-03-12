@@ -190,7 +190,8 @@ Page({
       });
 
       if (!res.result.success) {
-        throw new Error(res.result.error);
+        const errorMessage = res.result.error && res.result.error.message ? res.result.error.message : JSON.stringify(res.result.error);
+        throw new Error(errorMessage);
       }
 
       const newGoods = res.result.data;
