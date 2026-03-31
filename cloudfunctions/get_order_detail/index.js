@@ -39,14 +39,35 @@ exports.main = async (event, context) => {
       console.error('Fetch buyer info failed', e);
     }
 
+    // Safe access to goodSnapshot
+    const goodSnapshot = order.goodSnapshot || {};
+    let productImage = goodSnapshot.image || '';
+    if (Array.isArray(productImage)) {
+        productImage = productImage[0] || '';
+    }
+
     return {
       success: true,
       data: {
         ...order,
+        // Buyer info
         buyerInfo: {
             nickName: buyerInfo.nickName || '买家',
             avatarUrl: buyerInfo.avatarUrl || '/assets/icons/profile.png'
-        }
+        },
+        // Product info
+        good: {
+            title: goodSnapshot.title || '商品信息',
+            price: goodSnapshot.price || order.totalPrice || 0,
+            images: Array.isArray(goodSnapshot.image) ? goodSnapshot.image : [goodSnapshot.image || '']
+        },
+        // Amount
+        amount: order.totalPrice || goodSnapshot.price || 0,
+        // Refund info
+        refundReason: order.refundReason || '',
+        refundDescription: order.refundDescription || '',
+        refundEvidence: order.refundEvidence || [],
+        refundApplyTime: order.refundApplyTime ? formatDate(order.refundApplyTime) : null
       }
     };
 
@@ -58,3 +79,14 @@ exports.main = async (event, context) => {
     };
   }
 };
+
+function formatDate(date) {
+  if (!date) return '';
+  const d = new Date(date);
+  const y = d.getFullYear();
+  const m = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  const h = d.getHours().toString().padStart(2, '0');
+  const min = d.getMinutes().toString().padStart(2, '0');
+  return `${y}-${m}-${day} ${h}:${min}`;
+}

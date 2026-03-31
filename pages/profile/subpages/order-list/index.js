@@ -60,16 +60,28 @@ Page({
           this.setData({ isLoading: false });
           if (res.result.success) {
               const orders = res.result.data.map(order => {
+                  // Safe access to goodSnapshot
+                  const goodSnapshot = order.goodSnapshot || {};
+                  let productImage = goodSnapshot.image;
+                  
+                  // Handle image field - could be string or array
+                  if (Array.isArray(productImage)) {
+                      productImage = productImage[0] || '';
+                  }
+                  
                   return {
-                      id: order._id,
+                      id: order._id || order.id,
                       status: order.status,
                       statusText: this.getStatusText(order.status),
                       // For bought: show seller; For sold: show buyer
-                      sellerName: order.otherSide.nickName,
-                      sellerAvatar: order.otherSide.avatarUrl,
-                      productTitle: order.goodSnapshot.title,
-                      productImage: order.goodSnapshot.image,
-                      price: order.totalPrice
+                      sellerName: order.otherSide?.nickName || '未知用户',
+                      sellerAvatar: order.otherSide?.avatarUrl || '/assets/icons/avatar.png',
+                      productTitle: goodSnapshot.title || '商品信息',
+                      productImage: productImage || '/assets/icons/placeholder.png',
+                      price: order.totalPrice || goodSnapshot.price || 0,
+                      // Refund info
+                      refundReason: order.refundReason || '',
+                      refundApplyTime: order.refundApplyTime || null
                   };
               });
               this.setData({ orderList: orders });
@@ -85,6 +97,7 @@ Page({
 
   getStatusText(status) {
       const map = {
+        'pending_payment': '待付款',
         'paid': '买家已付款',
         'shipped': '卖家已发货',
         'completed': '交易完成',

@@ -8,6 +8,18 @@ cloud.init({
 const db = cloud.database();
 const _ = db.command;
 
+// Status text mapping
+const statusTextMap = {
+  'pending_payment': '待付款',
+  'paid': '买家已付款',
+  'shipped': '卖家已发货',
+  'completed': '交易完成',
+  'cancelled': '交易取消',
+  'sold': '已售出',
+  'refund_pending': '退款审核中',
+  'refunded': '已退款'
+};
+
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
@@ -24,7 +36,12 @@ exports.main = async (event, context) => {
     }
 
     if (status && status !== 'all') {
-        matchCondition.status = status;
+        // 'cancelled' tab should show all after-sale related statuses
+        if (status === 'cancelled') {
+            matchCondition.status = _.in(['cancelled', 'refund_pending', 'refunded']);
+        } else {
+            matchCondition.status = status;
+        }
     }
 
     // Aggregate to join user info if needed, but for now simple query
@@ -82,17 +99,45 @@ exports.main = async (event, context) => {
         });
     }
 
-    // Attach user info
+    // Attach user info and format data
     const result = orders.map(order => {
         const otherSideId = type === 'sold' ? order._openid : order.sellerId;
         const user = userMap[otherSideId] || {};
         
+        // Safe access to goodSnapshot with fallbacks
+        const goodSnapshot = order.goodSnapshot || {};
+        const productImage = Array.isArray(goodSnapshot.image) 
+            ? goodSnapshot.image[0] 
+            : (goodSnapshot.image || '');
+        
         return {
-            ...order,
+            _id: order._id,
+            id: order._id,
+            status: order.status,
+            statusText: statusTextMap[order.status] || '未知状态',
+            // Other side info (for bought: seller; for sold: buyer)
             otherSide: {
                 nickName: user.nickName || '未知用户',
                 avatarUrl: user.avatarUrl || '/assets/icons/avatar.png'
-            }
+            },
+            sellerName: user.nickName || '未知用户',
+            sellerAvatar: user.avatarUrl || '/assets/icons/avatar.png',
+            // Product snapshot
+            productTitle: goodSnapshot.title || '商品信息',
+            productImage: productImage,
+            price: order.totalPrice || goodSnapshot.price || 0,
+            // Additional order info
+            goodSnapshot: goodSnapshot,
+            address: order.address,
+            deliveryMethod: order.deliveryMethod,
+            // Refund info
+            refundReason: order.refundReason || '',
+            refundDescription: order.refundDescription || '',
+            refundEvidence: order.refundEvidence || [],
+            refundApplyTime: order.refundApplyTime || null,
+            // Timestamps
+            createTime: order.createTime,
+            updateTime: order.updateTime
         };
     });
 

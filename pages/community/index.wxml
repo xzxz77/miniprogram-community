@@ -15,7 +15,7 @@
         </view>
       </view>
       <view class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center">
-        <text class="iconfont icon-bullhorn mr-1 text-orange-500"></text>小区公告
+        <!-- <text class="iconfont icon-bullhorn mr-1 text-orange-500"></text>小区公告 -->
       </view>
     </view>
 

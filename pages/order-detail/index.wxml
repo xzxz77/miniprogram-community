@@ -9,6 +9,21 @@
     <view class="status-desc" wx:if="{{order.status === 'paid'}}">等待卖家发货</view>
     <view class="status-desc" wx:elif="{{order.status === 'shipped'}}">卖家已发货，等待买家收货</view>
     <view class="status-desc" wx:elif="{{order.status === 'completed'}}">交易已完成</view>
+    <view class="status-desc" wx:elif="{{order.status === 'refund_pending'}}">退款申请审核中</view>
+    <view class="status-desc" wx:elif="{{order.status === 'refunded'}}">已退款，交易关闭</view>
+    <view class="status-desc" wx:elif="{{order.status === 'cancelled'}}">订单已取消</view>
+  </view>
+
+  <!-- Refund Info Card -->
+  <view class="card refund-info" wx:if="{{order.refundReason}}">
+    <view class="info-title text-gray-800 font-bold mb-2">退款原因</view>
+    <view class="info-content text-gray-600 text-sm mb-2">{{order.refundReason}}</view>
+    <view class="info-content text-gray-500 text-xs" wx:if="{{order.refundDescription}}">{{order.refundDescription}}</view>
+    <view class="evidence-images flex gap-2 mt-3" wx:if="{{order.refundEvidence && order.refundEvidence.length > 0}}">
+      <block wx:for="{{order.refundEvidence}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill" class="evidence-img w-16 h-16 rounded"></image>
+      </block>
+    </view>
   </view>
 
   <!-- Address Card -->
@@ -73,13 +88,12 @@
       <button class="btn secondary" disabled wx:if="{{order.status === 'refund_pending'}}">退款审核中</button>
       <button class="btn secondary" disabled wx:if="{{order.status === 'refunded'}}">已退款</button>
       <button class="btn primary" wx:if="{{order.status === 'shipped'}}" bindtap="onReceive">确认收货</button>
-      <button class="btn primary" wx:elif="{{order.status === 'completed'}}" bindtap="onBackHome">返回首页</button>
-      <button class="btn primary" wx:else bindtap="onBackHome">返回首页</button>
+      <button class="btn primary" wx:if="{{order.status === 'completed' || order.status === 'cancelled' || order.status === 'refunded'}}" bindtap="onBackHome">返回首页</button>
     </block>
     <block wx:elif="{{isSeller}}">
       <button class="btn secondary" bindtap="onContactBuyer">联系买家</button>
       <button class="btn primary" wx:if="{{order.status === 'paid'}}" bindtap="onShip">确认发货</button>
-      <button class="btn primary" wx:else bindtap="onBackHome">返回首页</button>
+      <button class="btn primary" wx:if="{{order.status === 'completed' || order.status === 'cancelled' || order.status === 'refunded'}}" bindtap="onBackHome">返回首页</button>
     </block>
     <block wx:else>
       <button class="btn primary" bindtap="onBackHome">返回首页</button>

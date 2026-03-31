@@ -69,10 +69,13 @@ Page({
 
   getStatusText(status) {
     const map = {
+      'pending_payment': '待付款',
       'paid': '买家已付款',
       'shipped': '卖家已发货',
       'completed': '交易完成',
-      'cancelled': '交易取消'
+      'cancelled': '交易取消',
+      'refund_pending': '退款审核中',
+      'refunded': '已退款'
     };
     return map[status] || '未知状态';
   },
