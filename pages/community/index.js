@@ -11,18 +11,20 @@ Page({
     isLoading: false,
     hasMore: true,
     statusBarHeight: 20,
-    currentLocation: '幸福花园'
+    currentLocation: '请选择地址',
+    fullLocation: '广州南方学院'
   },
 
   onShow() {
-    const selectedAddress = wx.getStorageSync('selectedAddress');
-    if (selectedAddress) {
-      let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园';
-      if (displayLoc.length > 6) {
-        displayLoc = displayLoc.substring(0, 6) + '...';
-      }
-      this.setData({ currentLocation: displayLoc });
-    }
+    this.updateLocationFromStorage();
+    // 每次进入页面都刷新帖子列表
+    this.setData({
+      posts: [],
+      page: 1,
+      hasMore: true
+    }, () => {
+      this.loadPosts(true);
+    });
   },
 
   onLoad() {
@@ -30,7 +32,46 @@ Page({
     this.setData({
       statusBarHeight: sysInfo.statusBarHeight
     });
+
+    this.updateLocationFromStorage();
     this.loadPosts(true);
+  },
+
+  updateLocationFromStorage() {
+    // 与首页保持一致：homeLocation 优先，其次 selectedAddress
+    const homeLocation = wx.getStorageSync('homeLocation');
+
+    if (homeLocation) {
+      let fullLoc = homeLocation;
+      let displayLoc = fullLoc;
+      if (displayLoc.length > 8) {
+        displayLoc = displayLoc.substring(0, 8) + '...';
+      }
+      this.setData({
+        currentLocation: displayLoc,
+        fullLocation: fullLoc
+      });
+      return;
+    }
+
+    const selectedAddress = wx.getStorageSync('selectedAddress');
+    if (selectedAddress) {
+      let fullLoc = selectedAddress.locationName || selectedAddress.address || '广州南方学院';
+      let displayLoc = fullLoc;
+      if (displayLoc.length > 8) {
+        displayLoc = displayLoc.substring(0, 8) + '...';
+      }
+      this.setData({
+        currentLocation: displayLoc,
+        fullLocation: fullLoc
+      });
+    } else {
+      // 默认显示所有地区（相当于选择了"广州南方学院"）
+      this.setData({
+        currentLocation: '广州南方学院',
+        fullLocation: '广州南方学院'
+      });
+    }
   },
 
   onPullDownRefresh() {
@@ -70,12 +111,20 @@ Page({
           category: this.data.currentCategory,
           page: this.data.page,
           pageSize: this.data.pageSize,
-          userLocation: this.data.currentLocation
+          userLocation: this.data.fullLocation
         }
       });
 
       if (result.success) {
-        const newPosts = result.data;
+        const newPosts = (result.data || []).map((item) => {
+          const post = { ...item };
+          post.location = post.location || '未知地点';
+          if (post.location.length > 6) {
+            post.location = post.location.substring(0, 6) + '...';
+          }
+          return post;
+        });
+
         this.setData({
           posts: reset ? newPosts : [...this.data.posts, ...newPosts],
           page: this.data.page + 1,

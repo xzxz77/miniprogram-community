@@ -48,7 +48,7 @@
               <view class="text-sm font-bold text-gray-900">{{userInfo.nickName}}</view>
               <view class="flex items-center mt-0.5">
                  <text class="text-xs text-gray-400 mr-2">{{item.timeAgo}}</text>
-                 <text class="text-xs text-gray-400 bg-gray-100 px-1 rounded">{{item.author.community || '幸福花园'}}</text>
+                 <text class="text-xs text-gray-400 bg-gray-100 px-1 rounded">{{item.author.community || '广州南方学院'}}</text>
               </view>
             </view>
           </view>

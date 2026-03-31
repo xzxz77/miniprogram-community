@@ -24,28 +24,49 @@ exports.main = async (event, context) => {
       match._openid = String(userId);
     }
 
-    // Location Filtering (DISABLED FOR TESTING)
-    // To enable: Uncomment the following block.
-    // Logic: If user is NOT in the default test area '幸福花园', restrict posts to their location.
-    /*
-    if (userLocation && userLocation !== '幸福花园') {
-      match.location = userLocation;
-    }
-    */
+    // 社区帖子云函数
+    // Location Filtering（与首页逻辑一致）
+    // 当用户选择"广州南方学院"或未选择时，显示所有帖子
+    // 当用户选择其他具体地址时，只显示该地区的帖子
+    const normalizedLocation = String(userLocation || '').trim();
+    const shouldFilterByLocation = !!normalizedLocation && normalizedLocation !== '广州南方学院' && normalizedLocation !== '请选择地址';
 
-    // Aggregate to lookup user info
-    const postsRes = await db.collection('posts').aggregate()
-      .match(match)
-      .sort({ createTime: -1 })
-      .skip((page - 1) * pageSize)
-      .limit(pageSize)
-      .lookup({
-        from: 'users',
-        localField: '_openid',
-        foreignField: '_openid',
-        as: 'author'
-      })
-      .end();
+    const baseMatch = { ...match };
+
+    const queryPosts = async (extraMatch = {}) => {
+      return await db.collection('posts').aggregate()
+        .match({
+          ...baseMatch,
+          ...extraMatch
+        })
+        .sort({ createTime: -1 })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize)
+        .lookup({
+          from: 'users',
+          localField: '_openid',
+          foreignField: '_openid',
+          as: 'author'
+        })
+        .end();
+    };
+
+    let postsRes;
+
+    // 1) 先精确匹配
+    postsRes = await queryPosts({ location: normalizedLocation });
+
+    // 2) 精确无结果时，再进行模糊匹配
+    if (!postsRes.list || postsRes.list.length === 0) {
+      const keyword = getLocationKeyword(normalizedLocation);
+      const regexText = escapeRegExp(keyword || normalizedLocation);
+      postsRes = await queryPosts({
+        location: db.RegExp({
+          regexp: regexText,
+          options: 'i'
+        })
+      });
+    }
 
     const posts = postsRes.list.map(post => {
       const author = post.author && post.author.length > 0 ? post.author[0] : {};
@@ -54,7 +75,7 @@ exports.main = async (event, context) => {
         author: {
           nickName: author.nickName || '社区邻居',
           avatarUrl: author.avatarUrl || '/assets/icons/profile.png',
-          community: author.community || '幸福花园' // Mock community name
+          community: author.community || '广州南方学院'
         },
         isLiked: post.likes ? post.likes.includes(openid) : false,
         likeCount: post.likes ? post.likes.length : 0,
@@ -76,6 +97,27 @@ exports.main = async (event, context) => {
     };
   } 
 };
+
+function getLocationKeyword(location = '') {
+  const text = String(location).trim();
+  if (!text) return '';
+
+  // 常见后缀裁剪，提升“同小区不同写法”的召回率
+  const suffixes = ['小区', '花园', '公寓', '广场', '一期', '二期', '三期', '四期', '五期', '栋', '幢'];
+  for (const suffix of suffixes) {
+    const idx = text.indexOf(suffix);
+    if (idx > 0) {
+      return text.substring(0, idx + suffix.length);
+    }
+  }
+
+  // 没有明显后缀时，使用前 6 个字作为关键词
+  return text.length > 6 ? text.substring(0, 6) : text;
+}
+
+function escapeRegExp(str = '') {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 function formatTime(date) {
   if (!date) return '';

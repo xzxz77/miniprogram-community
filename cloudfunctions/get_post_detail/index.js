@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
       author: {
         nickName: author.nickName || '社区邻居',
         avatarUrl: author.avatarUrl || '/assets/icons/profile.png',
-        community: author.community || '幸福花园'
+        community: author.community || '广州南方学院'
       },
       isLiked: post.likes ? post.likes.includes(openid) : false,
       likeCount: post.likes ? post.likes.length : 0,

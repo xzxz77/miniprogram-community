@@ -64,7 +64,7 @@ Page({
         images: good.images,
         categoryIndex: categoryIndex >= 0 ? categoryIndex : -1,
         deliveryIndex: deliveryIndex >= 0 ? deliveryIndex : 2,
-        location: good.location || '幸福花园小区',
+        location: good.location || '广州南方学院',
         agreed: true // Edit mode assumes agreed
       });
       

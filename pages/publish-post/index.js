@@ -8,15 +8,24 @@ Page({
     category: '',
     categories: ['互助问答', '新鲜事', '避坑指南', '宠物联盟'],
     canPublish: false,
-    location: '幸福花园'
+    location: '请选择位置',
+    latitude: null,
+    longitude: null,
+    choosingLocation: false
   },
 
   onShow() {
-    const selectedAddress = wx.getStorageSync('selectedAddress');
-    if (selectedAddress) {
-      let displayLoc = selectedAddress.locationName || selectedAddress.address || '幸福花园';
-      this.setData({ location: displayLoc });
+    if (this.data.choosingLocation) {
+      return;
     }
+    // Restore draft if exists
+    const draft = wx.getStorageSync('publish_post_draft');
+    if (draft) {
+      this.setData({
+        ...draft
+      });
+    }
+    this.checkValidity();
   },
 
   onContentInput(e) {
@@ -67,13 +76,64 @@ Page({
     });
   },
 
+  // 地图选点 - 与商品发布页一致
+  onLocationTap() {
+    this.setData({ choosingLocation: true });
+    wx.chooseLocation({
+      success: (res) => {
+        console.log('Chosen location:', res);
+        this.setData({
+          location: res.name || res.address,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          choosingLocation: false
+        });
+        this.saveDraft();
+      },
+      fail: (err) => {
+        this.setData({ choosingLocation: false });
+        if (err.errMsg.indexOf('auth') !== -1) {
+          wx.showModal({
+            title: '提示',
+            content: '需要获取您的地理位置授权，请在设置中打开',
+            success: (res) => {
+              if (res.confirm) {
+                wx.openSetting();
+              }
+            }
+          });
+        }
+      }
+    });
+  },
+
+  onHide() {
+    this.saveDraft();
+  },
+
+  onUnload() {
+    this.saveDraft();
+  },
+
+  saveDraft() {
+    const { content, images, category, location, latitude, longitude } = this.data;
+    if (content || images.length > 0) {
+      wx.setStorageSync('publish_post_draft', {
+        content, images, category, location, latitude, longitude
+      });
+    }
+  },
+
   checkValidity() {
-    const isValid = this.data.content.trim().length > 0 && this.data.category;
+    const isValid = this.data.content.trim().length > 0 && this.data.category && this.data.location && this.data.location !== '请选择位置';
     this.setData({ canPublish: isValid });
   },
 
   async uploadImages() {
     const uploads = this.data.images.map(async (filePath) => {
+      // Check if it's already a cloud ID
+      if (filePath.startsWith('cloud://')) return filePath;
+      
       let ext = '.jpg';
       const match = filePath.match(/\.[^.]+?$/);
       if (match) ext = match[0];
@@ -108,7 +168,9 @@ Page({
           content: this.data.content,
           images: fileIDs,
           category: this.data.category,
-          location: this.data.location
+          location: this.data.location,
+          latitude: this.data.latitude,
+          longitude: this.data.longitude
         }
       });
 
@@ -116,6 +178,9 @@ Page({
 
       if (res.result.success) {
         wx.showToast({ title: '发布成功' });
+        // Clear draft
+        wx.removeStorageSync('publish_post_draft');
+        
         setTimeout(() => {
           wx.switchTab({
             url: '/pages/community/index'

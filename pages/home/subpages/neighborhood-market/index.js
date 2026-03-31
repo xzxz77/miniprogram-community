@@ -10,8 +10,8 @@ Page({
     pageSize: 10,
     hasMore: true,
     isLoading: false,
-    currentLocation: '幸福小区',
-    fullLocation: '幸福小区',
+    currentLocation: '广州南方学院',
+    fullLocation: '广州南方学院',
     latitude: null,
     longitude: null
   },
@@ -77,7 +77,7 @@ Page({
 
     const selectedAddress = wx.getStorageSync('selectedAddress');
     if (selectedAddress) {
-      let fullLoc = selectedAddress.locationName || selectedAddress.address || '幸福小区';
+      let fullLoc = selectedAddress.locationName || selectedAddress.address || '广州南方学院';
       let displayLoc = fullLoc;
       if (displayLoc.length > 8) {
         displayLoc = displayLoc.substring(0, 8) + '...';
@@ -90,8 +90,8 @@ Page({
       });
     } else {
         this.setData({ 
-            currentLocation: '幸福小区',
-            fullLocation: '幸福小区',
+            currentLocation: '广州南方学院',
+            fullLocation: '广州南方学院',
             latitude: null,
             longitude: null
         });

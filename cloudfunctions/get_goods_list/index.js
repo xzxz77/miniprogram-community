@@ -26,11 +26,11 @@ exports.main = async (event, context) => {
     // If coordinates provided, use geo-query (handled later in pipeline)
     // If NO coordinates, use string matching
     if (!latitude || !longitude) {
-        // 测试阶段：默认地区 "幸福小区" 可以看到所有商品
-        // 其他地区只能看到同地区的商品
-        if (userLocation && userLocation !== '幸福小区' && userLocation !== '请选择地址') {
+        // 当用户选择了特定地址（非广州南方学院）时，只显示该地区的商品
+        if (userLocation && userLocation !== '广州南方学院') {
            matchCondition.location = userLocation;
         }
+        // 如果 userLocation 是 "广州南方学院" 或为空，则不限制，显示所有商品
     }
     
     if (event.category && event.category !== '全部') {
@@ -102,7 +102,7 @@ exports.main = async (event, context) => {
         // Query 2: String Match (Legacy or fallback)
         let stringMatchCond = { ...matchCondition };
         // Only apply location filter if it's not default/empty
-        if (userLocation && userLocation !== '幸福小区' && userLocation !== '请选择地址') {
+        if (userLocation && userLocation !== '广州南方学院' && userLocation !== '请选择地址') {
              stringMatchCond.location = userLocation;
         } else {
              // If default location, string match returns everything (which is fine, but maybe redundant if geo covers it)

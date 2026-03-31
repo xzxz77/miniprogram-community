@@ -12,8 +12,8 @@ Page({
     hasMore: true,
     isLoading: false,
     currentSort: 'newest', // newest or hot
-    currentLocation: '请选择地址', // Default location
-    fullLocation: '幸福小区', // Full location name for API
+    currentLocation: '广州南方学院',
+    fullLocation: '广州南方学院',
     searchKeyword: ''
   },
 
@@ -57,7 +57,7 @@ Page({
   },
 
   updateLocationFromStorage() {
-    // Priority: homeLocation (set via map) -> selectedAddress (shipping) -> Default
+    // Priority: homeLocation (set via map) -> selectedAddress (shipping) -> Default (广州南方学院)
     const homeLocation = wx.getStorageSync('homeLocation');
     
     if (homeLocation) {
@@ -76,7 +76,7 @@ Page({
     const selectedAddress = wx.getStorageSync('selectedAddress');
     if (selectedAddress) {
         // If locationName exists use it, otherwise use truncated address or default
-        let fullLoc = selectedAddress.locationName || selectedAddress.address || '幸福小区';
+        let fullLoc = selectedAddress.locationName || selectedAddress.address || '广州南方学院';
         let displayLoc = fullLoc;
         if (displayLoc.length > 8) {
              displayLoc = displayLoc.substring(0, 8) + '...';
@@ -86,10 +86,10 @@ Page({
             fullLocation: fullLoc 
         });
     } else {
-        // If no address selected and currently default, set to test default
+        // 默认显示所有地区（相当于选择了"广州南方学院"）
         this.setData({ 
-            currentLocation: '幸福小区',
-            fullLocation: '幸福小区'
+            currentLocation: '广州南方学院',
+            fullLocation: '广州南方学院'
         });
     }
   },

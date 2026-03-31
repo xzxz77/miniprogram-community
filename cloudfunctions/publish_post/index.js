@@ -8,7 +8,7 @@ cloud.init({
 const db = cloud.database();
 
 exports.main = async (event, context) => {
-  const { content, images, category, location } = event;
+  const { content, images, category, location, latitude, longitude } = event;
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
 
@@ -22,7 +22,9 @@ exports.main = async (event, context) => {
       content,
       images: images || [],
       category: category || '全部',
-      location: location || '幸福花园',
+      location: location || '广州南方学院',
+      latitude: latitude || null,
+      longitude: longitude || null,
       createTime: db.serverDate(),
       updateTime: db.serverDate(),
       likes: [],
