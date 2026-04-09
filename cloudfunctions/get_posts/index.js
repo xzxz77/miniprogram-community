@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
     }
     
     if (userId) {
-      // Ensure exact match for openid
+      // Fetch user's own posts - skip location filtering
       match._openid = String(userId);
     }
 
@@ -31,7 +31,8 @@ exports.main = async (event, context) => {
     const normalizedLocation = String(userLocation || '').trim();
     const shouldFilterByLocation = !!normalizedLocation && normalizedLocation !== '广州南方学院' && normalizedLocation !== '请选择地址';
 
-    const baseMatch = { ...match };
+    // 如果是获取自己的帖子，不应用位置过滤
+    const baseMatch = userId ? { ...match } : { ...match };
 
     const queryPosts = async (extraMatch = {}) => {
       return await db.collection('posts').aggregate()
@@ -53,22 +54,27 @@ exports.main = async (event, context) => {
 
     let postsRes;
 
-    // 1) 先精确匹配
-    postsRes = await queryPosts({ location: normalizedLocation });
+    // 如果是获取自己的帖子，直接查询所有（不应用位置过滤）
+    if (userId) {
+      postsRes = await queryPosts();
+    } else {
+      // 1) 先精确匹配
+      postsRes = await queryPosts({ location: normalizedLocation });
 
-    // 2) 精确无结果时，再进行模糊匹配
-    if (!postsRes.list || postsRes.list.length === 0) {
-      const keyword = getLocationKeyword(normalizedLocation);
-      const regexText = escapeRegExp(keyword || normalizedLocation);
-      postsRes = await queryPosts({
-        location: db.RegExp({
-          regexp: regexText,
-          options: 'i'
-        })
-      });
+      // 2) 精确无结果时，再进行模糊匹配
+      if (!postsRes.list || postsRes.list.length === 0) {
+        const keyword = getLocationKeyword(normalizedLocation);
+        const regexText = escapeRegExp(keyword || normalizedLocation);
+        postsRes = await queryPosts({
+          location: db.RegExp({
+            regexp: regexText,
+            options: 'i'
+          })
+        });
+      }
     }
 
-    const posts = postsRes.list.map(post => {
+    const posts = (postsRes.list || []).map(post => {
       const author = post.author && post.author.length > 0 ? post.author[0] : {};
       return {
         ...post,
